@@ -1,11 +1,5 @@
-import { TodoList } from './TodoList'
+import { TTasks, TodoList } from './TodoList'
 import './App.css'
-
-export type TTasks = {
-  id: number
-  title: string
-  isDone: boolean
-}
 
 export function App() {
   const task1: Array<TTasks> = [

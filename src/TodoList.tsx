@@ -1,5 +1,10 @@
-import { TTasks } from './App'
 import './todoList.css'
+
+export type TTasks = {
+  id: number
+  title: string
+  isDone: boolean
+}
 
 type TProps = {
   title: string
