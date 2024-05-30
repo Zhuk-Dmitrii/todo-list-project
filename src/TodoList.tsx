@@ -1,14 +1,11 @@
+import { TTask, FilteredValues } from './App'
 import './todoList.css'
-
-export type TTasks = {
-  id: number
-  title: string
-  isDone: boolean
-}
 
 type TProps = {
   title: string
-  tasks: Array<TTasks>
+  tasks: Array<TTask>
+  removeTask: (id: number) => void
+  changeValueForFilter: (value: FilteredValues) => void
 }
 
 export function TodoList(props: TProps) {
@@ -20,23 +17,33 @@ export function TodoList(props: TProps) {
         <button className="input-container__btn btn">add</button>
       </div>
       <ul className="todo-list__items">
-        <li className="todo-list__item">
-          <input type="checkbox" checked={props.tasks[0].isDone} />
-          <span>{props.tasks[0].title}</span>
-        </li>
-        <li className="todo-list__item">
-          <input type="checkbox" checked={props.tasks[1].isDone} />
-          <span>{props.tasks[1].title}</span>
-        </li>
-        <li className="todo-list__item">
-          <input type="checkbox" checked={props.tasks[2].isDone} />
-          <span>{props.tasks[2].title}</span>
-        </li>
+        {props.tasks.map(task => (
+          <li key={task.id} className="todo-list__item">
+            <input type="checkbox" checked={task.isDone} />
+            <span>{task.title}</span>
+            <button onClick={() => props.removeTask(task.id)}>x</button>
+          </li>
+        ))}
       </ul>
       <div className="todo-list__btn-controls">
-        <button className="btn-controls__btn btn">All</button>
-        <button className="btn-controls__btn btn">Active</button>
-        <button className="btn-controls__btn btn">Completed</button>
+        <button
+          onClick={() => props.changeValueForFilter(FilteredValues.all)}
+          className="btn-controls__btn btn"
+        >
+          All
+        </button>
+        <button
+          onClick={() => props.changeValueForFilter(FilteredValues.active)}
+          className="btn-controls__btn btn"
+        >
+          Active
+        </button>
+        <button
+          onClick={() => props.changeValueForFilter(FilteredValues.completed)}
+          className="btn-controls__btn btn"
+        >
+          Completed
+        </button>
       </div>
     </div>
   )
