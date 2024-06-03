@@ -4,7 +4,7 @@ import { TodoList } from './TodoList'
 import './App.css'
 
 export type TTask = {
-  id: number
+  id: string
   title: string
   isDone: boolean
 }
@@ -16,14 +16,14 @@ export enum FilteredValues {
 }
 
 const data: Array<TTask> = [
-  { id: 1, title: 'HTML & CSS', isDone: true },
-  { id: 2, title: 'JS/TS', isDone: true },
-  { id: 3, title: 'ReactJS', isDone: false },
+  { id: crypto.randomUUID(), title: 'HTML & CSS', isDone: true },
+  { id: crypto.randomUUID(), title: 'JS/TS', isDone: true },
+  { id: crypto.randomUUID(), title: 'ReactJS', isDone: false },
 ]
 
 export function App() {
-  const [tasks, setTasks] = useState(data)
-  const [valueForFilter, setValueForFilter] = useState(FilteredValues.all)
+  const [tasks, setTasks] = useState<TTask[]>(data)
+  const [valueForFilter, setValueForFilter] = useState<FilteredValues>(FilteredValues.all)
   let filteredTasks = tasks
 
   if (valueForFilter == FilteredValues.active) {
@@ -32,13 +32,24 @@ export function App() {
     filteredTasks = tasks.filter(task => task.isDone)
   }
 
-  function removeTask(id: number) {
+  function removeTask(id: string) {
     const updatedTasks = tasks.filter(item => item.id !== id)
     setTasks(updatedTasks)
   }
 
   function changeValueForFilter(value: FilteredValues) {
     setValueForFilter(value)
+  }
+
+  function createTask(title: string) {
+    const newTask = {
+      id: crypto.randomUUID(),
+      title,
+      isDone: false,
+    }
+    const newTasks = [newTask, ...tasks]
+
+    setTasks(newTasks)
   }
 
   return (
@@ -48,6 +59,7 @@ export function App() {
         tasks={filteredTasks}
         removeTask={removeTask}
         changeValueForFilter={changeValueForFilter}
+        createTask={createTask}
       />
     </div>
   )
