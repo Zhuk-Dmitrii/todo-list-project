@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-import { TodoList } from './TodoList'
-import './App.css'
+import { TodoList } from '../TodoList/TodoList'
+import style from './App.module.scss'
 
 export type TTask = {
   id: string
@@ -52,14 +52,26 @@ export function App() {
     setTasks(newTasks)
   }
 
+  function changeStatus(id: string, isDone: boolean) {
+    const task = tasks.find(task => task.id == id)
+
+    if (task) {
+      task.isDone = isDone
+    }
+
+    setTasks([...tasks])
+  }
+
   return (
-    <div className="app">
+    <div className={style.app}>
       <TodoList
         title={'What to learn'}
         tasks={filteredTasks}
+        filterValue={valueForFilter}
         removeTask={removeTask}
         changeValueForFilter={changeValueForFilter}
         createTask={createTask}
+        changeStatus={changeStatus}
       />
     </div>
   )

@@ -1,4 +1,4 @@
-.todo-list__wrapper {
+.wrapper {
   max-width: 300px;
   width: 100%;
   height: 100%;
@@ -7,24 +7,37 @@
   padding: 10px;
 }
 
-.todo-list__title {
+.title {
   text-align: center;
   line-height: 140%;
   margin-bottom: 10px;
 }
 
-.todo-list__input-container {
-  display: flex;
-  align-items: center;
+.form {
   width: 100%;
-  height: 30px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
-.todo-list__input-container input {
+.inputTextContainer {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  margin-bottom: 10px;
+}
+
+.inputTextContainer input {
   width: 100%;
   height: 100%;
   padding: 0 10px;
+}
+
+.errorInput {
+  border: 2px solid red;
+}
+
+.errorMessage {
+  font-size: 16px;
+  color: red;
 }
 
 .btn {
@@ -36,32 +49,17 @@
   border-radius: 5px;
 }
 
-.input-container__btn {
+.btnSubmit {
   background-color: rgb(0, 255, 0);
   padding: 0 10px;
   margin-left: 15px;
 }
 
-.todo-list__items {
+.todos {
   height: 100%;
 }
 
-.todo-list__item {
-  height: 30px;
-  display: flex;
-  align-items: center;
-}
-
-.todo-list__item span {
-  font-size: 18px;
-  padding-left: 5px;
-}
-
-.todo-list__item:not(:last-child) {
-  margin-bottom: 10px;
-}
-
-.todo-list__btn-controls {
+.btnControls {
   height: 30px;
   width: 100%;
   display: flex;
@@ -71,6 +69,10 @@
   gap: 15px;
 }
 
-.btn-controls__btn {
+.btnControl {
   width: 33.33%;
+}
+
+.active {
+  background-color: aquamarine;
 }
