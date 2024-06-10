@@ -12,3 +12,7 @@
 .todo:not(:last-child) {
   margin-bottom: 10px;
 }
+
+.checked {
+  opacity: 0.5;
+}
