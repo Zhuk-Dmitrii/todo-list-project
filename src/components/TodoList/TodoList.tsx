@@ -10,7 +10,7 @@ type TProps = {
   title: string
   tasks: Array<TTask>
   filterValue: string
-  removeTask: (todoListid: string, id: string) => void
+  removeTask: (todoListId: string, id: string) => void
   changeValueForFilter: (todoListId: string, value: FilteredValues) => void
   createTask: (todoListId: string, title: string) => void
   changeStatus: (todoListId: string, taskId: string, isDone: boolean) => void
