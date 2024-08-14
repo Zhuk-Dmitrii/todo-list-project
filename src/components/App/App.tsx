@@ -102,9 +102,9 @@ export function App() {
         let filteredTasks = tasks[todoList.id]
 
         if (todoList.filter == FilteredValues.active) {
-          filteredTasks = tasks[todoList.id].filter(task => !task.isDone)
+          filteredTasks = filteredTasks.filter(task => !task.isDone)
         } else if (todoList.filter == FilteredValues.completed) {
-          filteredTasks = tasks[todoList.id].filter(task => task.isDone)
+          filteredTasks = filteredTasks.filter(task => task.isDone)
         }
 
         return (
