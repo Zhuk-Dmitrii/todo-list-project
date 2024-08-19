@@ -4,9 +4,17 @@
   align-items: center;
 }
 
-.todo span {
+span.editableSpan {
+  width: 100%;
+  margin-right: 10px;
   font-size: 18px;
   padding-left: 5px;
+  cursor: pointer;
+}
+
+input.editableSpan {
+  width: 100%;
+  margin-right: 10px;
 }
 
 .todo:not(:last-child) {
@@ -15,4 +23,8 @@
 
 .checked {
   opacity: 0.5;
+}
+
+.btnDelete {
+  margin-left: auto;
 }

@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { TodoList } from '../TodoList/TodoList'
 import style from './App.module.scss'
+import { InputForm } from '../InputForm/InputForm'
 
 type TTodoList = {
   id: string
@@ -78,6 +79,19 @@ export function App() {
     setTasks({ ...tasks })
   }
 
+  function createTodoList(title: string) {
+    const newTodoList: TTodoList = {
+      id: crypto.randomUUID(),
+      filter: FilteredValues.all,
+      title,
+    }
+
+    tasks[newTodoList.id] = []
+
+    setTodoLists([newTodoList, ...todoLists])
+    setTasks({ ...tasks })
+  }
+
   function changeStatus(todoListId: string, taskId: string, isDone: boolean) {
     const task = tasks[todoListId].find(task => task.id == taskId)
 
@@ -85,6 +99,25 @@ export function App() {
       task.isDone = isDone
 
       setTasks({ ...tasks })
+    }
+  }
+
+  function changeTodoValue(todoListId: string, taskId: string, newValue: string) {
+    const todoList = tasks[todoListId]
+    const task = todoList.find(item => item.id == taskId)
+
+    if (task) {
+      task.title = newValue
+      setTasks({ ...tasks })
+    }
+  }
+
+  function changeTodoListTitle(todoListId: string, newTitle: string) {
+    const todoList = todoLists.find(item => item.id == todoListId)
+
+    if (todoList) {
+      todoList.title = newTitle
+      setTodoLists([...todoLists])
     }
   }
 
@@ -98,6 +131,7 @@ export function App() {
 
   return (
     <div className={style.app}>
+      <InputForm createItem={createTodoList} className={style.formAddTodoList} />
       {todoLists.map(todoList => {
         let filteredTasks = tasks[todoList.id]
 
@@ -118,6 +152,8 @@ export function App() {
             changeValueForFilter={changeValueForFilter}
             createTask={createTask}
             changeStatus={changeStatus}
+            changeTodoValue={changeTodoValue}
+            changeTodoListTitle={changeTodoListTitle}
             deleteTodoList={deleteTodoList}
           />
         )

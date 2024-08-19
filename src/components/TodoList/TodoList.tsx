@@ -1,9 +1,11 @@
-import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react'
+import { MouseEvent } from 'react'
 import classNames from 'classnames'
 
 import { Todo } from '../Todo/Todo'
 import { TTask, FilteredValues } from '../App/App'
+import { InputForm } from '../InputForm/InputForm'
 import style from './TodoList.module.scss'
+import { EditableSpan } from '../EditableSpan/EditableSpan'
 
 type TProps = {
   todoListId: string
@@ -14,32 +16,12 @@ type TProps = {
   changeValueForFilter: (todoListId: string, value: FilteredValues) => void
   createTask: (todoListId: string, title: string) => void
   changeStatus: (todoListId: string, taskId: string, isDone: boolean) => void
+  changeTodoValue: (todoListId: string, taskId: string, title: string) => void
+  changeTodoListTitle: (todoListId: string, newTitle: string) => void
   deleteTodoList: (todoListId: string) => void
 }
 
 export function TodoList(props: TProps) {
-  const [titleTodo, setTitleTodo] = useState('')
-  const [error, setError] = useState<string | null>(null)
-
-  function handleChangeTitle(event: ChangeEvent<HTMLInputElement>) {
-    setTitleTodo(event.target.value)
-    setError(null)
-  }
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
-    if (titleTodo.trim() === '') {
-      setError('Title is required')
-      setTitleTodo('')
-
-      return
-    }
-
-    props.createTask(props.todoListId, titleTodo.trim())
-    setTitleTodo('')
-  }
-
   function handleFilterBtnClick(event: MouseEvent<HTMLButtonElement>) {
     const targetValue = event.currentTarget.value
 
@@ -60,24 +42,25 @@ export function TodoList(props: TProps) {
     props.deleteTodoList(props.todoListId)
   }
 
+  function createTask(title: string) {
+    props.createTask(props.todoListId, title)
+  }
+
+  function handleChangeTodoListTitle(newTitle: string) {
+    props.changeTodoListTitle(props.todoListId, newTitle)
+  }
+
   return (
     <div className={style.wrapper}>
       <button className={classNames(style.btn, style.btnDelete)} onClick={handleClickDelete}>
         x
       </button>
-      <h3 className={style.title}>{props.title}</h3>
-      <form onSubmit={handleSubmit} className={style.form}>
-        <div className={style.inputTextContainer}>
-          <input
-            className={classNames({ [style.errorInput]: error })}
-            onChange={handleChangeTitle}
-            value={titleTodo}
-            type="text"
-          />
-          <button className={classNames(style.btn, style.btnSubmit)}>add</button>
-        </div>
-        {error && <p className={style.errorMessage}>{error}</p>}
-      </form>
+      <EditableSpan
+        className={style.title}
+        title={props.title}
+        changeValue={handleChangeTodoListTitle}
+      />
+      <InputForm createItem={createTask} />
       <ul className={style.todos}>
         {props.tasks.map(task => (
           <Todo
@@ -86,6 +69,7 @@ export function TodoList(props: TProps) {
             task={task}
             removeTask={props.removeTask}
             changeStatus={props.changeStatus}
+            changeTodoValue={props.changeTodoValue}
           />
         ))}
       </ul>

@@ -7,37 +7,20 @@
   padding: 10px;
 }
 
-.title {
+span.title {
+  display: block;
+  margin-bottom: 10px;
   text-align: center;
+  font-size: 20px;
+  font-weight: 600;
   line-height: 140%;
+  cursor: pointer;
+}
+
+input.title {
   margin-bottom: 10px;
-}
-
-.form {
   width: 100%;
-  margin-bottom: 30px;
-}
-
-.inputTextContainer {
-  display: flex;
-  align-items: center;
-  height: 30px;
-  margin-bottom: 10px;
-}
-
-.inputTextContainer input {
-  width: 100%;
-  height: 100%;
-  padding: 0 10px;
-}
-
-.errorInput {
-  border: 2px solid red;
-}
-
-.errorMessage {
-  font-size: 16px;
-  color: red;
+  line-height: 140%;
 }
 
 .btn {
@@ -49,14 +32,9 @@
   border-radius: 5px;
 }
 
-.btnSubmit {
-  background-color: rgb(0, 255, 0);
-  padding: 0 10px;
-  margin-left: 15px;
-}
-
 .btnDelete {
   margin-left: auto;
+  margin-bottom: 10px;
 }
 
 .todos {
