@@ -1,9 +1,14 @@
 import { ChangeEvent, useState } from 'react'
+import { TextField } from '@mui/material'
+import { Typography } from '@mui/material'
 
 type TEditableSpan = {
-  className?: string
   title: string
   changeValue: (newValue: string) => void
+  sx?: {
+    textField?: Array<object | boolean> | object
+    typography?: Array<object | boolean> | object
+  }
 }
 
 export function EditableSpan(props: TEditableSpan) {
@@ -25,16 +30,17 @@ export function EditableSpan(props: TEditableSpan) {
   }
 
   return editMode ? (
-    <input
-      className={props.className}
+    <TextField
+      variant="standard"
       onChange={handleChangeInput}
       onBlur={disableEditMode}
       value={title}
+      sx={props.sx?.textField}
       autoFocus
     />
   ) : (
-    <span className={props.className} onDoubleClick={activateEditMode}>
+    <Typography component={'span'} onDoubleClick={activateEditMode} sx={props.sx?.typography}>
       {props.title}
-    </span>
+    </Typography>
   )
 }

@@ -1,11 +1,12 @@
 import { MouseEvent } from 'react'
-import classNames from 'classnames'
+import { Box, IconButton, List, Button } from '@mui/material'
+import { AddCircleOutline, Clear } from '@mui/icons-material'
 
 import { Todo } from '../Todo/Todo'
 import { TTask, FilteredValues } from '../App/App'
 import { InputForm } from '../InputForm/InputForm'
-import style from './TodoList.module.scss'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
+import { customCSS } from './TodoListCSS'
 
 type TProps = {
   todoListId: string
@@ -51,17 +52,29 @@ export function TodoList(props: TProps) {
   }
 
   return (
-    <div className={style.wrapper}>
-      <button className={classNames(style.btn, style.btnDelete)} onClick={handleClickDelete}>
-        x
-      </button>
-      <EditableSpan
-        className={style.title}
-        title={props.title}
-        changeValue={handleChangeTodoListTitle}
-      />
-      <InputForm createItem={createTask} />
-      <ul className={style.todos}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <IconButton onClick={handleClickDelete} size="small" sx={{ display: 'flex', ml: 'auto' }}>
+        <Clear />
+      </IconButton>
+      <Box sx={{ mb: 2, height: '28px', display: 'flex', justifyContent: 'center' }}>
+        <EditableSpan
+          title={props.title}
+          changeValue={handleChangeTodoListTitle}
+          sx={customCSS.editableSpan}
+        />
+      </Box>
+
+      <InputForm
+        createItem={createTask}
+        size="small"
+        sx={{ width: '100%' }}
+        styleWrapper={{ marginBottom: '24px' }}
+      >
+        <IconButton type="submit" color="primary" sx={{ ml: 0.5, mb: 'auto' }}>
+          <AddCircleOutline />
+        </IconButton>
+      </InputForm>
+      <List sx={{ maxHeight: '120px', overflow: 'auto' }}>
         {props.tasks.map(task => (
           <Todo
             key={task.id}
@@ -72,36 +85,33 @@ export function TodoList(props: TProps) {
             changeTodoValue={props.changeTodoValue}
           />
         ))}
-      </ul>
-      <div className={style.btnControls}>
-        <button
-          className={classNames(style.btn, style.btnControl, {
-            [style.active]: props.filterValue == FilteredValues.all,
-          })}
+      </List>
+      <Box sx={{ height: '30px', display: 'flex', gap: 1, mt: 'auto' }}>
+        <Button
           onClick={handleFilterBtnClick}
           value={FilteredValues.all}
-        >
-          All
-        </button>
-        <button
-          className={classNames(style.btn, style.btnControl, {
-            [style.active]: props.filterValue == FilteredValues.active,
-          })}
+          variant={props.filterValue == FilteredValues.all ? 'contained' : 'outlined'}
+          color="primary"
+          children={'All'}
+          sx={{ height: '100%' }}
+        />
+        <Button
           onClick={handleFilterBtnClick}
           value={FilteredValues.active}
-        >
-          Active
-        </button>
-        <button
-          className={classNames(style.btn, style.btnControl, {
-            [style.active]: props.filterValue == FilteredValues.completed,
-          })}
+          variant={props.filterValue == FilteredValues.active ? 'contained' : 'outlined'}
+          color="secondary"
+          children={'Active'}
+          sx={{ height: '100%' }}
+        />
+        <Button
           onClick={handleFilterBtnClick}
           value={FilteredValues.completed}
-        >
-          Completed
-        </button>
-      </div>
-    </div>
+          variant={props.filterValue == FilteredValues.completed ? 'contained' : 'outlined'}
+          color="success"
+          children={'Completed'}
+          sx={{ height: '100%' }}
+        />
+      </Box>
+    </Box>
   )
 }

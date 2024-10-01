@@ -1,9 +1,10 @@
 import { ChangeEvent } from 'react'
-import classNames from 'classnames'
+import { ListItem, Checkbox, IconButton } from '@mui/material'
+import { Delete } from '@mui/icons-material'
 
 import { TTask } from '../App/App'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
-import style from './Todo.module.scss'
+import { customCSS } from './TodoCSS'
 
 type TProps = {
   todoListId: string
@@ -30,16 +31,22 @@ export function Todo(props: TProps) {
   }
 
   return (
-    <li className={classNames(style.todo, { [style.checked]: props.task.isDone })}>
-      <input onChange={handleChangeCheckbox} type="checkbox" checked={props.task.isDone} />
+    <ListItem sx={{ p: 0, opacity: props.task.isDone ? 0.5 : 1 }}>
+      <Checkbox
+        onChange={handleChangeCheckbox}
+        checked={props.task.isDone}
+        size="small"
+        color="success"
+        sx={{ mr: 1 }}
+      />
       <EditableSpan
-        className={style.editableSpan}
         changeValue={handleChangeTodoValue}
         title={props.task.title}
+        sx={customCSS.editableSpan}
       />
-      <button className={style.btnDelete} onClick={handleRemoveTask}>
-        x
-      </button>
-    </li>
+      <IconButton onClick={handleRemoveTask} sx={{ ml: 'auto' }} size="small">
+        <Delete />
+      </IconButton>
+    </ListItem>
   )
 }

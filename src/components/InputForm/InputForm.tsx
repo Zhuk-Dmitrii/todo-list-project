@@ -1,11 +1,12 @@
-import classNames from 'classnames'
 import { ChangeEvent, FormEvent, useState } from 'react'
-
-import style from './InputForm.module.scss'
+import { Box, TextField } from '@mui/material'
 
 type TInputForm = {
   createItem: (title: string) => void
-  className?: string
+  styleWrapper?: object
+  sx?: object
+  children?: JSX.Element
+  size?: 'medium' | 'small'
 }
 
 export function InputForm(props: TInputForm) {
@@ -32,17 +33,22 @@ export function InputForm(props: TInputForm) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={classNames(style.form, props.className)}>
-      <div className={style.inputTextContainer}>
-        <input
-          className={classNames({ [style.errorInput]: error })}
-          onChange={handleChangeTitle}
-          value={titleTodo}
-          type="text"
-        />
-        <button className={classNames(style.btn, style.btnSubmit)}>add</button>
-      </div>
-      {error && <p className={style.errorMessage}>{error}</p>}
-    </form>
+    <Box
+      component="form"
+      sx={{ display: 'flex', alignItems: 'center', width: '100%', ...props.styleWrapper }}
+      onSubmit={handleSubmit}
+    >
+      <TextField
+        sx={props.sx}
+        label="title for todo list"
+        variant="outlined"
+        size={props.size}
+        helperText={error}
+        error={!!error}
+        value={titleTodo}
+        onChange={handleChangeTitle}
+      />
+      {props.children}
+    </Box>
   )
 }
