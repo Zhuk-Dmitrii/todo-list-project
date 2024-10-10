@@ -13,13 +13,13 @@ type TProps = {
   title: string
   tasks: Array<TTask>
   filterValue: string
-  removeTask: (todoListId: string, id: string) => void
-  changeValueForFilter: (todoListId: string, value: FilteredValues) => void
-  createTask: (todoListId: string, title: string) => void
-  changeStatus: (todoListId: string, taskId: string, isDone: boolean) => void
-  changeTodoValue: (todoListId: string, taskId: string, title: string) => void
-  changeTodoListTitle: (todoListId: string, newTitle: string) => void
   deleteTodoList: (todoListId: string) => void
+  changeValueForFilterTodoList: (todoListId: string, value: FilteredValues) => void
+  changeTodoListTitle: (todoListId: string, newTitle: string) => void
+  createTask: (todoListId: string, title: string) => void
+  deleteTask: (todoListId: string, id: string) => void
+  changeStatusTask: (todoListId: string, taskId: string, isDone: boolean) => void
+  changeTaskTitle: (todoListId: string, taskId: string, title: string) => void
 }
 
 export function TodoList(props: TProps) {
@@ -27,15 +27,15 @@ export function TodoList(props: TProps) {
     const targetValue = event.currentTarget.value
 
     if (targetValue === FilteredValues.all) {
-      props.changeValueForFilter(props.todoListId, FilteredValues.all)
+      props.changeValueForFilterTodoList(props.todoListId, FilteredValues.all)
     }
 
     if (targetValue === FilteredValues.active) {
-      props.changeValueForFilter(props.todoListId, FilteredValues.active)
+      props.changeValueForFilterTodoList(props.todoListId, FilteredValues.active)
     }
 
     if (targetValue === FilteredValues.completed) {
-      props.changeValueForFilter(props.todoListId, FilteredValues.completed)
+      props.changeValueForFilterTodoList(props.todoListId, FilteredValues.completed)
     }
   }
 
@@ -80,9 +80,9 @@ export function TodoList(props: TProps) {
             key={task.id}
             todoListId={props.todoListId}
             task={task}
-            removeTask={props.removeTask}
-            changeStatus={props.changeStatus}
-            changeTodoValue={props.changeTodoValue}
+            deleteTask={props.deleteTask}
+            changeStatusTask={props.changeStatusTask}
+            changeTaskTitle={props.changeTaskTitle}
           />
         ))}
       </List>
