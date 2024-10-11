@@ -14,7 +14,7 @@ type TProps = {
   tasks: Array<TTask>
   filterValue: string
   deleteTodoList: (todoListId: string) => void
-  changeValueForFilterTodoList: (todoListId: string, value: FilteredValues) => void
+  changeFilterTodoList: (todoListId: string, value: FilteredValues) => void
   changeTodoListTitle: (todoListId: string, newTitle: string) => void
   createTask: (todoListId: string, title: string) => void
   deleteTask: (todoListId: string, id: string) => void
@@ -27,15 +27,15 @@ export function TodoList(props: TProps) {
     const targetValue = event.currentTarget.value
 
     if (targetValue === FilteredValues.all) {
-      props.changeValueForFilterTodoList(props.todoListId, FilteredValues.all)
+      props.changeFilterTodoList(props.todoListId, FilteredValues.all)
     }
 
     if (targetValue === FilteredValues.active) {
-      props.changeValueForFilterTodoList(props.todoListId, FilteredValues.active)
+      props.changeFilterTodoList(props.todoListId, FilteredValues.active)
     }
 
     if (targetValue === FilteredValues.completed) {
-      props.changeValueForFilterTodoList(props.todoListId, FilteredValues.completed)
+      props.changeFilterTodoList(props.todoListId, FilteredValues.completed)
     }
   }
 

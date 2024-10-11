@@ -76,7 +76,7 @@ export function App() {
     setTasks({ ...tasks })
   }
 
-  function changeValueForFilterTodoList(todoListId: string, value: FilteredValues) {
+  function changeFilterTodoList(todoListId: string, value: FilteredValues) {
     const todoList = todoLists.find(item => item.id === todoListId)
 
     if (todoList) {
@@ -173,7 +173,7 @@ export function App() {
                     tasks={filteredTasks}
                     filterValue={todoList.filter}
                     deleteTodoList={deleteTodoList}
-                    changeValueForFilterTodoList={changeValueForFilterTodoList}
+                    changeFilterTodoList={changeFilterTodoList}
                     changeTodoListTitle={changeTodoListTitle}
                     createTask={createTask}
                     deleteTask={deleteTask}
