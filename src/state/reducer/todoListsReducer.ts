@@ -23,7 +23,19 @@ export function todoListsReducer(state: Array<TTodoList>, action: TAction): Arra
     case ActionType.CHANGE_FILTER_TODO_LIST: {
       const todoList = state.find(item => item.id == action.id)
 
-      if (todoList) todoList.filter = action.value
+      if (todoList) {
+        todoList.filter = action.value
+      }
+
+      return [...state]
+    }
+
+    case ActionType.CHANGE_TITLE_TODO_LIST: {
+      const todoList = state.find(item => item.id == action.id)
+
+      if (todoList) {
+        todoList.title = action.newTitle
+      }
 
       return [...state]
     }

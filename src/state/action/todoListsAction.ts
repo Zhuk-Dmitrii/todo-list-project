@@ -4,6 +4,7 @@ export enum ActionType {
   CREATE_TODO_LIST = 'CREATE_TODO_LIST',
   DELETE_TODO_LIST = 'DELETE_TODO_LIST',
   CHANGE_FILTER_TODO_LIST = 'CHANGE_FILTER_TODO_LIST',
+  CHANGE_TITLE_TODO_LIST = 'CHANGE_TITLE_TODO_LIST',
 }
 
 export type TCreateActionCreateTodoList = {
@@ -22,10 +23,17 @@ export type TCrateActionChangeFilterTodoList = {
   value: FilteredValues
 }
 
+export type TCreateActionChangeTitleTodoList = {
+  type: ActionType.CHANGE_TITLE_TODO_LIST
+  id: string
+  newTitle: string
+}
+
 export type TAction =
   | TCreateActionCreateTodoList
   | TCreateActionDeleteTodoList
   | TCrateActionChangeFilterTodoList
+  | TCreateActionChangeTitleTodoList
 
 export function CreateActionCreateTodoList(title: string): TCreateActionCreateTodoList {
   return {
@@ -49,5 +57,16 @@ export function CreateActionChangeFilterTodoList(
     type: ActionType.CHANGE_FILTER_TODO_LIST,
     id,
     value,
+  }
+}
+
+export function CreateActionChangeTitleTodoList(
+  id: string,
+  newTitle: string,
+): TCreateActionChangeTitleTodoList {
+  return {
+    type: ActionType.CHANGE_TITLE_TODO_LIST,
+    id,
+    newTitle,
   }
 }
