@@ -7,7 +7,7 @@ import { TodoList } from '../TodoList/TodoList'
 import { InputForm } from '../InputForm/InputForm'
 import { Header } from '../Header/Header'
 
-type TTodoList = {
+export type TTodoList = {
   id: string
   title: string
   filter: FilteredValues
