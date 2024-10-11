@@ -2,6 +2,7 @@ import { FilteredValues, TTodoList } from '../components/App/App'
 import {
   CreateActionCreateTodoList,
   CreateActionDeleteTodoList,
+  CreateActionChangeFilterTodoList,
 } from '../state/action/todoListsAction'
 import { todoListsReducer } from '../state/reducer/todoListsReducer'
 
@@ -41,4 +42,22 @@ test('todo list should be deleted', () => {
 
   expect(endStateTodoList.length).toBe(1)
   expect(endStateTodoList[0].title).toBe('What to buy')
+})
+
+test('todo list title should be changed', () => {
+  const todoListId1 = crypto.randomUUID()
+  const todoListId2 = crypto.randomUUID()
+
+  const startStateTodoLists: Array<TTodoList> = [
+    { id: todoListId1, title: 'What to learn', filter: FilteredValues.all },
+    { id: todoListId2, title: 'What to buy', filter: FilteredValues.active },
+  ]
+
+  const newFilter: FilteredValues = FilteredValues.completed
+  const action = CreateActionChangeFilterTodoList(todoListId2, newFilter)
+
+  const endStateTodoList: Array<TTodoList> = todoListsReducer(startStateTodoLists, action)
+
+  expect(endStateTodoList[1].filter).toBe(newFilter)
+  expect(endStateTodoList[0].filter).toBe(FilteredValues.all)
 })

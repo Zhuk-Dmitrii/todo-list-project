@@ -20,6 +20,14 @@ export function todoListsReducer(state: Array<TTodoList>, action: TAction): Arra
       return newState
     }
 
+    case ActionType.CHANGE_FILTER_TODO_LIST: {
+      const todoList = state.find(item => item.id == action.id)
+
+      if (todoList) todoList.filter = action.value
+
+      return [...state]
+    }
+
     default:
       throw new Error('Sorry, action type invalid!')
   }
