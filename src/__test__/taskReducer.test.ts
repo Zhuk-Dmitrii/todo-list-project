@@ -6,7 +6,7 @@ test('new todo list task should be created', () => {
   const todoListId1 = 'todoListId1'
   const todoListId2 = 'todoListId2'
 
-  const startStateTodoListTask: TDataTasks = {
+  const startStateTask: TDataTasks = {
     [todoListId1]: [
       { id: crypto.randomUUID(), title: 'HTML & CSS', isDone: true },
       { id: crypto.randomUUID(), title: 'JS/TS', isDone: true },
@@ -20,11 +20,11 @@ test('new todo list task should be created', () => {
 
   const newTitle = 'apple'
   const action = createActionCreateTask(todoListId2, newTitle)
-  const endStateTodoListTask = taskReducer(startStateTodoListTask, action)
+  const endStateTask = taskReducer(startStateTask, action)
 
-  expect(endStateTodoListTask['todoListId2'].length).toBe(3)
-  expect(endStateTodoListTask['todoListId1'].length).toBe(3)
-  expect(endStateTodoListTask['todoListId2'][0].id).toBeDefined()
-  expect(endStateTodoListTask['todoListId2'][0].title).toBe(newTitle)
-  expect(endStateTodoListTask['todoListId2'][0].isDone).toBe(false)
+  expect(endStateTask['todoListId2'].length).toBe(3)
+  expect(endStateTask['todoListId1'].length).toBe(3)
+  expect(endStateTask['todoListId2'][0].id).toBeDefined()
+  expect(endStateTask['todoListId2'][0].title).toBe(newTitle)
+  expect(endStateTask['todoListId2'][0].isDone).toBe(false)
 })
