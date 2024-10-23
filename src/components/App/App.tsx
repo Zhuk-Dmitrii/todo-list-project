@@ -13,7 +13,7 @@ export type TTodoList = {
   filter: FilteredValues
 }
 
-type TDataTasks = {
+export type TDataTasks = {
   [id: string]: Array<TTask>
 }
 
