@@ -1,6 +1,7 @@
 import { TDataTasks } from '../components/App/App'
 import {
   createActionChangeStatusTask,
+  createActionChangeTaskTitle,
   createActionCreateTask,
   createActionDeleteTask,
 } from '../state/action/taskAction'
@@ -86,4 +87,29 @@ test('status todo list task should be changed', () => {
   expect(endStateTask[todoListId1][1].isDone).toBe(true)
   expect(endStateTask[todoListId1][2].isDone).toBe(false)
   expect(endStateTask[todoListId2][0].isDone).toBe(true)
+})
+
+test('title todo list task should be changed', () => {
+  const todoListId1 = 'todoListId1'
+  const todoListId2 = 'todoListId2'
+
+  const startStateTask: TDataTasks = {
+    [todoListId1]: [
+      { id: '1', title: 'HTML & CSS', isDone: true },
+      { id: '2', title: 'JS/TS', isDone: true },
+      { id: '3', title: 'ReactJS', isDone: false },
+    ],
+    [todoListId2]: [
+      { id: '1', title: 'book', isDone: true },
+      { id: '2', title: 'Milk', isDone: false },
+    ],
+  }
+
+  const taskId = '1'
+  const newTitle = 'water'
+  const action = createActionChangeTaskTitle(todoListId2, taskId, newTitle)
+  const endStateTask = taskReducer(startStateTask, action)
+
+  expect(endStateTask[todoListId2][0].title).toBe(newTitle)
+  expect(endStateTask[todoListId1][0].title).toBe('HTML & CSS')
 })

@@ -36,6 +36,15 @@ export function taskReducer(state: TDataTasks, action: TAction): TDataTasks {
 
       return stateCopy
     }
+    case ActionType.CHANGE_TASK_TITLE: {
+      const stateCopy = { ...state }
+      const tasks = stateCopy[action.todoListId]
+      const task = tasks.find(task => task.id === action.taskId)
+
+      if (task) task.title = action.title
+
+      return stateCopy
+    }
 
     default:
       throw new Error('Sorry, action type invalid!')
