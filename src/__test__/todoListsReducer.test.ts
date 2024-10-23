@@ -1,9 +1,9 @@
 import { FilteredValues, TTodoList } from '../components/App/App'
 import {
-  CreateActionCreateTodoList,
-  CreateActionDeleteTodoList,
-  CreateActionChangeFilterTodoList,
-  CreateActionChangeTitleTodoList,
+  createActionCreateTodoList,
+  createActionDeleteTodoList,
+  createActionChangeFilterTodoList,
+  createActionChangeTitleTodoList,
 } from '../state/action/todoListsAction'
 import { todoListsReducer } from '../state/reducer/todoListsReducer'
 
@@ -18,7 +18,7 @@ test('new todo list should be created', () => {
   ]
 
   const newTitleTodoList = 'hello Jest'
-  const action = CreateActionCreateTodoList(newTitleTodoList)
+  const action = createActionCreateTodoList(newTitleTodoList)
 
   const endStateTodoLists = todoListsReducer(startStateTodoLists, action)
 
@@ -37,7 +37,7 @@ test('todo list should be deleted', () => {
     { id: todoListId2, title: 'What to buy', filter: FilteredValues.active },
   ]
 
-  const action = CreateActionDeleteTodoList(todoListId1)
+  const action = createActionDeleteTodoList(todoListId1)
 
   const endStateTodoList = todoListsReducer(startStateTodoLists, action)
 
@@ -55,7 +55,7 @@ test('todo list filter should be changed', () => {
   ]
 
   const newFilter: FilteredValues = FilteredValues.completed
-  const action = CreateActionChangeFilterTodoList(todoListId2, newFilter)
+  const action = createActionChangeFilterTodoList(todoListId2, newFilter)
 
   const endStateTodoList: Array<TTodoList> = todoListsReducer(startStateTodoLists, action)
 
@@ -73,7 +73,7 @@ test('todo list title should be changed', () => {
   ]
 
   const newTitle: string = 'New Title Todo List'
-  const action = CreateActionChangeTitleTodoList(todoListId2, newTitle)
+  const action = createActionChangeTitleTodoList(todoListId2, newTitle)
 
   const endStateTodoList: Array<TTodoList> = todoListsReducer(startStateTodoLists, action)
 

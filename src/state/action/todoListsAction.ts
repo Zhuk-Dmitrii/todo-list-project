@@ -35,21 +35,21 @@ export type TAction =
   | TCrateActionChangeFilterTodoList
   | TCreateActionChangeTitleTodoList
 
-export function CreateActionCreateTodoList(title: string): TCreateActionCreateTodoList {
+export function createActionCreateTodoList(title: string): TCreateActionCreateTodoList {
   return {
     type: ActionType.CREATE_TODO_LIST,
     title,
   }
 }
 
-export function CreateActionDeleteTodoList(id: string): TCreateActionDeleteTodoList {
+export function createActionDeleteTodoList(id: string): TCreateActionDeleteTodoList {
   return {
     type: ActionType.DELETE_TODO_LIST,
     id,
   }
 }
 
-export function CreateActionChangeFilterTodoList(
+export function createActionChangeFilterTodoList(
   id: string,
   value: FilteredValues,
 ): TCrateActionChangeFilterTodoList {
@@ -60,7 +60,7 @@ export function CreateActionChangeFilterTodoList(
   }
 }
 
-export function CreateActionChangeTitleTodoList(
+export function createActionChangeTitleTodoList(
   id: string,
   newTitle: string,
 ): TCreateActionChangeTitleTodoList {
