@@ -4,13 +4,15 @@ import { ActionType, TAction } from '../action/todoListsAction'
 export function todoListsReducer(state: Array<TTodoList>, action: TAction): Array<TTodoList> {
   switch (action.type) {
     case ActionType.CREATE_TODO_LIST: {
+      const stateCopy = [...state]
+
       return [
         {
           id: crypto.randomUUID(),
           title: action.title,
           filter: FilteredValues.all,
         },
-        ...state,
+        ...stateCopy,
       ]
     }
 
@@ -21,23 +23,26 @@ export function todoListsReducer(state: Array<TTodoList>, action: TAction): Arra
     }
 
     case ActionType.CHANGE_FILTER_TODO_LIST: {
-      const todoList = state.find(item => item.id == action.id)
+      const stateCopy = [...state]
+      const todoList = stateCopy.find(item => item.id == action.id)
 
       if (todoList) {
         todoList.filter = action.value
       }
 
-      return [...state]
+      return stateCopy
     }
 
     case ActionType.CHANGE_TITLE_TODO_LIST: {
-      const todoList = state.find(item => item.id == action.id)
+      const stateCopy = [...state]
+
+      const todoList = stateCopy.find(item => item.id == action.id)
 
       if (todoList) {
         todoList.title = action.newTitle
       }
 
-      return [...state]
+      return stateCopy
     }
 
     default:
