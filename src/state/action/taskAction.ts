@@ -1,10 +1,13 @@
+import { TCreateActionCreateTodoList } from './todoListsAction'
+
 export type TAction =
   | TCreateActionCreateTask
   | TCreateActionDeleteTask
   | TCreateActionChangeStatusTask
   | TCreateActionChangeTaskTitle
+  | TCreateActionCreateTodoList
 
-export enum ActionType {
+export enum ActionTypeTask {
   CREATE_TASK = 'CREATE_TASK',
   DELETE_TASK = 'DELETE_TASK',
   CHANGE_STATUS_TASK = 'CHANGE_STATUS_TASK',
@@ -12,26 +15,26 @@ export enum ActionType {
 }
 
 type TCreateActionCreateTask = {
-  type: ActionType.CREATE_TASK
+  type: ActionTypeTask.CREATE_TASK
   todoListId: string
   title: string
 }
 
 type TCreateActionDeleteTask = {
-  type: ActionType.DELETE_TASK
+  type: ActionTypeTask.DELETE_TASK
   todoListId: string
   taskId: string
 }
 
 type TCreateActionChangeStatusTask = {
-  type: ActionType.CHANGE_STATUS_TASK
+  type: ActionTypeTask.CHANGE_STATUS_TASK
   todoListId: string
   taskId: string
   isDone: boolean
 }
 
 type TCreateActionChangeTaskTitle = {
-  type: ActionType.CHANGE_TASK_TITLE
+  type: ActionTypeTask.CHANGE_TASK_TITLE
   todoListId: string
   taskId: string
   title: string
@@ -39,7 +42,7 @@ type TCreateActionChangeTaskTitle = {
 
 export function createActionCreateTask(todoListId: string, title: string): TCreateActionCreateTask {
   return {
-    type: ActionType.CREATE_TASK,
+    type: ActionTypeTask.CREATE_TASK,
     todoListId,
     title,
   }
@@ -50,7 +53,7 @@ export function createActionDeleteTask(
   taskId: string,
 ): TCreateActionDeleteTask {
   return {
-    type: ActionType.DELETE_TASK,
+    type: ActionTypeTask.DELETE_TASK,
     todoListId,
     taskId,
   }
@@ -62,7 +65,7 @@ export function createActionChangeStatusTask(
   isDone: boolean,
 ): TCreateActionChangeStatusTask {
   return {
-    type: ActionType.CHANGE_STATUS_TASK,
+    type: ActionTypeTask.CHANGE_STATUS_TASK,
     todoListId,
     taskId,
     isDone,
@@ -75,7 +78,7 @@ export function createActionChangeTaskTitle(
   title: string,
 ): TCreateActionChangeTaskTitle {
   return {
-    type: ActionType.CHANGE_TASK_TITLE,
+    type: ActionTypeTask.CHANGE_TASK_TITLE,
     todoListId,
     taskId,
     title,

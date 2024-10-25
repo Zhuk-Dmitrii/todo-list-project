@@ -5,6 +5,7 @@ import {
   createActionCreateTask,
   createActionDeleteTask,
 } from '../state/action/taskAction'
+import { createActionCreateTodoList } from '../state/action/todoListsAction'
 import { taskReducer } from '../state/reducer/taskReducer'
 
 // --------------------------------------------------------------
@@ -112,4 +113,35 @@ test('title todo list task should be changed', () => {
 
   expect(endStateTask[todoListId2][0].title).toBe(newTitle)
   expect(endStateTask[todoListId1][0].title).toBe('HTML & CSS')
+})
+
+test('new property should be added in task array', () => {
+  const todoListId1 = 'todoListId1'
+  const todoListId2 = 'todoListId2'
+
+  const startStateTask: TDataTasks = {
+    [todoListId1]: [
+      { id: '1', title: 'HTML & CSS', isDone: true },
+      { id: '2', title: 'JS/TS', isDone: true },
+      { id: '3', title: 'ReactJS', isDone: false },
+    ],
+    [todoListId2]: [
+      { id: '1', title: 'book', isDone: true },
+      { id: '2', title: 'Milk', isDone: false },
+    ],
+  }
+
+  const newTitle = 'new Todo List'
+  const action = createActionCreateTodoList(newTitle)
+  const endStateTask = taskReducer(startStateTask, action)
+
+  const keys = Object.keys(endStateTask)
+  const newKey = keys.find(key => key !== todoListId1 && key !== todoListId2)
+
+  if (!newKey) {
+    throw new Error('key not found')
+  }
+
+  expect(keys.length).toBe(3)
+  expect(endStateTask[newKey]).toStrictEqual([])
 })

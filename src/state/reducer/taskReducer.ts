@@ -1,9 +1,10 @@
 import { TDataTasks } from '../../components/App/App'
-import { TAction, ActionType } from '../action/taskAction'
+import { TAction, ActionTypeTask } from '../action/taskAction'
+import { ActionTypeTodoList } from '../action/todoListsAction'
 
 export function taskReducer(state: TDataTasks, action: TAction): TDataTasks {
   switch (action.type) {
-    case ActionType.CREATE_TASK: {
+    case ActionTypeTask.CREATE_TASK: {
       const stateCopy = { ...state }
 
       const newTask = {
@@ -18,7 +19,7 @@ export function taskReducer(state: TDataTasks, action: TAction): TDataTasks {
 
       return stateCopy
     }
-    case ActionType.DELETE_TASK: {
+    case ActionTypeTask.DELETE_TASK: {
       const stateCopy = { ...state }
       const tasks = stateCopy[action.todoListId]
       const filteredTasks = tasks.filter(task => task.id !== action.taskId)
@@ -27,7 +28,7 @@ export function taskReducer(state: TDataTasks, action: TAction): TDataTasks {
 
       return stateCopy
     }
-    case ActionType.CHANGE_STATUS_TASK: {
+    case ActionTypeTask.CHANGE_STATUS_TASK: {
       const stateCopy = { ...state }
       const tasks = stateCopy[action.todoListId]
       const task = tasks.find(task => task.id === action.taskId)
@@ -36,7 +37,7 @@ export function taskReducer(state: TDataTasks, action: TAction): TDataTasks {
 
       return stateCopy
     }
-    case ActionType.CHANGE_TASK_TITLE: {
+    case ActionTypeTask.CHANGE_TASK_TITLE: {
       const stateCopy = { ...state }
       const tasks = stateCopy[action.todoListId]
       const task = tasks.find(task => task.id === action.taskId)
@@ -45,7 +46,13 @@ export function taskReducer(state: TDataTasks, action: TAction): TDataTasks {
 
       return stateCopy
     }
+    case ActionTypeTodoList.CREATE_TODO_LIST: {
+      const stateCopy = { ...state }
 
+      stateCopy[action.todoListId] = []
+
+      return stateCopy
+    }
     default:
       throw new Error('Sorry, action type invalid!')
   }

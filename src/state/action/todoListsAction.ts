@@ -1,6 +1,6 @@
 import { FilteredValues } from '../../components/App/App'
 
-export enum ActionType {
+export enum ActionTypeTodoList {
   CREATE_TODO_LIST = 'CREATE_TODO_LIST',
   DELETE_TODO_LIST = 'DELETE_TODO_LIST',
   CHANGE_FILTER_TODO_LIST = 'CHANGE_FILTER_TODO_LIST',
@@ -8,23 +8,24 @@ export enum ActionType {
 }
 
 export type TCreateActionCreateTodoList = {
-  type: ActionType.CREATE_TODO_LIST
+  type: ActionTypeTodoList.CREATE_TODO_LIST
+  todoListId: string
   title: string
 }
 
 export type TCreateActionDeleteTodoList = {
-  type: ActionType.DELETE_TODO_LIST
+  type: ActionTypeTodoList.DELETE_TODO_LIST
   id: string
 }
 
 export type TCrateActionChangeFilterTodoList = {
-  type: ActionType.CHANGE_FILTER_TODO_LIST
+  type: ActionTypeTodoList.CHANGE_FILTER_TODO_LIST
   id: string
   value: FilteredValues
 }
 
 export type TCreateActionChangeTitleTodoList = {
-  type: ActionType.CHANGE_TITLE_TODO_LIST
+  type: ActionTypeTodoList.CHANGE_TITLE_TODO_LIST
   id: string
   newTitle: string
 }
@@ -37,14 +38,15 @@ export type TAction =
 
 export function createActionCreateTodoList(title: string): TCreateActionCreateTodoList {
   return {
-    type: ActionType.CREATE_TODO_LIST,
+    type: ActionTypeTodoList.CREATE_TODO_LIST,
+    todoListId: crypto.randomUUID(),
     title,
   }
 }
 
 export function createActionDeleteTodoList(id: string): TCreateActionDeleteTodoList {
   return {
-    type: ActionType.DELETE_TODO_LIST,
+    type: ActionTypeTodoList.DELETE_TODO_LIST,
     id,
   }
 }
@@ -54,7 +56,7 @@ export function createActionChangeFilterTodoList(
   value: FilteredValues,
 ): TCrateActionChangeFilterTodoList {
   return {
-    type: ActionType.CHANGE_FILTER_TODO_LIST,
+    type: ActionTypeTodoList.CHANGE_FILTER_TODO_LIST,
     id,
     value,
   }
@@ -65,7 +67,7 @@ export function createActionChangeTitleTodoList(
   newTitle: string,
 ): TCreateActionChangeTitleTodoList {
   return {
-    type: ActionType.CHANGE_TITLE_TODO_LIST,
+    type: ActionTypeTodoList.CHANGE_TITLE_TODO_LIST,
     id,
     newTitle,
   }

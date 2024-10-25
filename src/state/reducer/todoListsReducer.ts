@@ -1,14 +1,14 @@
 import { FilteredValues, TTodoList } from '../../components/App/App'
-import { ActionType, TAction } from '../action/todoListsAction'
+import { ActionTypeTodoList, TAction } from '../action/todoListsAction'
 
 export function todoListsReducer(state: Array<TTodoList>, action: TAction): Array<TTodoList> {
   switch (action.type) {
-    case ActionType.CREATE_TODO_LIST: {
+    case ActionTypeTodoList.CREATE_TODO_LIST: {
       const stateCopy = [...state]
 
       return [
         {
-          id: crypto.randomUUID(),
+          id: action.todoListId,
           title: action.title,
           filter: FilteredValues.all,
         },
@@ -16,13 +16,13 @@ export function todoListsReducer(state: Array<TTodoList>, action: TAction): Arra
       ]
     }
 
-    case ActionType.DELETE_TODO_LIST: {
+    case ActionTypeTodoList.DELETE_TODO_LIST: {
       const newState = state.filter(todoList => todoList.id !== action.id)
 
       return newState
     }
 
-    case ActionType.CHANGE_FILTER_TODO_LIST: {
+    case ActionTypeTodoList.CHANGE_FILTER_TODO_LIST: {
       const stateCopy = [...state]
       const todoList = stateCopy.find(item => item.id == action.id)
 
@@ -33,7 +33,7 @@ export function todoListsReducer(state: Array<TTodoList>, action: TAction): Arra
       return stateCopy
     }
 
-    case ActionType.CHANGE_TITLE_TODO_LIST: {
+    case ActionTypeTodoList.CHANGE_TITLE_TODO_LIST: {
       const stateCopy = [...state]
 
       const todoList = stateCopy.find(item => item.id == action.id)
