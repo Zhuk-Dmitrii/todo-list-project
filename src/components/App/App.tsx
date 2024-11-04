@@ -1,8 +1,22 @@
-import { useState } from 'react'
+import { useReducer } from 'react'
 import { Container, IconButton, Paper } from '@mui/material'
 import { Grid2 } from '@mui/material'
 import { AddCircleOutline } from '@mui/icons-material'
 
+import { todoListsReducer } from '../../redux/reducer/todoListsReducer'
+import { taskReducer } from '../../redux/reducer/taskReducer'
+import {
+  createActionCreateTodoList,
+  createActionDeleteTodoList,
+  createActionChangeFilterTodoList,
+  createActionChangeTitleTodoList,
+} from '../../redux/action/todoListsAction'
+import {
+  createActionCreateTask,
+  createActionDeleteTask,
+  createActionChangeStatusTask,
+  createActionChangeTaskTitle,
+} from '../../redux/action/taskAction'
 import { TodoList } from '../TodoList/TodoList'
 import { InputForm } from '../InputForm/InputForm'
 import { Header } from '../Header/Header'
@@ -50,90 +64,63 @@ const dataTasks: TDataTasks = {
 }
 
 export function App() {
-  const [todoLists, setTodoLists] = useState<Array<TTodoList>>(dataTodoLists)
-  const [tasks, setTasks] = useState<TDataTasks>(dataTasks)
+  // const [todoLists, setTodoLists] = useState<Array<TTodoList>>(dataTodoLists)
+  // const [tasks, setTasks] = useState<TDataTasks>(dataTasks)
+  const [todoLists, dispatchTodoList] = useReducer(todoListsReducer, dataTodoLists)
+  const [tasks, dispatchTasks] = useReducer(taskReducer, dataTasks)
 
   // -------------------------------- Todo Lists -------------------------------
 
   function createTodoList(title: string) {
-    const newTodoList: TTodoList = {
-      id: crypto.randomUUID(),
-      filter: FilteredValues.all,
-      title,
-    }
+    const action = createActionCreateTodoList(title)
 
-    tasks[newTodoList.id] = []
-
-    setTodoLists([newTodoList, ...todoLists])
-    setTasks({ ...tasks })
+    dispatchTodoList(action)
+    dispatchTasks(action)
   }
 
   function deleteTodoList(todoListId: string) {
-    const newTodoLists = todoLists.filter(todoList => todoList.id !== todoListId)
-    setTodoLists(newTodoLists)
+    const action = createActionDeleteTodoList(todoListId)
 
-    delete tasks[todoListId]
-    setTasks({ ...tasks })
+    dispatchTodoList(action)
+    dispatchTasks(action)
   }
 
   function changeFilterTodoList(todoListId: string, value: FilteredValues) {
-    const todoList = todoLists.find(item => item.id === todoListId)
+    const action = createActionChangeFilterTodoList(todoListId, value)
 
-    if (todoList) {
-      todoList.filter = value
-      setTodoLists([...todoLists])
-    }
+    dispatchTodoList(action)
   }
 
   function changeTodoListTitle(todoListId: string, newTitle: string) {
-    const todoList = todoLists.find(item => item.id == todoListId)
+    const action = createActionChangeTitleTodoList(todoListId, newTitle)
 
-    if (todoList) {
-      todoList.title = newTitle
-      setTodoLists([...todoLists])
-    }
+    dispatchTodoList(action)
   }
 
   // -------------------------------- Tasks -------------------------------
 
   function createTask(todoListId: string, title: string) {
-    const newTask = {
-      id: crypto.randomUUID(),
-      title,
-      isDone: false,
-    }
+    const action = createActionCreateTask(todoListId, title)
 
-    const newTasks = [newTask, ...tasks[todoListId]]
-    tasks[todoListId] = newTasks
-
-    setTasks({ ...tasks })
+    dispatchTasks(action)
   }
 
   function deleteTask(todoListId: string, taskId: string) {
-    const updatedTasks = tasks[todoListId].filter(item => item.id !== taskId)
-    tasks[todoListId] = updatedTasks
+    const action = createActionDeleteTask(todoListId, taskId)
 
-    setTasks({ ...tasks })
+    dispatchTasks(action)
   }
 
   function changeStatusTask(todoListId: string, taskId: string, isDone: boolean) {
-    const task = tasks[todoListId].find(task => task.id == taskId)
+    const action = createActionChangeStatusTask(todoListId, taskId, isDone)
 
-    if (task) {
-      task.isDone = isDone
-
-      setTasks({ ...tasks })
-    }
+    dispatchTasks(action)
   }
 
   function changeTaskTitle(todoListId: string, taskId: string, newValue: string) {
-    const todoList = tasks[todoListId]
-    const task = todoList.find(item => item.id == taskId)
+    const action = createActionChangeTaskTitle(todoListId, taskId, newValue)
 
-    if (task) {
-      task.title = newValue
-      setTasks({ ...tasks })
-    }
+    dispatchTasks(action)
   }
 
   return (

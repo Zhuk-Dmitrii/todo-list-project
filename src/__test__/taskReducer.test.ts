@@ -5,7 +5,10 @@ import {
   createActionCreateTask,
   createActionDeleteTask,
 } from '../redux/action/taskAction'
-import { createActionCreateTodoList } from '../redux/action/todoListsAction'
+import {
+  createActionCreateTodoList,
+  createActionDeleteTodoList,
+} from '../redux/action/todoListsAction'
 import { taskReducer } from '../redux/reducer/taskReducer'
 
 // --------------------------------------------------------------
@@ -144,4 +147,29 @@ test('new property should be added in task array', () => {
 
   expect(keys.length).toBe(3)
   expect(endStateTask[newKey]).toStrictEqual([])
+})
+
+test('task array should be deleted', () => {
+  const todoListId1 = 'todoListId1'
+  const todoListId2 = 'todoListId2'
+
+  const startStateTask: TDataTasks = {
+    [todoListId1]: [
+      { id: '1', title: 'HTML & CSS', isDone: true },
+      { id: '2', title: 'JS/TS', isDone: true },
+      { id: '3', title: 'ReactJS', isDone: false },
+    ],
+    [todoListId2]: [
+      { id: '1', title: 'book', isDone: true },
+      { id: '2', title: 'Milk', isDone: false },
+    ],
+  }
+
+  const action = createActionDeleteTodoList(todoListId2)
+  const endStateTask = taskReducer(startStateTask, action)
+
+  const keys = Object.keys(endStateTask)
+
+  expect(keys.length).toBe(1)
+  expect(endStateTask[todoListId2]).toBeUndefined()
 })

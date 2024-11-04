@@ -53,6 +53,13 @@ export function taskReducer(state: TDataTasks, action: TAction): TDataTasks {
 
       return stateCopy
     }
+    case ActionTypeTodoList.DELETE_TODO_LIST: {
+      const stateCopy = { ...state }
+
+      delete stateCopy[action.id]
+
+      return stateCopy
+    }
     default:
       throw new Error('Sorry, action type invalid!')
   }

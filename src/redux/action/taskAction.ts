@@ -1,4 +1,4 @@
-import { TCreateActionCreateTodoList } from './todoListsAction'
+import { TCreateActionCreateTodoList, TCreateActionDeleteTodoList } from './todoListsAction'
 
 export type TAction =
   | TCreateActionCreateTask
@@ -6,6 +6,7 @@ export type TAction =
   | TCreateActionChangeStatusTask
   | TCreateActionChangeTaskTitle
   | TCreateActionCreateTodoList
+  | TCreateActionDeleteTodoList
 
 export enum ActionTypeTask {
   CREATE_TASK = 'CREATE_TASK',
