@@ -4,9 +4,9 @@ import {
   createActionChangeTaskTitle,
   createActionCreateTask,
   createActionDeleteTask,
-} from '../state/action/taskAction'
-import { createActionCreateTodoList } from '../state/action/todoListsAction'
-import { taskReducer } from '../state/reducer/taskReducer'
+} from '../redux/action/taskAction'
+import { createActionCreateTodoList } from '../redux/action/todoListsAction'
+import { taskReducer } from '../redux/reducer/taskReducer'
 
 // --------------------------------------------------------------
 test('new todo list task should be created', () => {

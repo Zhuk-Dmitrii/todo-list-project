@@ -1,7 +1,7 @@
 import { TDataTasks, TTodoList } from '../components/App/App'
-import { createActionCreateTodoList } from '../state/action/todoListsAction'
-import { taskReducer } from '../state/reducer/taskReducer'
-import { todoListsReducer } from '../state/reducer/todoListsReducer'
+import { createActionCreateTodoList } from '../redux/action/todoListsAction'
+import { taskReducer } from '../redux/reducer/taskReducer'
+import { todoListsReducer } from '../redux/reducer/todoListsReducer'
 
 test('to-do list ID should be equal to the tasks list ID', () => {
   const stateTodoList: Array<TTodoList> = []
