@@ -2,6 +2,12 @@ import { ChangeEvent } from 'react'
 import { ListItem, Checkbox, IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 
+import { useAppDispatch } from '../../redux/hooks'
+import {
+  createActionDeleteTask,
+  createActionChangeStatusTask,
+  createActionChangeTaskTitle,
+} from '../../redux/action/taskAction'
 import { TTask } from '../App/App'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
 import { customCSS } from './TodoCSS'
@@ -9,25 +15,29 @@ import { customCSS } from './TodoCSS'
 type TProps = {
   todoListId: string
   task: TTask
-  deleteTask: (todoListId: string, id: string) => void
-  changeStatusTask: (todoListId: string, taskId: string, isDone: boolean) => void
-  changeTaskTitle: (todoListId: string, taskId: string, title: string) => void
 }
 
 export function Todo(props: TProps) {
+  const dispatch = useAppDispatch()
+
   function handleDeleteTask() {
-    props.deleteTask(props.todoListId, props.task.id)
+    const action = createActionDeleteTask(props.todoListId, props.task.id)
+
+    dispatch(action)
   }
 
   function handleChangeCheckbox(event: ChangeEvent<HTMLInputElement>) {
     const taskId = props.task.id
     const checked = event.currentTarget.checked
+    const action = createActionChangeStatusTask(props.todoListId, taskId, checked)
 
-    props.changeStatusTask(props.todoListId, taskId, checked)
+    dispatch(action)
   }
 
   function handleChangeTaskTitle(newValue: string) {
-    props.changeTaskTitle(props.todoListId, props.task.id, newValue)
+    const action = createActionChangeTaskTitle(props.todoListId, props.task.id, newValue)
+
+    dispatch(action)
   }
 
   return (

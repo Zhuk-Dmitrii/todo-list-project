@@ -2,10 +2,12 @@ import { TDataTasks } from '../../components/App/App'
 import { TAction, ActionTypeTask } from '../action/taskAction'
 import { ActionTypeTodoList } from '../action/todoListsAction'
 
-export function taskReducer(state: TDataTasks, action: TAction): TDataTasks {
+const initialState: TDataTasks = {}
+
+export function tasksReducer(state = initialState, action: TAction): TDataTasks {
   switch (action.type) {
     case ActionTypeTask.CREATE_TASK: {
-      const stateCopy = { ...state }
+      const stateCopy = structuredClone(state)
 
       const newTask = {
         id: crypto.randomUUID(),
@@ -20,7 +22,7 @@ export function taskReducer(state: TDataTasks, action: TAction): TDataTasks {
       return stateCopy
     }
     case ActionTypeTask.DELETE_TASK: {
-      const stateCopy = { ...state }
+      const stateCopy = structuredClone(state)
       const tasks = stateCopy[action.todoListId]
       const filteredTasks = tasks.filter(task => task.id !== action.taskId)
 
@@ -29,7 +31,7 @@ export function taskReducer(state: TDataTasks, action: TAction): TDataTasks {
       return stateCopy
     }
     case ActionTypeTask.CHANGE_STATUS_TASK: {
-      const stateCopy = { ...state }
+      const stateCopy = structuredClone(state)
       const tasks = stateCopy[action.todoListId]
       const task = tasks.find(task => task.id === action.taskId)
 
@@ -38,7 +40,7 @@ export function taskReducer(state: TDataTasks, action: TAction): TDataTasks {
       return stateCopy
     }
     case ActionTypeTask.CHANGE_TASK_TITLE: {
-      const stateCopy = { ...state }
+      const stateCopy = structuredClone(state)
       const tasks = stateCopy[action.todoListId]
       const task = tasks.find(task => task.id === action.taskId)
 
@@ -47,20 +49,20 @@ export function taskReducer(state: TDataTasks, action: TAction): TDataTasks {
       return stateCopy
     }
     case ActionTypeTodoList.CREATE_TODO_LIST: {
-      const stateCopy = { ...state }
+      const stateCopy = structuredClone(state)
 
       stateCopy[action.todoListId] = []
 
       return stateCopy
     }
     case ActionTypeTodoList.DELETE_TODO_LIST: {
-      const stateCopy = { ...state }
+      const stateCopy = structuredClone(state)
 
       delete stateCopy[action.id]
 
       return stateCopy
     }
     default:
-      throw new Error('Sorry, action type invalid!')
+      return state
   }
 }

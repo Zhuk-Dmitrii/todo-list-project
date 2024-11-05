@@ -2,8 +2,15 @@ import { MouseEvent } from 'react'
 import { Box, IconButton, List, Button } from '@mui/material'
 import { AddCircleOutline, Clear } from '@mui/icons-material'
 
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import {
+  createActionChangeFilterTodoList,
+  createActionChangeTitleTodoList,
+  createActionDeleteTodoList,
+} from '../../redux/action/todoListsAction'
+import { createActionCreateTask } from '../../redux/action/taskAction'
 import { Todo } from '../Todo/Todo'
-import { TTask, FilteredValues } from '../App/App'
+import { FilteredValues } from '../App/App'
 import { InputForm } from '../InputForm/InputForm'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
 import { customCSS } from './TodoListCSS'
@@ -11,49 +18,66 @@ import { customCSS } from './TodoListCSS'
 type TProps = {
   todoListId: string
   title: string
-  tasks: Array<TTask>
   filterValue: string
-  deleteTodoList: (todoListId: string) => void
-  changeFilterTodoList: (todoListId: string, value: FilteredValues) => void
-  changeTodoListTitle: (todoListId: string, newTitle: string) => void
-  createTask: (todoListId: string, title: string) => void
-  deleteTask: (todoListId: string, id: string) => void
-  changeStatusTask: (todoListId: string, taskId: string, isDone: boolean) => void
-  changeTaskTitle: (todoListId: string, taskId: string, title: string) => void
 }
 
 export function TodoList(props: TProps) {
+  const tasks = useAppSelector(state => state.tasks[props.todoListId])
+  const dispatch = useAppDispatch()
+
+  // -------------------------------- Todo Lists -------------------------------
   function handleFilterBtnClick(event: MouseEvent<HTMLButtonElement>) {
     const targetValue = event.currentTarget.value
 
     if (targetValue === FilteredValues.all) {
-      props.changeFilterTodoList(props.todoListId, FilteredValues.all)
+      const action = createActionChangeFilterTodoList(props.todoListId, FilteredValues.all)
+      dispatch(action)
     }
 
     if (targetValue === FilteredValues.active) {
-      props.changeFilterTodoList(props.todoListId, FilteredValues.active)
+      const action = createActionChangeFilterTodoList(props.todoListId, FilteredValues.active)
+      dispatch(action)
     }
 
     if (targetValue === FilteredValues.completed) {
-      props.changeFilterTodoList(props.todoListId, FilteredValues.completed)
+      const action = createActionChangeFilterTodoList(props.todoListId, FilteredValues.completed)
+      dispatch(action)
     }
   }
 
-  function handleClickDelete() {
-    props.deleteTodoList(props.todoListId)
-  }
-
-  function createTask(title: string) {
-    props.createTask(props.todoListId, title)
+  function handleClickDeleteTodoList() {
+    const action = createActionDeleteTodoList(props.todoListId)
+    dispatch(action)
   }
 
   function handleChangeTodoListTitle(newTitle: string) {
-    props.changeTodoListTitle(props.todoListId, newTitle)
+    const action = createActionChangeTitleTodoList(props.todoListId, newTitle)
+    dispatch(action)
   }
 
+  // -------------------------------- Tasks -------------------------------
+  let filteredTasks = tasks
+
+  if (props.filterValue == FilteredValues.active) {
+    filteredTasks = filteredTasks.filter(task => !task.isDone)
+  } else if (props.filterValue == FilteredValues.completed) {
+    filteredTasks = filteredTasks.filter(task => task.isDone)
+  }
+
+  function createTask(title: string) {
+    const action = createActionCreateTask(props.todoListId, title)
+
+    dispatch(action)
+  }
+
+  // ----------------------------------------------------------------------
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <IconButton onClick={handleClickDelete} size="small" sx={{ display: 'flex', ml: 'auto' }}>
+      <IconButton
+        onClick={handleClickDeleteTodoList}
+        size="small"
+        sx={{ display: 'flex', ml: 'auto' }}
+      >
         <Clear />
       </IconButton>
       <Box sx={{ mb: 2, height: '28px', display: 'flex', justifyContent: 'center' }}>
@@ -75,15 +99,8 @@ export function TodoList(props: TProps) {
         </IconButton>
       </InputForm>
       <List sx={{ maxHeight: '120px', overflow: 'auto' }}>
-        {props.tasks.map(task => (
-          <Todo
-            key={task.id}
-            todoListId={props.todoListId}
-            task={task}
-            deleteTask={props.deleteTask}
-            changeStatusTask={props.changeStatusTask}
-            changeTaskTitle={props.changeTaskTitle}
-          />
+        {filteredTasks.map(task => (
+          <Todo key={task.id} todoListId={props.todoListId} task={task} />
         ))}
       </List>
       <Box sx={{ height: '30px', display: 'flex', gap: 1, mt: 'auto' }}>

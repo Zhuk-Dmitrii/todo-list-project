@@ -9,7 +9,7 @@ import {
   createActionCreateTodoList,
   createActionDeleteTodoList,
 } from '../redux/action/todoListsAction'
-import { taskReducer } from '../redux/reducer/taskReducer'
+import { tasksReducer } from '../redux/reducer/tasksReducer'
 
 // --------------------------------------------------------------
 test('new todo list task should be created', () => {
@@ -30,7 +30,7 @@ test('new todo list task should be created', () => {
 
   const newTitle = 'apple'
   const action = createActionCreateTask(todoListId2, newTitle)
-  const endStateTask = taskReducer(startStateTask, action)
+  const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask['todoListId2'].length).toBe(3)
   expect(endStateTask['todoListId1'].length).toBe(3)
@@ -58,7 +58,7 @@ test('todo list task should be deleted', () => {
 
   const taskId = '1'
   const action = createActionDeleteTask(todoListId1, taskId)
-  const endStateTask = taskReducer(startStateTask, action)
+  const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask[todoListId1].length).toBe(2)
   expect(endStateTask[todoListId2].length).toBe(2)
@@ -85,7 +85,7 @@ test('status todo list task should be changed', () => {
   const taskId = '1'
   const isDone = false
   const action = createActionChangeStatusTask(todoListId1, taskId, isDone)
-  const endStateTask = taskReducer(startStateTask, action)
+  const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask[todoListId1][0].isDone).toBe(false)
   expect(endStateTask[todoListId1][1].isDone).toBe(true)
@@ -112,7 +112,7 @@ test('title todo list task should be changed', () => {
   const taskId = '1'
   const newTitle = 'water'
   const action = createActionChangeTaskTitle(todoListId2, taskId, newTitle)
-  const endStateTask = taskReducer(startStateTask, action)
+  const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask[todoListId2][0].title).toBe(newTitle)
   expect(endStateTask[todoListId1][0].title).toBe('HTML & CSS')
@@ -136,7 +136,7 @@ test('new property should be added in task array', () => {
 
   const newTitle = 'new Todo List'
   const action = createActionCreateTodoList(newTitle)
-  const endStateTask = taskReducer(startStateTask, action)
+  const endStateTask = tasksReducer(startStateTask, action)
 
   const keys = Object.keys(endStateTask)
   const newKey = keys.find(key => key !== todoListId1 && key !== todoListId2)
@@ -166,7 +166,7 @@ test('task array should be deleted', () => {
   }
 
   const action = createActionDeleteTodoList(todoListId2)
-  const endStateTask = taskReducer(startStateTask, action)
+  const endStateTask = tasksReducer(startStateTask, action)
 
   const keys = Object.keys(endStateTask)
 

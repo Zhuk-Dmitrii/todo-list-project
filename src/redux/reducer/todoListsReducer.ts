@@ -1,7 +1,9 @@
 import { FilteredValues, TTodoList } from '../../components/App/App'
 import { ActionTypeTodoList, TAction } from '../action/todoListsAction'
 
-export function todoListsReducer(state: Array<TTodoList>, action: TAction): Array<TTodoList> {
+const initialState: Array<TTodoList> = []
+
+export function todoListsReducer(state = initialState, action: TAction): Array<TTodoList> {
   switch (action.type) {
     case ActionTypeTodoList.CREATE_TODO_LIST: {
       const stateCopy = [...state]
@@ -46,6 +48,6 @@ export function todoListsReducer(state: Array<TTodoList>, action: TAction): Arra
     }
 
     default:
-      throw new Error('Sorry, action type invalid!')
+      return state
   }
 }

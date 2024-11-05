@@ -10,26 +10,26 @@ type TInputForm = {
 }
 
 export function InputForm(props: TInputForm) {
-  const [titleTodo, setTitleTodo] = useState('')
+  const [title, setTitle] = useState('')
   const [error, setError] = useState<string | null>(null)
 
   function handleChangeTitle(event: ChangeEvent<HTMLInputElement>) {
-    setTitleTodo(event.target.value)
+    setTitle(event.target.value)
     setError(null)
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    if (titleTodo.trim() === '') {
+    if (title.trim() === '') {
       setError('Title is required')
-      setTitleTodo('')
+      setTitle('')
 
       return
     }
 
-    props.createItem(titleTodo.trim())
-    setTitleTodo('')
+    props.createItem(title.trim())
+    setTitle('')
   }
 
   return (
@@ -45,7 +45,7 @@ export function InputForm(props: TInputForm) {
         size={props.size}
         helperText={error}
         error={!!error}
-        value={titleTodo}
+        value={title}
         onChange={handleChangeTitle}
       />
       {props.children}
