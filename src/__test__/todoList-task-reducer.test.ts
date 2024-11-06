@@ -1,4 +1,4 @@
-import { TDataTasks, TTodoList } from '../components/App/App'
+import { TDataTasks, TTodoList } from '../types/todoTypes'
 import { createActionCreateTodoList } from '../redux/action/todoListsAction'
 import { tasksReducer } from '../redux/reducer/tasksReducer'
 import { todoListsReducer } from '../redux/reducer/todoListsReducer'

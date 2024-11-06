@@ -1,4 +1,4 @@
-import { FilteredValues } from '../../components/App/App'
+import { FilteredValues } from '../../types/enums'
 
 export enum ActionTypeTodoList {
   CREATE_TODO_LIST = 'CREATE_TODO_LIST',

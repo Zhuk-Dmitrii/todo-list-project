@@ -8,28 +8,6 @@ import { TodoList } from '../TodoList/TodoList'
 import { InputForm } from '../InputForm/InputForm'
 import { Header } from '../Header/Header'
 
-export type TTodoList = {
-  id: string
-  title: string
-  filter: FilteredValues
-}
-
-export type TDataTasks = {
-  [id: string]: Array<TTask>
-}
-
-export type TTask = {
-  id: string
-  title: string
-  isDone: boolean
-}
-
-export enum FilteredValues {
-  all = 'all',
-  active = 'active',
-  completed = 'completed',
-}
-
 export function App() {
   const dispatch = useAppDispatch()
   const todoLists = useAppSelector(state => state.todoLists)

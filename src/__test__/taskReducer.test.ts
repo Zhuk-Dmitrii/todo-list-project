@@ -1,4 +1,4 @@
-import { TDataTasks } from '../components/App/App'
+import { TDataTasks } from '../types/todoTypes'
 import {
   createActionChangeStatusTask,
   createActionChangeTaskTitle,

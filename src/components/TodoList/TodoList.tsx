@@ -10,7 +10,7 @@ import {
 } from '../../redux/action/todoListsAction'
 import { createActionCreateTask } from '../../redux/action/taskAction'
 import { Todo } from '../Todo/Todo'
-import { FilteredValues } from '../App/App'
+import { FilteredValues } from '../../types/enums'
 import { InputForm } from '../InputForm/InputForm'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
 import { customCSS } from './TodoListCSS'

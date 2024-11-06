@@ -1,4 +1,4 @@
-import { TDataTasks } from '../../components/App/App'
+import { TDataTasks } from '../../types/todoTypes'
 import { TAction, ActionTypeTask } from '../action/taskAction'
 import { ActionTypeTodoList } from '../action/todoListsAction'
 

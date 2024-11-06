@@ -8,7 +8,7 @@ import {
   createActionChangeStatusTask,
   createActionChangeTaskTitle,
 } from '../../redux/action/taskAction'
-import { TTask } from '../App/App'
+import { TTask } from '../../types/todoTypes'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
 import { customCSS } from './TodoCSS'
 

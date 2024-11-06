@@ -1,4 +1,5 @@
-import { FilteredValues, TTodoList } from '../components/App/App'
+import { TTodoList } from '../types/todoTypes'
+import { FilteredValues } from '../types/enums'
 import {
   createActionCreateTodoList,
   createActionDeleteTodoList,

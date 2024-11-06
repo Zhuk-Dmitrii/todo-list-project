@@ -1,4 +1,5 @@
-import { FilteredValues, TTodoList } from '../../components/App/App'
+import { TTodoList } from '../../types/todoTypes'
+import { FilteredValues } from '../../types/enums'
 import { ActionTypeTodoList, TAction } from '../action/todoListsAction'
 
 const initialState: Array<TTodoList> = []
