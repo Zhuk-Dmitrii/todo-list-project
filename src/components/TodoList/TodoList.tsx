@@ -1,6 +1,6 @@
-import { MouseEvent } from 'react'
+import React, { MouseEvent, useMemo, useCallback } from 'react'
 import { Box, IconButton, List, Button } from '@mui/material'
-import { AddCircleOutline, Clear } from '@mui/icons-material'
+import { Clear } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import {
@@ -21,54 +21,80 @@ type TProps = {
   filterValue: string
 }
 
-export function TodoList(props: TProps) {
+export const TodoList = React.memo((props: TProps) => {
+  console.log('render TodoList', props.todoListId)
+
   const tasks = useAppSelector(state => state.tasks[props.todoListId])
   const dispatch = useAppDispatch()
 
   // -------------------------------- Todo Lists -------------------------------
-  function handleFilterBtnClick(event: MouseEvent<HTMLButtonElement>) {
-    const targetValue = event.currentTarget.value
+  const handleFilterBtnClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      const targetValue = event.currentTarget.value
 
-    if (targetValue === FilteredValues.all) {
-      const action = createActionChangeFilterTodoList(props.todoListId, FilteredValues.all)
-      dispatch(action)
-    }
+      if (targetValue === FilteredValues.all) {
+        const action = createActionChangeFilterTodoList(props.todoListId, FilteredValues.all)
+        dispatch(action)
+      }
 
-    if (targetValue === FilteredValues.active) {
-      const action = createActionChangeFilterTodoList(props.todoListId, FilteredValues.active)
-      dispatch(action)
-    }
+      if (targetValue === FilteredValues.active) {
+        const action = createActionChangeFilterTodoList(props.todoListId, FilteredValues.active)
+        dispatch(action)
+      }
 
-    if (targetValue === FilteredValues.completed) {
-      const action = createActionChangeFilterTodoList(props.todoListId, FilteredValues.completed)
-      dispatch(action)
-    }
-  }
+      if (targetValue === FilteredValues.completed) {
+        const action = createActionChangeFilterTodoList(props.todoListId, FilteredValues.completed)
+        dispatch(action)
+      }
+    },
+    [props.todoListId, dispatch],
+  )
 
-  function handleClickDeleteTodoList() {
+  const handleClickDeleteTodoList = useCallback(() => {
     const action = createActionDeleteTodoList(props.todoListId)
     dispatch(action)
-  }
+  }, [props.todoListId, dispatch])
 
-  function handleChangeTodoListTitle(newTitle: string) {
-    const action = createActionChangeTitleTodoList(props.todoListId, newTitle)
-    dispatch(action)
-  }
+  const handleChangeTodoListTitle = useCallback(
+    (newTitle: string) => {
+      const action = createActionChangeTitleTodoList(props.todoListId, newTitle)
+      dispatch(action)
+    },
+    [props.todoListId, dispatch],
+  )
 
   // -------------------------------- Tasks -------------------------------
-  let filteredTasks = tasks
+  const filteredTasks = useMemo(() => {
+    let filterTasks = tasks
 
-  if (props.filterValue == FilteredValues.active) {
-    filteredTasks = filteredTasks.filter(task => !task.isDone)
-  } else if (props.filterValue == FilteredValues.completed) {
-    filteredTasks = filteredTasks.filter(task => task.isDone)
-  }
+    if (props.filterValue == FilteredValues.active) {
+      filterTasks = tasks.filter(task => !task.isDone)
+    }
 
-  function createTask(title: string) {
-    const action = createActionCreateTask(props.todoListId, title)
+    if (props.filterValue == FilteredValues.completed) {
+      filterTasks = tasks.filter(task => task.isDone)
+    }
 
-    dispatch(action)
-  }
+    return filterTasks
+  }, [props.filterValue, tasks])
+
+  const createTask = useCallback(
+    (title: string) => {
+      const action = createActionCreateTask(props.todoListId, title)
+
+      dispatch(action)
+    },
+    [dispatch, props.todoListId],
+  )
+
+  // -------------------------------- Custom Styles -------------------------------
+  const styleInputForm = useMemo(
+    () => ({
+      styleWrapper: { marginBottom: '24px' },
+      sx: { width: '100%' },
+    }),
+    [],
+  )
 
   // ----------------------------------------------------------------------
   return (
@@ -90,14 +116,11 @@ export function TodoList(props: TProps) {
 
       <InputForm
         createItem={createTask}
+        styleWrapper={styleInputForm.styleWrapper}
+        sx={styleInputForm.sx}
         size="small"
-        sx={{ width: '100%' }}
-        styleWrapper={{ marginBottom: '24px' }}
-      >
-        <IconButton type="submit" color="primary" sx={{ ml: 0.5, mb: 'auto' }}>
-          <AddCircleOutline />
-        </IconButton>
-      </InputForm>
+      />
+
       <List sx={{ maxHeight: '120px', overflow: 'auto' }}>
         {filteredTasks.map(task => (
           <Todo key={task.id} todoListId={props.todoListId} task={task} />
@@ -131,4 +154,4 @@ export function TodoList(props: TProps) {
       </Box>
     </Box>
   )
-}
+})

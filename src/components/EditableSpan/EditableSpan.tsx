@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useCallback, useState } from 'react'
 import { TextField } from '@mui/material'
 import { Typography } from '@mui/material'
 
@@ -11,23 +11,25 @@ type TEditableSpan = {
   }
 }
 
-export function EditableSpan(props: TEditableSpan) {
+export const EditableSpan = React.memo((props: TEditableSpan) => {
+  console.log('render EditableSpan')
+
   const [editMode, setEditMode] = useState<boolean>(false)
   const [title, setTitle] = useState<string>('')
 
-  function activateEditMode() {
+  const activateEditMode = useCallback(() => {
     setEditMode(true)
     setTitle(props.title)
-  }
+  }, [props.title])
 
-  function disableEditMode() {
+  const disableEditMode = useCallback(() => {
     setEditMode(false)
     props.changeValue(title)
-  }
+  }, [props.changeValue, title])
 
-  function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
+  const handleChangeInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.currentTarget.value)
-  }
+  }, [])
 
   return editMode ? (
     <TextField
@@ -43,4 +45,4 @@ export function EditableSpan(props: TEditableSpan) {
       {props.title}
     </Typography>
   )
-}
+})

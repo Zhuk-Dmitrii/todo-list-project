@@ -1,36 +1,45 @@
-import { ChangeEvent, FormEvent, useState } from 'react'
-import { Box, TextField } from '@mui/material'
+import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react'
+import { Box, IconButton, TextField } from '@mui/material'
+import { AddCircleOutline } from '@mui/icons-material'
 
 type TInputForm = {
   createItem: (title: string) => void
   styleWrapper?: object
   sx?: object
-  children?: JSX.Element
   size?: 'medium' | 'small'
 }
 
-export function InputForm(props: TInputForm) {
+export const InputForm = React.memo((props: TInputForm) => {
+  console.log('render InputForm')
+
   const [title, setTitle] = useState('')
   const [error, setError] = useState<string | null>(null)
 
-  function handleChangeTitle(event: ChangeEvent<HTMLInputElement>) {
-    setTitle(event.target.value)
-    setError(null)
-  }
+  const handleChangeTitle = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (error !== null) setError(null)
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+      setTitle(event.target.value)
+    },
+    [error],
+  )
 
-    if (title.trim() === '') {
-      setError('Title is required')
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
+
+      if (title.trim() === '') {
+        setError('Title is required')
+        setTitle('')
+
+        return
+      }
+
+      props.createItem(title.trim())
       setTitle('')
-
-      return
-    }
-
-    props.createItem(title.trim())
-    setTitle('')
-  }
+    },
+    [title, props.createItem],
+  )
 
   return (
     <Box
@@ -48,7 +57,9 @@ export function InputForm(props: TInputForm) {
         value={title}
         onChange={handleChangeTitle}
       />
-      {props.children}
+      <IconButton type="submit" color="primary" sx={{ ml: 1, mb: 'auto' }}>
+        <AddCircleOutline />
+      </IconButton>
     </Box>
   )
-}
+})

@@ -7,7 +7,7 @@ const initialState: TDataTasks = {}
 export function tasksReducer(state = initialState, action: TAction): TDataTasks {
   switch (action.type) {
     case ActionTypeTask.CREATE_TASK: {
-      const stateCopy = structuredClone(state)
+      const tasks = state[action.todoListId]
 
       const newTask = {
         id: crypto.randomUUID(),
@@ -15,48 +15,52 @@ export function tasksReducer(state = initialState, action: TAction): TDataTasks 
         isDone: false,
       }
 
-      const tasks = stateCopy[action.todoListId]
-      const newTasks = [newTask, ...tasks]
-      stateCopy[action.todoListId] = newTasks
+      state[action.todoListId] = [newTask, ...tasks]
 
-      return stateCopy
+      return { ...state }
     }
     case ActionTypeTask.DELETE_TASK: {
-      const stateCopy = structuredClone(state)
-      const tasks = stateCopy[action.todoListId]
+      const tasks = state[action.todoListId]
       const filteredTasks = tasks.filter(task => task.id !== action.taskId)
 
-      stateCopy[action.todoListId] = filteredTasks
+      state[action.todoListId] = filteredTasks
 
-      return stateCopy
+      return { ...state }
     }
     case ActionTypeTask.CHANGE_STATUS_TASK: {
-      const stateCopy = structuredClone(state)
-      const tasks = stateCopy[action.todoListId]
-      const task = tasks.find(task => task.id === action.taskId)
+      const tasks = state[action.todoListId]
 
-      if (task) task.isDone = action.isDone
+      state[action.todoListId] = tasks.map(task => {
+        if (task.id === action.taskId) {
+          return { ...task, isDone: action.isDone }
+        } else {
+          return task
+        }
+      })
 
-      return stateCopy
+      return { ...state }
     }
     case ActionTypeTask.CHANGE_TASK_TITLE: {
-      const stateCopy = structuredClone(state)
-      const tasks = stateCopy[action.todoListId]
-      const task = tasks.find(task => task.id === action.taskId)
+      const tasks = state[action.todoListId]
 
-      if (task) task.title = action.title
+      state[action.todoListId] = tasks.map(task => {
+        if (task.id === action.taskId) {
+          return { ...task, title: action.title }
+        } else {
+          return task
+        }
+      })
 
-      return stateCopy
+      return { ...state }
     }
     case ActionTypeTodoList.CREATE_TODO_LIST: {
-      const stateCopy = structuredClone(state)
-
-      stateCopy[action.todoListId] = []
-
-      return stateCopy
+      return {
+        ...state,
+        [action.todoListId]: [],
+      }
     }
     case ActionTypeTodoList.DELETE_TODO_LIST: {
-      const stateCopy = structuredClone(state)
+      const stateCopy = { ...state }
 
       delete stateCopy[action.id]
 

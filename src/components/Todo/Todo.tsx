@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
 import { ListItem, Checkbox, IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 
@@ -17,28 +17,36 @@ type TProps = {
   task: TTask
 }
 
-export function Todo(props: TProps) {
+export const Todo = React.memo((props: TProps) => {
+  console.log('render Todo', props.task.id)
+
   const dispatch = useAppDispatch()
 
-  function handleDeleteTask() {
+  const handleDeleteTask = useCallback(() => {
     const action = createActionDeleteTask(props.todoListId, props.task.id)
 
     dispatch(action)
-  }
+  }, [props.todoListId, props.task.id, dispatch])
 
-  function handleChangeCheckbox(event: ChangeEvent<HTMLInputElement>) {
-    const taskId = props.task.id
-    const checked = event.currentTarget.checked
-    const action = createActionChangeStatusTask(props.todoListId, taskId, checked)
+  const handleChangeCheckbox = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const taskId = props.task.id
+      const checked = event.currentTarget.checked
+      const action = createActionChangeStatusTask(props.todoListId, taskId, checked)
 
-    dispatch(action)
-  }
+      dispatch(action)
+    },
+    [props.task.id, props.todoListId, dispatch],
+  )
 
-  function handleChangeTaskTitle(newValue: string) {
-    const action = createActionChangeTaskTitle(props.todoListId, props.task.id, newValue)
+  const handleChangeTaskTitle = useCallback(
+    (newValue: string) => {
+      const action = createActionChangeTaskTitle(props.todoListId, props.task.id, newValue)
 
-    dispatch(action)
-  }
+      dispatch(action)
+    },
+    [props.todoListId, props.task.id, dispatch],
+  )
 
   return (
     <ListItem sx={{ p: 0, opacity: props.task.isDone ? 0.5 : 1 }}>
@@ -59,4 +67,4 @@ export function Todo(props: TProps) {
       </IconButton>
     </ListItem>
   )
-}
+})
