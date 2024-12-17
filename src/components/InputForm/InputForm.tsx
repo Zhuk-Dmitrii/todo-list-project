@@ -57,7 +57,7 @@ export const InputForm = React.memo((props: TInputForm) => {
         value={title}
         onChange={handleChangeTitle}
       />
-      <IconButton type="submit" color="primary" sx={{ ml: 1, mb: 'auto' }}>
+      <IconButton type="submit" color="primary" sx={{ ml: 1, mb: 'auto', mt: 'auto' }}>
         <AddCircleOutline />
       </IconButton>
     </Box>
