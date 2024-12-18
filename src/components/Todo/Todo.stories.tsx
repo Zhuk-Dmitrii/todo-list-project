@@ -1,14 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Provider } from 'react-redux'
-import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers, legacy_createStore as createStore } from '@reduxjs/toolkit'
 
 import { tasksReducer } from '../../redux/reducer/tasksReducer'
 import { Todo } from './Todo'
 import { TTask } from '../../types/todoTypes'
 
-const mockStore = configureStore({
-  reducer: tasksReducer,
+const mockReducer = combineReducers({
+  tasks: tasksReducer,
 })
+
+const mockStore = createStore(mockReducer)
 
 const meta: Meta<typeof Todo> = {
   title: 'Components/Todo',
