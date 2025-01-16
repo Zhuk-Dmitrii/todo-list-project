@@ -9,7 +9,7 @@
     "lint": "eslint src --ext .jsx,.js,.tsx,.ts  --no-error-on-unmatched-pattern --fix",
     "preview": "vite preview",
     "test": "jest",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 3000",
     "build-storybook": "storybook build"
   },
   "dependencies": {
@@ -19,6 +19,7 @@
     "@mui/material": "^6.1.0",
     "@reduxjs/toolkit": "^2.3.0",
     "@storybook/addon-storysource": "^8.4.7",
+    "axios": "^1.7.9",
     "classnames": "^2.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
