@@ -1,18 +1,26 @@
-import { TDataTasks } from '../../types/todoTypes'
 import { TAction, ActionTypeTask } from '../action/taskAction'
 import { ActionTypeTodoList } from '../action/todoListsAction'
+import { TaskPriority, TaskStatus, TaskType } from '../../api/typesAPI/todoListTypes'
+import { TasksDataType } from '../types/business'
 
-const initialState: TDataTasks = {}
+const initialState: TasksDataType = {}
 
-export function tasksReducer(state = initialState, action: TAction): TDataTasks {
+export function tasksReducer(state: TasksDataType = initialState, action: TAction): TasksDataType {
   switch (action.type) {
     case ActionTypeTask.CREATE_TASK: {
       const tasks = state[action.todoListId]
 
-      const newTask = {
+      const newTask: TaskType = {
         id: crypto.randomUUID(),
         title: action.title,
-        isDone: false,
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: action.todoListId,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
       }
 
       state[action.todoListId] = [newTask, ...tasks]
@@ -32,7 +40,7 @@ export function tasksReducer(state = initialState, action: TAction): TDataTasks 
 
       state[action.todoListId] = tasks.map(task => {
         if (task.id === action.taskId) {
-          return { ...task, isDone: action.isDone }
+          return { ...task, status: action.status }
         } else {
           return task
         }

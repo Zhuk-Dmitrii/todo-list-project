@@ -1,3 +1,4 @@
+import { TaskStatus } from '../../api/typesAPI/todoListTypes'
 import { TCreateActionCreateTodoList, TCreateActionDeleteTodoList } from './todoListsAction'
 
 export type TAction =
@@ -31,7 +32,7 @@ type TCreateActionChangeStatusTask = {
   type: ActionTypeTask.CHANGE_STATUS_TASK
   todoListId: string
   taskId: string
-  isDone: boolean
+  status: TaskStatus
 }
 
 type TCreateActionChangeTaskTitle = {
@@ -63,13 +64,13 @@ export function createActionDeleteTask(
 export function createActionChangeStatusTask(
   todoListId: string,
   taskId: string,
-  isDone: boolean,
+  status: TaskStatus,
 ): TCreateActionChangeStatusTask {
   return {
     type: ActionTypeTask.CHANGE_STATUS_TASK,
     todoListId,
     taskId,
-    isDone,
+    status,
   }
 }
 

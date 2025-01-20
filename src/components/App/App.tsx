@@ -9,8 +9,6 @@ import { InputForm } from '../InputForm/InputForm'
 import { Header } from '../Header/Header'
 
 export function App() {
-  console.log('render App')
-
   const dispatch = useAppDispatch()
   const todoLists = useAppSelector(state => state.todoLists)
 

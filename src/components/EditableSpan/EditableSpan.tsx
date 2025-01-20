@@ -12,8 +12,6 @@ type TEditableSpan = {
 }
 
 export const EditableSpan = React.memo((props: TEditableSpan) => {
-  console.log('render EditableSpan')
-
   const [editMode, setEditMode] = useState<boolean>(false)
   const [title, setTitle] = useState<string>('')
 

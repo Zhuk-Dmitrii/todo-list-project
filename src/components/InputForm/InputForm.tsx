@@ -10,8 +10,6 @@ type TInputForm = {
 }
 
 export const InputForm = React.memo((props: TInputForm) => {
-  console.log('render InputForm')
-
   const [title, setTitle] = useState('')
   const [error, setError] = useState<string | null>(null)
 

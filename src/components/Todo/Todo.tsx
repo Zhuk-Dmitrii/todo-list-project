@@ -8,18 +8,16 @@ import {
   createActionChangeStatusTask,
   createActionChangeTaskTitle,
 } from '../../redux/action/taskAction'
-import { TTask } from '../../types/todoTypes'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
+import { TaskStatus, TaskType } from '../../api/typesAPI/todoListTypes'
 import { customCSS } from './TodoCSS'
 
 type TProps = {
   todoListId: string
-  task: TTask
+  task: TaskType
 }
 
 export const Todo = React.memo((props: TProps) => {
-  console.log('render Todo', props.task.id)
-
   const dispatch = useAppDispatch()
 
   const handleDeleteTask = useCallback(() => {
@@ -32,7 +30,8 @@ export const Todo = React.memo((props: TProps) => {
     (event: ChangeEvent<HTMLInputElement>) => {
       const taskId = props.task.id
       const checked = event.currentTarget.checked
-      const action = createActionChangeStatusTask(props.todoListId, taskId, checked)
+      const status = checked ? TaskStatus.Completed : TaskStatus.New
+      const action = createActionChangeStatusTask(props.todoListId, taskId, status)
 
       dispatch(action)
     },
@@ -49,10 +48,10 @@ export const Todo = React.memo((props: TProps) => {
   )
 
   return (
-    <ListItem sx={{ p: 0, opacity: props.task.isDone ? 0.5 : 1 }}>
+    <ListItem sx={{ p: 0, opacity: props.task.status === TaskStatus.Completed ? 0.5 : 1 }}>
       <Checkbox
         onChange={handleChangeCheckbox}
-        checked={props.task.isDone}
+        checked={props.task.status === TaskStatus.Completed}
         size="small"
         color="success"
         sx={{ mr: 1 }}

@@ -1,10 +1,12 @@
-import { TTodoList } from '../../types/todoTypes'
-import { FilteredValues } from '../../types/enums'
 import { ActionTypeTodoList, TAction } from '../action/todoListsAction'
+import { FilteredValues, TodoListBusinessType } from '../types/business'
 
-const initialState: Array<TTodoList> = []
+const initialState: TodoListBusinessType[] = []
 
-export function todoListsReducer(state = initialState, action: TAction): Array<TTodoList> {
+export function todoListsReducer(
+  state: TodoListBusinessType[] = initialState,
+  action: TAction,
+): TodoListBusinessType[] {
   switch (action.type) {
     case ActionTypeTodoList.CREATE_TODO_LIST: {
       const stateCopy = [...state]
@@ -14,6 +16,8 @@ export function todoListsReducer(state = initialState, action: TAction): Array<T
           id: action.todoListId,
           title: action.title,
           filter: FilteredValues.all,
+          addedDate: '',
+          order: 0,
         },
         ...stateCopy,
       ]

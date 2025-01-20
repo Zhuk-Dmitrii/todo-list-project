@@ -14,6 +14,7 @@ import { FilteredValues } from '../../types/enums'
 import { InputForm } from '../InputForm/InputForm'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
 import { customCSS } from './TodoListCSS'
+import { TaskStatus } from '../../api/typesAPI/todoListTypes'
 
 type TProps = {
   todoListId: string
@@ -22,8 +23,6 @@ type TProps = {
 }
 
 export const TodoList = React.memo((props: TProps) => {
-  console.log('render TodoList', props.todoListId)
-
   const tasks = useAppSelector(state => state.tasks[props.todoListId])
   const dispatch = useAppDispatch()
 
@@ -68,11 +67,11 @@ export const TodoList = React.memo((props: TProps) => {
     let filterTasks = tasks
 
     if (props.filterValue == FilteredValues.active) {
-      filterTasks = tasks.filter(task => !task.isDone)
+      filterTasks = tasks.filter(task => task.status === TaskStatus.New)
     }
 
     if (props.filterValue == FilteredValues.completed) {
-      filterTasks = tasks.filter(task => task.isDone)
+      filterTasks = tasks.filter(task => task.status === TaskStatus.Completed)
     }
 
     return filterTasks

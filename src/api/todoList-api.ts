@@ -5,7 +5,7 @@ import {
   ResponseTodoLists,
   TaskType,
   UpdateTaskModelType,
-  GetResponseTodoListTasks,
+  ResponseGetTodoListTasks,
   ResponseTodoListTask,
 } from './typesAPI/todoListTypes'
 
@@ -31,7 +31,7 @@ export const todoListsAPI = {
     return instance.delete<ResponseTodoLists>(`/todo-lists/${id}`)
   },
   getTodoListTasks(todoListID: string) {
-    return instance.get<GetResponseTodoListTasks>(`/todo-lists/${todoListID}/tasks`)
+    return instance.get<ResponseGetTodoListTasks>(`/todo-lists/${todoListID}/tasks`)
   },
   createTodoListTask(todoListID: string, taskTitle: string) {
     return instance.post<ResponseTodoListTask<{ item: TaskType }>>(
