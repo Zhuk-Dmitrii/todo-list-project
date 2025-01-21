@@ -4,7 +4,7 @@ import { combineReducers, legacy_createStore as createStore } from '@reduxjs/too
 
 import { tasksReducer } from '../../redux/reducer/tasksReducer'
 import { Todo } from './Todo'
-import { TTask } from '../../types/todoTypes'
+import { TaskPriority, TaskStatus, TaskType } from '../../api/typesAPI/todoListTypes'
 
 const mockReducer = combineReducers({
   tasks: tasksReducer,
@@ -29,21 +29,28 @@ export default meta
 
 type Story = StoryObj<typeof Todo>
 
-const mockTodo: TTask = {
+const mockTodo: TaskType = {
   id: '1',
   title: 'Storybook',
-  isDone: false,
+  status: TaskStatus.New,
+  priority: TaskPriority.Low,
+  order: 0,
+  todoListId: 'todoList1',
+  addedDate: '',
+  deadline: '',
+  description: '',
+  startDate: '',
 }
 
 export const TodoIsNotCompleted: Story = {
   args: {
-    todoListId: 'todoList1',
+    todoListId: mockTodo.todoListId,
     task: mockTodo,
   },
 }
 
 export const TodoIsCompleted: Story = {
   args: {
-    task: { ...mockTodo, isDone: true },
+    task: { ...mockTodo, status: TaskStatus.Completed },
   },
 }

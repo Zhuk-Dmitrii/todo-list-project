@@ -1,4 +1,5 @@
-import { TDataTasks } from '../types/todoTypes'
+import { TasksDataType } from '../redux/types/business'
+import { TaskPriority, TaskStatus } from '../api/typesAPI/todoListTypes'
 import {
   createActionChangeStatusTask,
   createActionChangeTaskTitle,
@@ -16,15 +17,70 @@ test('new todo list task should be created', () => {
   const todoListId1 = 'todoListId1'
   const todoListId2 = 'todoListId2'
 
-  const startStateTask: TDataTasks = {
+  const startStateTask: TasksDataType = {
     [todoListId1]: [
-      { id: crypto.randomUUID(), title: 'HTML & CSS', isDone: true },
-      { id: crypto.randomUUID(), title: 'JS/TS', isDone: true },
-      { id: crypto.randomUUID(), title: 'ReactJS', isDone: false },
+      {
+        id: crypto.randomUUID(),
+        title: 'HTML & CSS',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'JS/TS',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'ReactJS',
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
     ],
     [todoListId2]: [
-      { id: crypto.randomUUID(), title: 'book', isDone: true },
-      { id: crypto.randomUUID(), title: 'Milk', isDone: false },
+      {
+        id: crypto.randomUUID(),
+        title: 'book',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId2,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'Milk',
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId2,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
     ],
   }
 
@@ -36,7 +92,7 @@ test('new todo list task should be created', () => {
   expect(endStateTask['todoListId1'].length).toBe(3)
   expect(endStateTask['todoListId2'][0].id).toBeDefined()
   expect(endStateTask['todoListId2'][0].title).toBe(newTitle)
-  expect(endStateTask['todoListId2'][0].isDone).toBe(false)
+  expect(endStateTask['todoListId2'][0].status).toBe(TaskStatus.New)
 })
 
 // --------------------------------------------------------------
@@ -44,15 +100,70 @@ test('todo list task should be deleted', () => {
   const todoListId1 = 'todoListId1'
   const todoListId2 = 'todoListId2'
 
-  const startStateTask: TDataTasks = {
+  const startStateTask: TasksDataType = {
     [todoListId1]: [
-      { id: '1', title: 'HTML & CSS', isDone: true },
-      { id: '2', title: 'JS/TS', isDone: true },
-      { id: '3', title: 'ReactJS', isDone: false },
+      {
+        id: '1',
+        title: 'HTML & CSS',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: '2',
+        title: 'JS/TS',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: '3',
+        title: 'ReactJS',
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
     ],
     [todoListId2]: [
-      { id: '1', title: 'book', isDone: true },
-      { id: '2', title: 'Milk', isDone: false },
+      {
+        id: '1',
+        title: 'book',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId2,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: '2',
+        title: 'Milk',
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId2,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
     ],
   }
 
@@ -70,45 +181,154 @@ test('status todo list task should be changed', () => {
   const todoListId1 = 'todoListId1'
   const todoListId2 = 'todoListId2'
 
-  const startStateTask: TDataTasks = {
+  const startStateTask: TasksDataType = {
     [todoListId1]: [
-      { id: '1', title: 'HTML & CSS', isDone: true },
-      { id: '2', title: 'JS/TS', isDone: true },
-      { id: '3', title: 'ReactJS', isDone: false },
+      {
+        id: '1',
+        title: 'HTML & CSS',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: '2',
+        title: 'JS/TS',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: '3',
+        title: 'ReactJS',
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
     ],
     [todoListId2]: [
-      { id: '1', title: 'book', isDone: true },
-      { id: '2', title: 'Milk', isDone: false },
+      {
+        id: '1',
+        title: 'book',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId2,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: '2',
+        title: 'Milk',
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId2,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
     ],
   }
 
   const taskId = '1'
-  const isDone = false
+  const isDone = TaskStatus.New
   const action = createActionChangeStatusTask(todoListId1, taskId, isDone)
   const endStateTask = tasksReducer(startStateTask, action)
 
-  expect(endStateTask[todoListId1][0].isDone).toBe(false)
-  expect(endStateTask[todoListId1][1].isDone).toBe(true)
-  expect(endStateTask[todoListId1][2].isDone).toBe(false)
-  expect(endStateTask[todoListId2][0].isDone).toBe(true)
+  expect(endStateTask[todoListId1][0].status).toBe(TaskStatus.New)
+  expect(endStateTask[todoListId1][1].status).toBe(TaskStatus.Completed)
+  expect(endStateTask[todoListId1][2].status).toBe(TaskStatus.New)
+  expect(endStateTask[todoListId2][0].status).toBe(TaskStatus.Completed)
 })
 
 test('title todo list task should be changed', () => {
   const todoListId1 = 'todoListId1'
   const todoListId2 = 'todoListId2'
 
-  const startStateTask: TDataTasks = {
+  const startStateTask: TasksDataType = {
     [todoListId1]: [
-      { id: '1', title: 'HTML & CSS', isDone: true },
-      { id: '2', title: 'JS/TS', isDone: true },
-      { id: '3', title: 'ReactJS', isDone: false },
+      {
+        id: '1',
+        title: 'HTML & CSS',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: '2',
+        title: 'JS/TS',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: '3',
+        title: 'ReactJS',
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
     ],
     [todoListId2]: [
-      { id: '1', title: 'book', isDone: true },
-      { id: '2', title: 'Milk', isDone: false },
+      {
+        id: '1',
+        title: 'book',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId2,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: '2',
+        title: 'Milk',
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId2,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
     ],
   }
-
   const taskId = '1'
   const newTitle = 'water'
   const action = createActionChangeTaskTitle(todoListId2, taskId, newTitle)
@@ -122,15 +342,70 @@ test('new property should be added in task array', () => {
   const todoListId1 = 'todoListId1'
   const todoListId2 = 'todoListId2'
 
-  const startStateTask: TDataTasks = {
+  const startStateTask: TasksDataType = {
     [todoListId1]: [
-      { id: '1', title: 'HTML & CSS', isDone: true },
-      { id: '2', title: 'JS/TS', isDone: true },
-      { id: '3', title: 'ReactJS', isDone: false },
+      {
+        id: crypto.randomUUID(),
+        title: 'HTML & CSS',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'JS/TS',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'ReactJS',
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
     ],
     [todoListId2]: [
-      { id: '1', title: 'book', isDone: true },
-      { id: '2', title: 'Milk', isDone: false },
+      {
+        id: crypto.randomUUID(),
+        title: 'book',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId2,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'Milk',
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId2,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
     ],
   }
 
@@ -153,15 +428,70 @@ test('task array should be deleted', () => {
   const todoListId1 = 'todoListId1'
   const todoListId2 = 'todoListId2'
 
-  const startStateTask: TDataTasks = {
+  const startStateTask: TasksDataType = {
     [todoListId1]: [
-      { id: '1', title: 'HTML & CSS', isDone: true },
-      { id: '2', title: 'JS/TS', isDone: true },
-      { id: '3', title: 'ReactJS', isDone: false },
+      {
+        id: crypto.randomUUID(),
+        title: 'HTML & CSS',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'JS/TS',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'ReactJS',
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId1,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
     ],
     [todoListId2]: [
-      { id: '1', title: 'book', isDone: true },
-      { id: '2', title: 'Milk', isDone: false },
+      {
+        id: crypto.randomUUID(),
+        title: 'book',
+        status: TaskStatus.Completed,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId2,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'Milk',
+        status: TaskStatus.New,
+        priority: TaskPriority.Low,
+        order: 0,
+        todoListId: todoListId2,
+        addedDate: '',
+        deadline: '',
+        description: '',
+        startDate: '',
+      },
     ],
   }
 
