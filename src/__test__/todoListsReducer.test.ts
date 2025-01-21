@@ -8,11 +8,15 @@ import {
 import { todoListsReducer } from '../redux/reducer/todoListsReducer'
 
 // --------------------------------------------------------
-test('new todo list should be created', () => {
-  const todoListId1 = crypto.randomUUID()
-  const todoListId2 = crypto.randomUUID()
+let todoListId1: string
+let todoListId2: string
+let startStateTodoLists: TodoListBusinessType[] = []
 
-  const startStateTodoLists: TodoListBusinessType[] = [
+beforeEach(() => {
+  todoListId1 = crypto.randomUUID()
+  todoListId2 = crypto.randomUUID()
+
+  startStateTodoLists = [
     {
       id: todoListId1,
       title: 'What to learn',
@@ -28,7 +32,10 @@ test('new todo list should be created', () => {
       order: 0,
     },
   ]
+})
 
+// --------------------------------------------------------
+test('new todo list should be created', () => {
   const newTitleTodoList = 'hello Jest'
   const action = createActionCreateTodoList(newTitleTodoList)
 
@@ -41,26 +48,6 @@ test('new todo list should be created', () => {
 
 // --------------------------------------------------------
 test('todo list should be deleted', () => {
-  const todoListId1 = crypto.randomUUID()
-  const todoListId2 = crypto.randomUUID()
-
-  const startStateTodoLists: TodoListBusinessType[] = [
-    {
-      id: todoListId1,
-      title: 'What to learn',
-      filter: FilteredValues.all,
-      addedDate: '',
-      order: 0,
-    },
-    {
-      id: todoListId2,
-      title: 'What to buy',
-      filter: FilteredValues.active,
-      addedDate: '',
-      order: 0,
-    },
-  ]
-
   const action = createActionDeleteTodoList(todoListId1)
 
   const endStateTodoList = todoListsReducer(startStateTodoLists, action)
@@ -69,27 +56,8 @@ test('todo list should be deleted', () => {
   expect(endStateTodoList[0].title).toBe('What to buy')
 })
 
+// --------------------------------------------------------
 test('todo list filter should be changed', () => {
-  const todoListId1 = crypto.randomUUID()
-  const todoListId2 = crypto.randomUUID()
-
-  const startStateTodoLists: TodoListBusinessType[] = [
-    {
-      id: todoListId1,
-      title: 'What to learn',
-      filter: FilteredValues.all,
-      addedDate: '',
-      order: 0,
-    },
-    {
-      id: todoListId2,
-      title: 'What to buy',
-      filter: FilteredValues.active,
-      addedDate: '',
-      order: 0,
-    },
-  ]
-
   const newFilter: FilteredValues = FilteredValues.completed
   const action = createActionChangeFilterTodoList(todoListId2, newFilter)
 
@@ -99,27 +67,8 @@ test('todo list filter should be changed', () => {
   expect(endStateTodoList[0].filter).toBe(FilteredValues.all)
 })
 
+// --------------------------------------------------------
 test('todo list title should be changed', () => {
-  const todoListId1 = crypto.randomUUID()
-  const todoListId2 = crypto.randomUUID()
-
-  const startStateTodoLists: TodoListBusinessType[] = [
-    {
-      id: todoListId1,
-      title: 'What to learn',
-      filter: FilteredValues.all,
-      addedDate: '',
-      order: 0,
-    },
-    {
-      id: todoListId2,
-      title: 'What to buy',
-      filter: FilteredValues.active,
-      addedDate: '',
-      order: 0,
-    },
-  ]
-
   const newTitle: string = 'New Title Todo List'
   const action = createActionChangeTitleTodoList(todoListId2, newTitle)
 

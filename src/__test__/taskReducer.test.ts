@@ -13,14 +13,18 @@ import {
 import { tasksReducer } from '../redux/reducer/tasksReducer'
 
 // --------------------------------------------------------------
-test('new todo list task should be created', () => {
-  const todoListId1 = 'todoListId1'
-  const todoListId2 = 'todoListId2'
+let todoListId1: string
+let todoListId2: string
+let startStateTask: TasksDataType = {}
 
-  const startStateTask: TasksDataType = {
+beforeEach(() => {
+  todoListId1 = 'todoListId1'
+  todoListId2 = 'todoListId2'
+
+  startStateTask = {
     [todoListId1]: [
       {
-        id: crypto.randomUUID(),
+        id: '1',
         title: 'HTML & CSS',
         status: TaskStatus.Completed,
         priority: TaskPriority.Low,
@@ -32,7 +36,7 @@ test('new todo list task should be created', () => {
         startDate: '',
       },
       {
-        id: crypto.randomUUID(),
+        id: '2',
         title: 'JS/TS',
         status: TaskStatus.Completed,
         priority: TaskPriority.Low,
@@ -44,7 +48,7 @@ test('new todo list task should be created', () => {
         startDate: '',
       },
       {
-        id: crypto.randomUUID(),
+        id: '3',
         title: 'ReactJS',
         status: TaskStatus.New,
         priority: TaskPriority.Low,
@@ -58,7 +62,7 @@ test('new todo list task should be created', () => {
     ],
     [todoListId2]: [
       {
-        id: crypto.randomUUID(),
+        id: '1',
         title: 'book',
         status: TaskStatus.Completed,
         priority: TaskPriority.Low,
@@ -70,7 +74,7 @@ test('new todo list task should be created', () => {
         startDate: '',
       },
       {
-        id: crypto.randomUUID(),
+        id: '2',
         title: 'Milk',
         status: TaskStatus.New,
         priority: TaskPriority.Low,
@@ -83,7 +87,10 @@ test('new todo list task should be created', () => {
       },
     ],
   }
+})
 
+// --------------------------------------------------------------
+test('new todo list task should be created', () => {
   const newTitle = 'apple'
   const action = createActionCreateTask(todoListId2, newTitle)
   const endStateTask = tasksReducer(startStateTask, action)
@@ -97,76 +104,6 @@ test('new todo list task should be created', () => {
 
 // --------------------------------------------------------------
 test('todo list task should be deleted', () => {
-  const todoListId1 = 'todoListId1'
-  const todoListId2 = 'todoListId2'
-
-  const startStateTask: TasksDataType = {
-    [todoListId1]: [
-      {
-        id: '1',
-        title: 'HTML & CSS',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: '2',
-        title: 'JS/TS',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: '3',
-        title: 'ReactJS',
-        status: TaskStatus.New,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-    ],
-    [todoListId2]: [
-      {
-        id: '1',
-        title: 'book',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId2,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: '2',
-        title: 'Milk',
-        status: TaskStatus.New,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId2,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-    ],
-  }
-
   const taskId = '1'
   const action = createActionDeleteTask(todoListId1, taskId)
   const endStateTask = tasksReducer(startStateTask, action)
@@ -178,76 +115,6 @@ test('todo list task should be deleted', () => {
 
 // --------------------------------------------------------------
 test('status todo list task should be changed', () => {
-  const todoListId1 = 'todoListId1'
-  const todoListId2 = 'todoListId2'
-
-  const startStateTask: TasksDataType = {
-    [todoListId1]: [
-      {
-        id: '1',
-        title: 'HTML & CSS',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: '2',
-        title: 'JS/TS',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: '3',
-        title: 'ReactJS',
-        status: TaskStatus.New,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-    ],
-    [todoListId2]: [
-      {
-        id: '1',
-        title: 'book',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId2,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: '2',
-        title: 'Milk',
-        status: TaskStatus.New,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId2,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-    ],
-  }
-
   const taskId = '1'
   const isDone = TaskStatus.New
   const action = createActionChangeStatusTask(todoListId1, taskId, isDone)
@@ -259,76 +126,8 @@ test('status todo list task should be changed', () => {
   expect(endStateTask[todoListId2][0].status).toBe(TaskStatus.Completed)
 })
 
+// --------------------------------------------------------------
 test('title todo list task should be changed', () => {
-  const todoListId1 = 'todoListId1'
-  const todoListId2 = 'todoListId2'
-
-  const startStateTask: TasksDataType = {
-    [todoListId1]: [
-      {
-        id: '1',
-        title: 'HTML & CSS',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: '2',
-        title: 'JS/TS',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: '3',
-        title: 'ReactJS',
-        status: TaskStatus.New,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-    ],
-    [todoListId2]: [
-      {
-        id: '1',
-        title: 'book',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId2,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: '2',
-        title: 'Milk',
-        status: TaskStatus.New,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId2,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-    ],
-  }
   const taskId = '1'
   const newTitle = 'water'
   const action = createActionChangeTaskTitle(todoListId2, taskId, newTitle)
@@ -338,77 +137,8 @@ test('title todo list task should be changed', () => {
   expect(endStateTask[todoListId1][0].title).toBe('HTML & CSS')
 })
 
+// --------------------------------------------------------------
 test('new property should be added in task array', () => {
-  const todoListId1 = 'todoListId1'
-  const todoListId2 = 'todoListId2'
-
-  const startStateTask: TasksDataType = {
-    [todoListId1]: [
-      {
-        id: crypto.randomUUID(),
-        title: 'HTML & CSS',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: crypto.randomUUID(),
-        title: 'JS/TS',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: crypto.randomUUID(),
-        title: 'ReactJS',
-        status: TaskStatus.New,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-    ],
-    [todoListId2]: [
-      {
-        id: crypto.randomUUID(),
-        title: 'book',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId2,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: crypto.randomUUID(),
-        title: 'Milk',
-        status: TaskStatus.New,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId2,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-    ],
-  }
-
   const newTitle = 'new Todo List'
   const action = createActionCreateTodoList(newTitle)
   const endStateTask = tasksReducer(startStateTask, action)
@@ -424,77 +154,8 @@ test('new property should be added in task array', () => {
   expect(endStateTask[newKey]).toStrictEqual([])
 })
 
+// --------------------------------------------------------------
 test('task array should be deleted', () => {
-  const todoListId1 = 'todoListId1'
-  const todoListId2 = 'todoListId2'
-
-  const startStateTask: TasksDataType = {
-    [todoListId1]: [
-      {
-        id: crypto.randomUUID(),
-        title: 'HTML & CSS',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: crypto.randomUUID(),
-        title: 'JS/TS',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: crypto.randomUUID(),
-        title: 'ReactJS',
-        status: TaskStatus.New,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId1,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-    ],
-    [todoListId2]: [
-      {
-        id: crypto.randomUUID(),
-        title: 'book',
-        status: TaskStatus.Completed,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId2,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-      {
-        id: crypto.randomUUID(),
-        title: 'Milk',
-        status: TaskStatus.New,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: todoListId2,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      },
-    ],
-  }
-
   const action = createActionDeleteTodoList(todoListId2)
   const endStateTask = tasksReducer(startStateTask, action)
 
