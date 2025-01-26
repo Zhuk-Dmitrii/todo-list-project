@@ -1,5 +1,7 @@
-import { ActionTypeTodoList, TAction } from '../action/todoListsAction'
+import { todoListsAPI } from '../../api/todoList-api'
+import { ActionTypeTodoList, createActionSetTodoLists, TAction } from '../action/todoListsAction'
 import { FilteredValues, TodoListBusinessType } from '../types/business'
+import { AppDispatch } from '../types/store'
 
 const initialState: TodoListBusinessType[] = []
 
@@ -52,7 +54,27 @@ export function todoListsReducer(
       return stateCopy
     }
 
+    case ActionTypeTodoList.SET_TODO_LISTS: {
+      const todoLists = action.todoLists.map(tl => {
+        return {
+          ...tl,
+          filter: FilteredValues.all,
+        }
+      })
+
+      return todoLists
+    }
+
     default:
       return state
+  }
+}
+
+export const fetchTodoListThunkCreator = () => {
+  return (dispatch: AppDispatch) => {
+    todoListsAPI.getTodoLists().then(res => {
+      const action = createActionSetTodoLists(res.data)
+      dispatch(action)
+    })
   }
 }

@@ -1,7 +1,9 @@
-import { TAction, ActionTypeTask } from '../action/taskAction'
+import { TAction, ActionTypeTask, createActionSetTasks } from '../action/taskAction'
 import { ActionTypeTodoList } from '../action/todoListsAction'
+import { todoListsAPI } from '../../api/todoList-api'
 import { TaskPriority, TaskStatus, TaskType } from '../../api/typesAPI/todoListTypes'
 import { TasksDataType } from '../types/business'
+import { AppDispatch } from '../types/store'
 
 const initialState: TasksDataType = {}
 
@@ -27,6 +29,7 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
 
       return { ...state }
     }
+
     case ActionTypeTask.DELETE_TASK: {
       const tasks = state[action.todoListId]
       const filteredTasks = tasks.filter(task => task.id !== action.taskId)
@@ -35,6 +38,7 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
 
       return { ...state }
     }
+
     case ActionTypeTask.CHANGE_STATUS_TASK: {
       const tasks = state[action.todoListId]
 
@@ -48,6 +52,7 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
 
       return { ...state }
     }
+
     case ActionTypeTask.CHANGE_TASK_TITLE: {
       const tasks = state[action.todoListId]
 
@@ -61,12 +66,14 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
 
       return { ...state }
     }
+
     case ActionTypeTodoList.CREATE_TODO_LIST: {
       return {
         ...state,
         [action.todoListId]: [],
       }
     }
+
     case ActionTypeTodoList.DELETE_TODO_LIST: {
       const stateCopy = { ...state }
 
@@ -74,7 +81,35 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
 
       return stateCopy
     }
+
+    case ActionTypeTodoList.SET_TODO_LISTS: {
+      const stateCopy = { ...state }
+
+      action.todoLists.forEach(tl => {
+        stateCopy[tl.id] = []
+      })
+
+      return stateCopy
+    }
+
+    case ActionTypeTask.SET_TASKS: {
+      const stateCopy = { ...state }
+
+      stateCopy[action.todoListId] = action.tasks
+
+      return stateCopy
+    }
+
     default:
       return state
+  }
+}
+
+export const fetchTasksThunkCreator = (todoListId: string) => {
+  return (dispatch: AppDispatch) => {
+    todoListsAPI.getTodoListTasks(todoListId).then(res => {
+      const action = createActionSetTasks(todoListId, res.data.items)
+      dispatch(action)
+    })
   }
 }

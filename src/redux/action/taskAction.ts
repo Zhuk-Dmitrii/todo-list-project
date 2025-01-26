@@ -1,5 +1,9 @@
-import { TaskStatus } from '../../api/typesAPI/todoListTypes'
-import { TCreateActionCreateTodoList, TCreateActionDeleteTodoList } from './todoListsAction'
+import { TaskStatus, TaskType } from '../../api/typesAPI/todoListTypes'
+import {
+  TCreateActionCreateTodoList,
+  TCreateActionDeleteTodoList,
+  TCreateActionSetTodoLists,
+} from './todoListsAction'
 
 export type TAction =
   | TCreateActionCreateTask
@@ -8,12 +12,15 @@ export type TAction =
   | TCreateActionChangeTaskTitle
   | TCreateActionCreateTodoList
   | TCreateActionDeleteTodoList
+  | TCreateActionSetTodoLists
+  | TCreateActionSetTasks
 
 export enum ActionTypeTask {
   CREATE_TASK = 'CREATE_TASK',
   DELETE_TASK = 'DELETE_TASK',
   CHANGE_STATUS_TASK = 'CHANGE_STATUS_TASK',
   CHANGE_TASK_TITLE = 'CHANGE_TASK_TITLE',
+  SET_TASKS = 'SET_TASKS',
 }
 
 type TCreateActionCreateTask = {
@@ -40,6 +47,12 @@ type TCreateActionChangeTaskTitle = {
   todoListId: string
   taskId: string
   title: string
+}
+
+type TCreateActionSetTasks = {
+  type: ActionTypeTask.SET_TASKS
+  todoListId: string
+  tasks: TaskType[]
 }
 
 export function createActionCreateTask(todoListId: string, title: string): TCreateActionCreateTask {
@@ -84,5 +97,13 @@ export function createActionChangeTaskTitle(
     todoListId,
     taskId,
     title,
+  }
+}
+
+export function createActionSetTasks(todoListId: string, tasks: TaskType[]): TCreateActionSetTasks {
+  return {
+    type: ActionTypeTask.SET_TASKS,
+    todoListId,
+    tasks,
   }
 }

@@ -1,8 +1,9 @@
-import React, { MouseEvent, useMemo, useCallback } from 'react'
+import React, { MouseEvent, useMemo, useCallback, useEffect } from 'react'
 import { Box, IconButton, List, Button } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import { fetchTasksThunkCreator } from '../../redux/reducer/tasksReducer'
 import {
   createActionChangeFilterTodoList,
   createActionChangeTitleTodoList,
@@ -25,6 +26,10 @@ type TProps = {
 export const TodoList = React.memo((props: TProps) => {
   const tasks = useAppSelector(state => state.tasks[props.todoListId])
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(fetchTasksThunkCreator(props.todoListId))
+  }, [dispatch, props.todoListId])
 
   // -------------------------------- Todo Lists -------------------------------
   const handleFilterBtnClick = useCallback(

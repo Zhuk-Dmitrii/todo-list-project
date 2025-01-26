@@ -1,3 +1,4 @@
+import { TodoListType } from '../../api/typesAPI/todoListTypes'
 import { FilteredValues } from '../types/business'
 
 export enum ActionTypeTodoList {
@@ -5,6 +6,7 @@ export enum ActionTypeTodoList {
   DELETE_TODO_LIST = 'DELETE_TODO_LIST',
   CHANGE_FILTER_TODO_LIST = 'CHANGE_FILTER_TODO_LIST',
   CHANGE_TITLE_TODO_LIST = 'CHANGE_TITLE_TODO_LIST',
+  SET_TODO_LISTS = 'SET_TODO_LISTS',
 }
 
 export type TCreateActionCreateTodoList = {
@@ -30,11 +32,17 @@ export type TCreateActionChangeTitleTodoList = {
   newTitle: string
 }
 
+export type TCreateActionSetTodoLists = {
+  type: ActionTypeTodoList.SET_TODO_LISTS
+  todoLists: TodoListType[]
+}
+
 export type TAction =
   | TCreateActionCreateTodoList
   | TCreateActionDeleteTodoList
   | TCrateActionChangeFilterTodoList
   | TCreateActionChangeTitleTodoList
+  | TCreateActionSetTodoLists
 
 export function createActionCreateTodoList(title: string): TCreateActionCreateTodoList {
   return {
@@ -70,5 +78,12 @@ export function createActionChangeTitleTodoList(
     type: ActionTypeTodoList.CHANGE_TITLE_TODO_LIST,
     id,
     newTitle,
+  }
+}
+
+export function createActionSetTodoLists(todoLists: TodoListType[]): TCreateActionSetTodoLists {
+  return {
+    type: ActionTypeTodoList.SET_TODO_LISTS,
+    todoLists,
   }
 }
