@@ -5,10 +5,12 @@ import {
   createActionChangeTaskTitle,
   createActionCreateTask,
   createActionDeleteTask,
+  createActionSetTasks,
 } from '../redux/action/taskAction'
 import {
   createActionCreateTodoList,
   createActionDeleteTodoList,
+  createActionSetTodoLists,
 } from '../redux/action/todoListsAction'
 import { tasksReducer } from '../redux/reducer/tasksReducer'
 
@@ -163,4 +165,44 @@ test('task array should be deleted', () => {
 
   expect(keys.length).toBe(1)
   expect(endStateTask[todoListId2]).toBeUndefined()
+})
+
+// --------------------------------------------------------------
+test('empty arrays should be added when we set todo lists', () => {
+  const startState = [
+    {
+      id: todoListId1,
+      title: 'What to learn',
+      filter: 'all',
+      addedDate: '',
+      order: 0,
+    },
+    {
+      id: todoListId2,
+      title: 'What to buy',
+      filter: 'active',
+      addedDate: '',
+      order: 0,
+    },
+  ]
+
+  const action = createActionSetTodoLists(startState)
+  const endState = tasksReducer({}, action)
+
+  expect(endState[todoListId1]).toStrictEqual([])
+  expect(endState[todoListId2]).toStrictEqual([])
+})
+
+// --------------------------------------------------------------
+test('tasks should be set for todo list', () => {
+  const startState = {
+    todoListId1: [],
+    todoListId2: [],
+  }
+  const action = createActionSetTasks(todoListId1, startStateTask[todoListId1])
+
+  const endState = tasksReducer(startState, action)
+
+  expect(endState[todoListId1].length).toBe(3)
+  expect(endState[todoListId2].length).toBe(0)
 })

@@ -4,6 +4,7 @@ import {
   createActionDeleteTodoList,
   createActionChangeFilterTodoList,
   createActionChangeTitleTodoList,
+  createActionSetTodoLists,
 } from '../redux/action/todoListsAction'
 import { todoListsReducer } from '../redux/reducer/todoListsReducer'
 
@@ -76,4 +77,14 @@ test('todo list title should be changed', () => {
 
   expect(endStateTodoList[1].title).toBe(newTitle)
   expect(endStateTodoList[0].title).toBe('What to learn')
+})
+
+// --------------------------------------------------------
+test('todo list should be set', () => {
+  const action = createActionSetTodoLists(startStateTodoLists)
+
+  const endStateTodoList: TodoListBusinessType[] = todoListsReducer([], action)
+
+  expect(endStateTodoList.length).toBe(2)
+  expect(endStateTodoList[0].filter).toBeDefined()
 })
