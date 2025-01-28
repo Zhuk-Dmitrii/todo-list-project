@@ -1,17 +1,13 @@
 import { TasksDataType } from '../redux/types/business'
 import { TaskPriority, TaskStatus } from '../api/typesAPI/todoListTypes'
 import {
-  createActionChangeStatusTask,
-  createActionChangeTaskTitle,
-  createActionCreateTask,
-  createActionDeleteTask,
-  createActionSetTasks,
+  changeTaskStatusAC,
+  changeTaskTitleAC,
+  createTaskAC,
+  deleteTaskAC,
+  setTasksAC,
 } from '../redux/action/taskAction'
-import {
-  createActionCreateTodoList,
-  createActionDeleteTodoList,
-  createActionSetTodoLists,
-} from '../redux/action/todoListsAction'
+import { createTodoListAC, deleteTodoListAC, setTodoListsAC } from '../redux/action/todoListsAction'
 import { tasksReducer } from '../redux/reducer/tasksReducer'
 
 // --------------------------------------------------------------
@@ -94,7 +90,7 @@ beforeEach(() => {
 // --------------------------------------------------------------
 test('new todo list task should be created', () => {
   const newTitle = 'apple'
-  const action = createActionCreateTask(todoListId2, newTitle)
+  const action = createTaskAC(todoListId2, newTitle)
   const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask['todoListId2'].length).toBe(3)
@@ -107,7 +103,7 @@ test('new todo list task should be created', () => {
 // --------------------------------------------------------------
 test('todo list task should be deleted', () => {
   const taskId = '1'
-  const action = createActionDeleteTask(todoListId1, taskId)
+  const action = deleteTaskAC(todoListId1, taskId)
   const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask[todoListId1].length).toBe(2)
@@ -119,7 +115,7 @@ test('todo list task should be deleted', () => {
 test('status todo list task should be changed', () => {
   const taskId = '1'
   const isDone = TaskStatus.New
-  const action = createActionChangeStatusTask(todoListId1, taskId, isDone)
+  const action = changeTaskStatusAC(todoListId1, taskId, isDone)
   const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask[todoListId1][0].status).toBe(TaskStatus.New)
@@ -132,7 +128,7 @@ test('status todo list task should be changed', () => {
 test('title todo list task should be changed', () => {
   const taskId = '1'
   const newTitle = 'water'
-  const action = createActionChangeTaskTitle(todoListId2, taskId, newTitle)
+  const action = changeTaskTitleAC(todoListId2, taskId, newTitle)
   const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask[todoListId2][0].title).toBe(newTitle)
@@ -142,7 +138,7 @@ test('title todo list task should be changed', () => {
 // --------------------------------------------------------------
 test('new property should be added in task array', () => {
   const newTitle = 'new Todo List'
-  const action = createActionCreateTodoList(newTitle)
+  const action = createTodoListAC(newTitle)
   const endStateTask = tasksReducer(startStateTask, action)
 
   const keys = Object.keys(endStateTask)
@@ -158,7 +154,7 @@ test('new property should be added in task array', () => {
 
 // --------------------------------------------------------------
 test('task array should be deleted', () => {
-  const action = createActionDeleteTodoList(todoListId2)
+  const action = deleteTodoListAC(todoListId2)
   const endStateTask = tasksReducer(startStateTask, action)
 
   const keys = Object.keys(endStateTask)
@@ -186,7 +182,7 @@ test('empty arrays should be added when we set todo lists', () => {
     },
   ]
 
-  const action = createActionSetTodoLists(startState)
+  const action = setTodoListsAC(startState)
   const endState = tasksReducer({}, action)
 
   expect(endState[todoListId1]).toStrictEqual([])
@@ -199,7 +195,7 @@ test('tasks should be set for todo list', () => {
     todoListId1: [],
     todoListId2: [],
   }
-  const action = createActionSetTasks(todoListId1, startStateTask[todoListId1])
+  const action = setTasksAC(todoListId1, startStateTask[todoListId1])
 
   const endState = tasksReducer(startState, action)
 

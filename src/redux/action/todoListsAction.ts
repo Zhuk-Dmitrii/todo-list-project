@@ -9,42 +9,42 @@ export enum ActionTypeTodoList {
   SET_TODO_LISTS = 'SET_TODO_LISTS',
 }
 
-export type TCreateActionCreateTodoList = {
+export type createTodoListACtionType = {
   type: ActionTypeTodoList.CREATE_TODO_LIST
   todoListId: string
   title: string
 }
 
-export type TCreateActionDeleteTodoList = {
+export type DeleteTodoListActionType = {
   type: ActionTypeTodoList.DELETE_TODO_LIST
   id: string
 }
 
-export type TCrateActionChangeFilterTodoList = {
+export type ChangeTodoListFilterActionType = {
   type: ActionTypeTodoList.CHANGE_FILTER_TODO_LIST
   id: string
   value: FilteredValues
 }
 
-export type TCreateActionChangeTitleTodoList = {
+export type ChangeTodoListTitleActionType = {
   type: ActionTypeTodoList.CHANGE_TITLE_TODO_LIST
   id: string
   newTitle: string
 }
 
-export type TCreateActionSetTodoLists = {
+export type SetTodoListsActionType = {
   type: ActionTypeTodoList.SET_TODO_LISTS
   todoLists: TodoListType[]
 }
 
 export type TAction =
-  | TCreateActionCreateTodoList
-  | TCreateActionDeleteTodoList
-  | TCrateActionChangeFilterTodoList
-  | TCreateActionChangeTitleTodoList
-  | TCreateActionSetTodoLists
+  | createTodoListACtionType
+  | DeleteTodoListActionType
+  | ChangeTodoListFilterActionType
+  | ChangeTodoListTitleActionType
+  | SetTodoListsActionType
 
-export function createActionCreateTodoList(title: string): TCreateActionCreateTodoList {
+export function createTodoListAC(title: string): createTodoListACtionType {
   return {
     type: ActionTypeTodoList.CREATE_TODO_LIST,
     todoListId: crypto.randomUUID(),
@@ -52,17 +52,17 @@ export function createActionCreateTodoList(title: string): TCreateActionCreateTo
   }
 }
 
-export function createActionDeleteTodoList(id: string): TCreateActionDeleteTodoList {
+export function deleteTodoListAC(id: string): DeleteTodoListActionType {
   return {
     type: ActionTypeTodoList.DELETE_TODO_LIST,
     id,
   }
 }
 
-export function createActionChangeFilterTodoList(
+export function changeTodoListFilterAC(
   id: string,
   value: FilteredValues,
-): TCrateActionChangeFilterTodoList {
+): ChangeTodoListFilterActionType {
   return {
     type: ActionTypeTodoList.CHANGE_FILTER_TODO_LIST,
     id,
@@ -70,10 +70,7 @@ export function createActionChangeFilterTodoList(
   }
 }
 
-export function createActionChangeTitleTodoList(
-  id: string,
-  newTitle: string,
-): TCreateActionChangeTitleTodoList {
+export function changeTodoListTitleAC(id: string, newTitle: string): ChangeTodoListTitleActionType {
   return {
     type: ActionTypeTodoList.CHANGE_TITLE_TODO_LIST,
     id,
@@ -81,7 +78,7 @@ export function createActionChangeTitleTodoList(
   }
 }
 
-export function createActionSetTodoLists(todoLists: TodoListType[]): TCreateActionSetTodoLists {
+export function setTodoListsAC(todoLists: TodoListType[]): SetTodoListsActionType {
   return {
     type: ActionTypeTodoList.SET_TODO_LISTS,
     todoLists,

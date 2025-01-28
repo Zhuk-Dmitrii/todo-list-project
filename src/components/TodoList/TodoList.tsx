@@ -5,11 +5,11 @@ import { Clear } from '@mui/icons-material'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { fetchTasksThunkCreator } from '../../redux/reducer/tasksReducer'
 import {
-  createActionChangeFilterTodoList,
-  createActionChangeTitleTodoList,
-  createActionDeleteTodoList,
+  changeTodoListFilterAC,
+  changeTodoListTitleAC,
+  deleteTodoListAC,
 } from '../../redux/action/todoListsAction'
-import { createActionCreateTask } from '../../redux/action/taskAction'
+import { createTaskAC } from '../../redux/action/taskAction'
 import { Todo } from '../Todo/Todo'
 import { FilteredValues } from '../../redux/types/business'
 import { InputForm } from '../InputForm/InputForm'
@@ -32,22 +32,22 @@ export const TodoList = React.memo((props: TProps) => {
   }, [dispatch, props.todoListId])
 
   // -------------------------------- Todo Lists -------------------------------
-  const handleFilterBtnClick = useCallback(
+  const handleClickBtnFilter = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
       const targetValue = event.currentTarget.value
 
       if (targetValue === FilteredValues.all) {
-        const action = createActionChangeFilterTodoList(props.todoListId, FilteredValues.all)
+        const action = changeTodoListFilterAC(props.todoListId, FilteredValues.all)
         dispatch(action)
       }
 
       if (targetValue === FilteredValues.active) {
-        const action = createActionChangeFilterTodoList(props.todoListId, FilteredValues.active)
+        const action = changeTodoListFilterAC(props.todoListId, FilteredValues.active)
         dispatch(action)
       }
 
       if (targetValue === FilteredValues.completed) {
-        const action = createActionChangeFilterTodoList(props.todoListId, FilteredValues.completed)
+        const action = changeTodoListFilterAC(props.todoListId, FilteredValues.completed)
         dispatch(action)
       }
     },
@@ -55,13 +55,13 @@ export const TodoList = React.memo((props: TProps) => {
   )
 
   const handleClickDeleteTodoList = useCallback(() => {
-    const action = createActionDeleteTodoList(props.todoListId)
+    const action = deleteTodoListAC(props.todoListId)
     dispatch(action)
   }, [props.todoListId, dispatch])
 
   const handleChangeTodoListTitle = useCallback(
     (newTitle: string) => {
-      const action = createActionChangeTitleTodoList(props.todoListId, newTitle)
+      const action = changeTodoListTitleAC(props.todoListId, newTitle)
       dispatch(action)
     },
     [props.todoListId, dispatch],
@@ -84,7 +84,7 @@ export const TodoList = React.memo((props: TProps) => {
 
   const createTask = useCallback(
     (title: string) => {
-      const action = createActionCreateTask(props.todoListId, title)
+      const action = createTaskAC(props.todoListId, title)
 
       dispatch(action)
     },
@@ -132,7 +132,7 @@ export const TodoList = React.memo((props: TProps) => {
       </List>
       <Box sx={{ height: '30px', display: 'flex', gap: 1, mt: 'auto' }}>
         <Button
-          onClick={handleFilterBtnClick}
+          onClick={handleClickBtnFilter}
           value={FilteredValues.all}
           variant={props.filterValue == FilteredValues.all ? 'contained' : 'outlined'}
           color="primary"
@@ -140,7 +140,7 @@ export const TodoList = React.memo((props: TProps) => {
           sx={{ height: '100%' }}
         />
         <Button
-          onClick={handleFilterBtnClick}
+          onClick={handleClickBtnFilter}
           value={FilteredValues.active}
           variant={props.filterValue == FilteredValues.active ? 'contained' : 'outlined'}
           color="secondary"
@@ -148,7 +148,7 @@ export const TodoList = React.memo((props: TProps) => {
           sx={{ height: '100%' }}
         />
         <Button
-          onClick={handleFilterBtnClick}
+          onClick={handleClickBtnFilter}
           value={FilteredValues.completed}
           variant={props.filterValue == FilteredValues.completed ? 'contained' : 'outlined'}
           color="success"

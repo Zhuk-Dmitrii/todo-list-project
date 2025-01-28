@@ -1,4 +1,4 @@
-import { TAction, ActionTypeTask, createActionSetTasks } from '../action/taskAction'
+import { TAction, ActionTypeTask, setTasksAC } from '../action/taskAction'
 import { ActionTypeTodoList } from '../action/todoListsAction'
 import { todoListsAPI } from '../../api/todoList-api'
 import { TaskPriority, TaskStatus, TaskType } from '../../api/typesAPI/todoListTypes'
@@ -108,7 +108,7 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
 export const fetchTasksThunkCreator = (todoListId: string) => {
   return (dispatch: AppDispatch) => {
     todoListsAPI.getTodoListTasks(todoListId).then(res => {
-      const action = createActionSetTasks(todoListId, res.data.items)
+      const action = setTasksAC(todoListId, res.data.items)
       dispatch(action)
     })
   }

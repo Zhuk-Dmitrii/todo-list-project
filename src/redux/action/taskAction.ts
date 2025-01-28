@@ -1,19 +1,19 @@
 import { TaskStatus, TaskType } from '../../api/typesAPI/todoListTypes'
 import {
-  TCreateActionCreateTodoList,
-  TCreateActionDeleteTodoList,
-  TCreateActionSetTodoLists,
+  createTodoListACtionType,
+  DeleteTodoListActionType,
+  SetTodoListsActionType,
 } from './todoListsAction'
 
 export type TAction =
-  | TCreateActionCreateTask
-  | TCreateActionDeleteTask
-  | TCreateActionChangeStatusTask
-  | TCreateActionChangeTaskTitle
-  | TCreateActionCreateTodoList
-  | TCreateActionDeleteTodoList
-  | TCreateActionSetTodoLists
-  | TCreateActionSetTasks
+  | CreateTaskActionType
+  | DeleteTaskActionType
+  | ChangeTaskStatusActionType
+  | ChangeTaskTitleActionType
+  | createTodoListACtionType
+  | DeleteTodoListActionType
+  | SetTodoListsActionType
+  | SetTasksActionType
 
 export enum ActionTypeTask {
   CREATE_TASK = 'CREATE_TASK',
@@ -23,39 +23,39 @@ export enum ActionTypeTask {
   SET_TASKS = 'SET_TASKS',
 }
 
-type TCreateActionCreateTask = {
+type CreateTaskActionType = {
   type: ActionTypeTask.CREATE_TASK
   todoListId: string
   title: string
 }
 
-type TCreateActionDeleteTask = {
+type DeleteTaskActionType = {
   type: ActionTypeTask.DELETE_TASK
   todoListId: string
   taskId: string
 }
 
-type TCreateActionChangeStatusTask = {
+type ChangeTaskStatusActionType = {
   type: ActionTypeTask.CHANGE_STATUS_TASK
   todoListId: string
   taskId: string
   status: TaskStatus
 }
 
-type TCreateActionChangeTaskTitle = {
+type ChangeTaskTitleActionType = {
   type: ActionTypeTask.CHANGE_TASK_TITLE
   todoListId: string
   taskId: string
   title: string
 }
 
-type TCreateActionSetTasks = {
+type SetTasksActionType = {
   type: ActionTypeTask.SET_TASKS
   todoListId: string
   tasks: TaskType[]
 }
 
-export function createActionCreateTask(todoListId: string, title: string): TCreateActionCreateTask {
+export function createTaskAC(todoListId: string, title: string): CreateTaskActionType {
   return {
     type: ActionTypeTask.CREATE_TASK,
     todoListId,
@@ -63,10 +63,7 @@ export function createActionCreateTask(todoListId: string, title: string): TCrea
   }
 }
 
-export function createActionDeleteTask(
-  todoListId: string,
-  taskId: string,
-): TCreateActionDeleteTask {
+export function deleteTaskAC(todoListId: string, taskId: string): DeleteTaskActionType {
   return {
     type: ActionTypeTask.DELETE_TASK,
     todoListId,
@@ -74,11 +71,11 @@ export function createActionDeleteTask(
   }
 }
 
-export function createActionChangeStatusTask(
+export function changeTaskStatusAC(
   todoListId: string,
   taskId: string,
   status: TaskStatus,
-): TCreateActionChangeStatusTask {
+): ChangeTaskStatusActionType {
   return {
     type: ActionTypeTask.CHANGE_STATUS_TASK,
     todoListId,
@@ -87,11 +84,11 @@ export function createActionChangeStatusTask(
   }
 }
 
-export function createActionChangeTaskTitle(
+export function changeTaskTitleAC(
   todoListId: string,
   taskId: string,
   title: string,
-): TCreateActionChangeTaskTitle {
+): ChangeTaskTitleActionType {
   return {
     type: ActionTypeTask.CHANGE_TASK_TITLE,
     todoListId,
@@ -100,7 +97,7 @@ export function createActionChangeTaskTitle(
   }
 }
 
-export function createActionSetTasks(todoListId: string, tasks: TaskType[]): TCreateActionSetTasks {
+export function setTasksAC(todoListId: string, tasks: TaskType[]): SetTasksActionType {
   return {
     type: ActionTypeTask.SET_TASKS,
     todoListId,

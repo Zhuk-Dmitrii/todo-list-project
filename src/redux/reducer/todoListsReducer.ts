@@ -1,5 +1,5 @@
 import { todoListsAPI } from '../../api/todoList-api'
-import { ActionTypeTodoList, createActionSetTodoLists, TAction } from '../action/todoListsAction'
+import { ActionTypeTodoList, setTodoListsAC, TAction } from '../action/todoListsAction'
 import { FilteredValues, TodoListBusinessType } from '../types/business'
 import { AppDispatch } from '../types/store'
 
@@ -73,7 +73,7 @@ export function todoListsReducer(
 export const fetchTodoListThunkCreator = () => {
   return (dispatch: AppDispatch) => {
     todoListsAPI.getTodoLists().then(res => {
-      const action = createActionSetTodoLists(res.data)
+      const action = setTodoListsAC(res.data)
       dispatch(action)
     })
   }

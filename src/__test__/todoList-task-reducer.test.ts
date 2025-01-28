@@ -1,4 +1,4 @@
-import { createActionCreateTodoList } from '../redux/action/todoListsAction'
+import { createTodoListAC } from '../redux/action/todoListsAction'
 import { tasksReducer } from '../redux/reducer/tasksReducer'
 import { todoListsReducer } from '../redux/reducer/todoListsReducer'
 import { TodoListBusinessType, TasksDataType } from '../redux/types/business'
@@ -8,7 +8,7 @@ test('to-do list ID should be equal to the tasks list ID', () => {
   const stateTask: TasksDataType = {}
 
   const newTitle = 'new Todo List'
-  const action = createActionCreateTodoList(newTitle)
+  const action = createTodoListAC(newTitle)
   const endStateTodoList = todoListsReducer(stateTodoList, action)
   const endStateTask = tasksReducer(stateTask, action)
 

@@ -1,10 +1,10 @@
 import { TodoListBusinessType, FilteredValues } from '../redux/types/business'
 import {
-  createActionCreateTodoList,
-  createActionDeleteTodoList,
-  createActionChangeFilterTodoList,
-  createActionChangeTitleTodoList,
-  createActionSetTodoLists,
+  createTodoListAC,
+  deleteTodoListAC,
+  changeTodoListFilterAC,
+  changeTodoListTitleAC,
+  setTodoListsAC,
 } from '../redux/action/todoListsAction'
 import { todoListsReducer } from '../redux/reducer/todoListsReducer'
 
@@ -38,7 +38,7 @@ beforeEach(() => {
 // --------------------------------------------------------
 test('new todo list should be created', () => {
   const newTitleTodoList = 'hello Jest'
-  const action = createActionCreateTodoList(newTitleTodoList)
+  const action = createTodoListAC(newTitleTodoList)
 
   const endStateTodoLists = todoListsReducer(startStateTodoLists, action)
 
@@ -49,7 +49,7 @@ test('new todo list should be created', () => {
 
 // --------------------------------------------------------
 test('todo list should be deleted', () => {
-  const action = createActionDeleteTodoList(todoListId1)
+  const action = deleteTodoListAC(todoListId1)
 
   const endStateTodoList = todoListsReducer(startStateTodoLists, action)
 
@@ -60,7 +60,7 @@ test('todo list should be deleted', () => {
 // --------------------------------------------------------
 test('todo list filter should be changed', () => {
   const newFilter: FilteredValues = FilteredValues.completed
-  const action = createActionChangeFilterTodoList(todoListId2, newFilter)
+  const action = changeTodoListFilterAC(todoListId2, newFilter)
 
   const endStateTodoList: TodoListBusinessType[] = todoListsReducer(startStateTodoLists, action)
 
@@ -71,7 +71,7 @@ test('todo list filter should be changed', () => {
 // --------------------------------------------------------
 test('todo list title should be changed', () => {
   const newTitle: string = 'New Title Todo List'
-  const action = createActionChangeTitleTodoList(todoListId2, newTitle)
+  const action = changeTodoListTitleAC(todoListId2, newTitle)
 
   const endStateTodoList: TodoListBusinessType[] = todoListsReducer(startStateTodoLists, action)
 
@@ -81,7 +81,7 @@ test('todo list title should be changed', () => {
 
 // --------------------------------------------------------
 test('todo list should be set', () => {
-  const action = createActionSetTodoLists(startStateTodoLists)
+  const action = setTodoListsAC(startStateTodoLists)
 
   const endStateTodoList: TodoListBusinessType[] = todoListsReducer([], action)
 
