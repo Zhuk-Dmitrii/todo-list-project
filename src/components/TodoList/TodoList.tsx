@@ -3,16 +3,15 @@ import { Box, IconButton, List, Button } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { fetchTasksThunkCreator } from '../../redux/reducer/tasksReducer'
+import { createTaskTC, getTasksTC } from '../../redux/reducer/tasksReducer'
 import { changeTodoListFilterAC } from '../../redux/action/todoListsAction'
-import { createTaskAC } from '../../redux/action/taskAction'
-import { Todo } from '../Todo/Todo'
 import { FilteredValues } from '../../redux/types/business'
+import { changeTodoListTitleTC, deleteTodoListTC } from '../../redux/reducer/todoListsReducer'
+import { TaskStatus } from '../../api/typesAPI/todoListTypes'
+import { Todo } from '../Todo/Todo'
 import { InputForm } from '../InputForm/InputForm'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
 import { customCSS } from './TodoListCSS'
-import { TaskStatus } from '../../api/typesAPI/todoListTypes'
-import { changeTodoListTitleTC, deleteTodoListTC } from '../../redux/reducer/todoListsReducer'
 
 type TProps = {
   todoListId: string
@@ -25,7 +24,7 @@ export const TodoList = React.memo((props: TProps) => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchTasksThunkCreator(props.todoListId))
+    dispatch(getTasksTC(props.todoListId))
   }, [dispatch, props.todoListId])
 
   // -------------------------------- Todo Lists -------------------------------
@@ -81,9 +80,9 @@ export const TodoList = React.memo((props: TProps) => {
 
   const createTask = useCallback(
     (title: string) => {
-      const action = createTaskAC(props.todoListId, title)
+      const thunk = createTaskTC(props.todoListId, title)
 
-      dispatch(action)
+      dispatch(thunk)
     },
     [dispatch, props.todoListId],
   )

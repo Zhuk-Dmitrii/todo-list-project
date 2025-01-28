@@ -1,5 +1,5 @@
 import { TasksDataType } from '../redux/types/business'
-import { TaskPriority, TaskStatus, TodoListType } from '../api/typesAPI/todoListTypes'
+import { TaskPriority, TaskStatus, TaskType, TodoListType } from '../api/typesAPI/todoListTypes'
 import {
   changeTaskStatusAC,
   changeTaskTitleAC,
@@ -89,15 +89,26 @@ beforeEach(() => {
 
 // --------------------------------------------------------------
 test('new todo list task should be created', () => {
-  const newTitle = 'apple'
-  const action = createTaskAC(todoListId2, newTitle)
+  const newTask: TaskType = {
+    id: '123',
+    title: 'New Task',
+    status: TaskStatus.Completed,
+    priority: TaskPriority.Low,
+    order: 0,
+    todoListId: todoListId1,
+    addedDate: '',
+    deadline: '',
+    description: '',
+    startDate: '',
+  }
+  const action = createTaskAC(newTask)
   const endStateTask = tasksReducer(startStateTask, action)
 
-  expect(endStateTask['todoListId2'].length).toBe(3)
-  expect(endStateTask['todoListId1'].length).toBe(3)
-  expect(endStateTask['todoListId2'][0].id).toBeDefined()
-  expect(endStateTask['todoListId2'][0].title).toBe(newTitle)
-  expect(endStateTask['todoListId2'][0].status).toBe(TaskStatus.New)
+  expect(endStateTask['todoListId2'].length).toBe(2)
+  expect(endStateTask['todoListId1'].length).toBe(4)
+  expect(endStateTask['todoListId1'][0].id).toBeDefined()
+  expect(endStateTask['todoListId1'][0].title).toBe(newTask.title)
+  expect(endStateTask['todoListId1'][0].status).toBe(TaskStatus.Completed)
 })
 
 // --------------------------------------------------------------

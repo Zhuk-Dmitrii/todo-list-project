@@ -25,8 +25,7 @@ export enum ActionTypeTask {
 
 type CreateTaskActionType = {
   type: ActionTypeTask.CREATE_TASK
-  todoListId: string
-  title: string
+  task: TaskType
 }
 
 type DeleteTaskActionType = {
@@ -55,11 +54,10 @@ type SetTasksActionType = {
   tasks: TaskType[]
 }
 
-export function createTaskAC(todoListId: string, title: string): CreateTaskActionType {
+export function createTaskAC(task: TaskType): CreateTaskActionType {
   return {
     type: ActionTypeTask.CREATE_TASK,
-    todoListId,
-    title,
+    task,
   }
 }
 

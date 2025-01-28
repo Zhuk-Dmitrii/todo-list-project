@@ -1,7 +1,7 @@
-import { TAction, ActionTypeTask, setTasksAC } from '../action/taskAction'
+import { TAction, ActionTypeTask, setTasksAC, createTaskAC } from '../action/taskAction'
 import { ActionTypeTodoList } from '../action/todoListsAction'
 import { todoListsAPI } from '../../api/todoList-api'
-import { TaskPriority, TaskStatus, TaskType } from '../../api/typesAPI/todoListTypes'
+import { TaskType } from '../../api/typesAPI/todoListTypes'
 import { TasksDataType } from '../types/business'
 import { AppDispatch } from '../types/store'
 
@@ -10,22 +10,11 @@ const initialState: TasksDataType = {}
 export function tasksReducer(state: TasksDataType = initialState, action: TAction): TasksDataType {
   switch (action.type) {
     case ActionTypeTask.CREATE_TASK: {
-      const tasks = state[action.todoListId]
+      const tasks = state[action.task.todoListId]
 
-      const newTask: TaskType = {
-        id: crypto.randomUUID(),
-        title: action.title,
-        status: TaskStatus.New,
-        priority: TaskPriority.Low,
-        order: 0,
-        todoListId: action.todoListId,
-        addedDate: '',
-        deadline: '',
-        description: '',
-        startDate: '',
-      }
+      const newTask: TaskType = action.task
 
-      state[action.todoListId] = [newTask, ...tasks]
+      state[action.task.todoListId] = [newTask, ...tasks]
 
       return { ...state }
     }
@@ -105,10 +94,20 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
   }
 }
 
-export const fetchTasksThunkCreator = (todoListId: string) => {
+// ------------------------ THUNKS ------------------------------------
+export const getTasksTC = (todoListId: string) => {
   return (dispatch: AppDispatch) => {
     todoListsAPI.getTodoListTasks(todoListId).then(res => {
       const action = setTasksAC(todoListId, res.data.items)
+      dispatch(action)
+    })
+  }
+}
+
+export const createTaskTC = (todoListId: string, title: string) => {
+  return (dispatch: AppDispatch) => {
+    todoListsAPI.createTodoListTask(todoListId, title).then(res => {
+      const action = createTaskAC(res.data.data.item)
       dispatch(action)
     })
   }
