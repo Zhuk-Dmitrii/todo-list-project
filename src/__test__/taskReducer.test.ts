@@ -1,5 +1,5 @@
 import { TasksDataType } from '../redux/types/business'
-import { TaskPriority, TaskStatus } from '../api/typesAPI/todoListTypes'
+import { TaskPriority, TaskStatus, TodoListType } from '../api/typesAPI/todoListTypes'
 import {
   changeTaskStatusAC,
   changeTaskTitleAC,
@@ -137,8 +137,13 @@ test('title todo list task should be changed', () => {
 
 // --------------------------------------------------------------
 test('new property should be added in task array', () => {
-  const newTitle = 'new Todo List'
-  const action = createTodoListAC(newTitle)
+  const newTodoList: TodoListType = {
+    id: 'todoList1',
+    addedDate: '',
+    order: 0,
+    title: 'new todo list title',
+  }
+  const action = createTodoListAC(newTodoList)
   const endStateTask = tasksReducer(startStateTask, action)
 
   const keys = Object.keys(endStateTask)

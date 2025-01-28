@@ -11,8 +11,7 @@ export enum ActionTypeTodoList {
 
 export type createTodoListACtionType = {
   type: ActionTypeTodoList.CREATE_TODO_LIST
-  todoListId: string
-  title: string
+  todoList: TodoListType
 }
 
 export type DeleteTodoListActionType = {
@@ -44,11 +43,10 @@ export type TAction =
   | ChangeTodoListTitleActionType
   | SetTodoListsActionType
 
-export function createTodoListAC(title: string): createTodoListACtionType {
+export function createTodoListAC(todoList: TodoListType): createTodoListACtionType {
   return {
     type: ActionTypeTodoList.CREATE_TODO_LIST,
-    todoListId: crypto.randomUUID(),
-    title,
+    todoList,
   }
 }
 

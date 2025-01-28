@@ -1,5 +1,10 @@
 import { todoListsAPI } from '../../api/todoList-api'
-import { ActionTypeTodoList, setTodoListsAC, TAction } from '../action/todoListsAction'
+import {
+  ActionTypeTodoList,
+  createTodoListAC,
+  setTodoListsAC,
+  TAction,
+} from '../action/todoListsAction'
 import { FilteredValues, TodoListBusinessType } from '../types/business'
 import { AppDispatch } from '../types/store'
 
@@ -13,16 +18,9 @@ export function todoListsReducer(
     case ActionTypeTodoList.CREATE_TODO_LIST: {
       const stateCopy = [...state]
 
-      return [
-        {
-          id: action.todoListId,
-          title: action.title,
-          filter: FilteredValues.all,
-          addedDate: '',
-          order: 0,
-        },
-        ...stateCopy,
-      ]
+      const newTodoList: TodoListBusinessType = { ...action.todoList, filter: FilteredValues.all }
+
+      return [newTodoList, ...stateCopy]
     }
 
     case ActionTypeTodoList.DELETE_TODO_LIST: {
@@ -70,10 +68,20 @@ export function todoListsReducer(
   }
 }
 
-export const fetchTodoListThunkCreator = () => {
+// ------------------------ THUNKS ------------------------------------
+export const getTodoListTC = () => {
   return (dispatch: AppDispatch) => {
     todoListsAPI.getTodoLists().then(res => {
       const action = setTodoListsAC(res.data)
+      dispatch(action)
+    })
+  }
+}
+
+export const createTodoListTC = (title: string) => {
+  return (dispatch: AppDispatch) => {
+    todoListsAPI.createTodoList(title).then(res => {
+      const action = createTodoListAC(res.data.data.item)
       dispatch(action)
     })
   }

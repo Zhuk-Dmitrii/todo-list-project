@@ -7,6 +7,7 @@ import {
   setTodoListsAC,
 } from '../redux/action/todoListsAction'
 import { todoListsReducer } from '../redux/reducer/todoListsReducer'
+import { TodoListType } from '../api/typesAPI/todoListTypes'
 
 // --------------------------------------------------------
 let todoListId1: string
@@ -37,13 +38,19 @@ beforeEach(() => {
 
 // --------------------------------------------------------
 test('new todo list should be created', () => {
-  const newTitleTodoList = 'hello Jest'
-  const action = createTodoListAC(newTitleTodoList)
+  const newTodoList: TodoListType = {
+    id: 'todoList1',
+    addedDate: '',
+    order: 0,
+    title: 'new todo list title',
+  }
+
+  const action = createTodoListAC(newTodoList)
 
   const endStateTodoLists = todoListsReducer(startStateTodoLists, action)
 
   expect(endStateTodoLists.length).toBe(3)
-  expect(endStateTodoLists[0].title).toBe(newTitleTodoList)
+  expect(endStateTodoLists[0].title).toBe(newTodoList.title)
   expect(endStateTodoLists[0].filter).toBe(FilteredValues.all)
 })
 

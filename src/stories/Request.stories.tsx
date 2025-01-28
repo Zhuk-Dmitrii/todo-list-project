@@ -67,7 +67,7 @@ export const DeleteTodoLists: Story = {
     const [data, setData] = useState<any>(null)
 
     useEffect(() => {
-      const todoListID = '3d58e5e4-982b-46ce-b1d0-7345740cd9d7'
+      const todoListID = 'a52fcf30-2975-488e-84ed-43a15aa97ca5'
 
       todoListsAPI.deleteTodoList(todoListID).then(res => {
         setData(res.data)

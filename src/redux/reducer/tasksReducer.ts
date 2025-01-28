@@ -70,7 +70,7 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
     case ActionTypeTodoList.CREATE_TODO_LIST: {
       return {
         ...state,
-        [action.todoListId]: [],
+        [action.todoList.id]: [],
       }
     }
 

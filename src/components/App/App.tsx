@@ -3,8 +3,7 @@ import { Container, Paper } from '@mui/material'
 import { Grid2 } from '@mui/material'
 
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { createTodoListAC } from '../../redux/action/todoListsAction'
-import { fetchTodoListThunkCreator } from '../../redux/reducer/todoListsReducer'
+import { createTodoListTC, getTodoListTC } from '../../redux/reducer/todoListsReducer'
 import { TodoList } from '../TodoList/TodoList'
 import { InputForm } from '../InputForm/InputForm'
 import { Header } from '../Header/Header'
@@ -14,14 +13,14 @@ export function App() {
   const todoLists = useAppSelector(state => state.todoLists)
 
   useEffect(() => {
-    dispatch(fetchTodoListThunkCreator())
+    dispatch(getTodoListTC())
   }, [dispatch])
 
   const createTodoList = useCallback(
     (title: string) => {
-      const action = createTodoListAC(title)
+      const thunk = createTodoListTC(title)
 
-      dispatch(action)
+      dispatch(thunk)
     },
     [dispatch],
   )
