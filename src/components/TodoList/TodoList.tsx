@@ -4,11 +4,7 @@ import { Clear } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { fetchTasksThunkCreator } from '../../redux/reducer/tasksReducer'
-import {
-  changeTodoListFilterAC,
-  changeTodoListTitleAC,
-  deleteTodoListAC,
-} from '../../redux/action/todoListsAction'
+import { changeTodoListFilterAC } from '../../redux/action/todoListsAction'
 import { createTaskAC } from '../../redux/action/taskAction'
 import { Todo } from '../Todo/Todo'
 import { FilteredValues } from '../../redux/types/business'
@@ -16,6 +12,7 @@ import { InputForm } from '../InputForm/InputForm'
 import { EditableSpan } from '../EditableSpan/EditableSpan'
 import { customCSS } from './TodoListCSS'
 import { TaskStatus } from '../../api/typesAPI/todoListTypes'
+import { changeTodoListTitleTC, deleteTodoListTC } from '../../redux/reducer/todoListsReducer'
 
 type TProps = {
   todoListId: string
@@ -55,14 +52,14 @@ export const TodoList = React.memo((props: TProps) => {
   )
 
   const handleClickDeleteTodoList = useCallback(() => {
-    const action = deleteTodoListAC(props.todoListId)
-    dispatch(action)
+    const thunk = deleteTodoListTC(props.todoListId)
+    dispatch(thunk)
   }, [props.todoListId, dispatch])
 
   const handleChangeTodoListTitle = useCallback(
     (newTitle: string) => {
-      const action = changeTodoListTitleAC(props.todoListId, newTitle)
-      dispatch(action)
+      const thunk = changeTodoListTitleTC(props.todoListId, newTitle)
+      dispatch(thunk)
     },
     [props.todoListId, dispatch],
   )
