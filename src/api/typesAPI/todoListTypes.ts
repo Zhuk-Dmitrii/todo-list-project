@@ -14,12 +14,12 @@ export type ResponseTodoLists<D = object> = {
 
 // ----------------------------- TASK ----------------------
 export type TaskType = {
-  description: string
+  description: string | null
   title: string
   status: TaskStatus
   priority: TaskPriority
-  startDate: string
-  deadline: string
+  startDate: string | null
+  deadline: string | null
   id: string
   todoListId: string
   order: number
@@ -29,8 +29,8 @@ export type TaskType = {
 export type UpdateTaskModelType = {
   title: string
   description: string | null
-  status: number
-  priority: number
+  status: TaskStatus
+  priority: TaskPriority
   startDate: string | null
   deadline: string | null
 }

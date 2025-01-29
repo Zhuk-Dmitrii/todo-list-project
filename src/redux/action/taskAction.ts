@@ -1,4 +1,5 @@
-import { TaskStatus, TaskType } from '../../api/typesAPI/todoListTypes'
+import { TaskType } from '../../api/typesAPI/todoListTypes'
+import { UpdateBusinessTaskModelType } from '../types/business'
 import {
   createTodoListACtionType,
   DeleteTodoListActionType,
@@ -8,8 +9,7 @@ import {
 export type TAction =
   | CreateTaskActionType
   | DeleteTaskActionType
-  | ChangeTaskStatusActionType
-  | ChangeTaskTitleActionType
+  | UpdateTaskActionType
   | createTodoListACtionType
   | DeleteTodoListActionType
   | SetTodoListsActionType
@@ -18,8 +18,7 @@ export type TAction =
 export enum ActionTypeTask {
   CREATE_TASK = 'CREATE_TASK',
   DELETE_TASK = 'DELETE_TASK',
-  CHANGE_STATUS_TASK = 'CHANGE_STATUS_TASK',
-  CHANGE_TASK_TITLE = 'CHANGE_TASK_TITLE',
+  UPDATE_TASK = 'UPDATE_TASK',
   SET_TASKS = 'SET_TASKS',
 }
 
@@ -34,18 +33,11 @@ type DeleteTaskActionType = {
   taskId: string
 }
 
-type ChangeTaskStatusActionType = {
-  type: ActionTypeTask.CHANGE_STATUS_TASK
+type UpdateTaskActionType = {
+  type: ActionTypeTask.UPDATE_TASK
   todoListId: string
   taskId: string
-  status: TaskStatus
-}
-
-type ChangeTaskTitleActionType = {
-  type: ActionTypeTask.CHANGE_TASK_TITLE
-  todoListId: string
-  taskId: string
-  title: string
+  model: UpdateBusinessTaskModelType
 }
 
 type SetTasksActionType = {
@@ -69,29 +61,16 @@ export function deleteTaskAC(todoListId: string, taskId: string): DeleteTaskActi
   }
 }
 
-export function changeTaskStatusAC(
+export function updateTaskAC(
   todoListId: string,
   taskId: string,
-  status: TaskStatus,
-): ChangeTaskStatusActionType {
+  model: UpdateBusinessTaskModelType,
+): UpdateTaskActionType {
   return {
-    type: ActionTypeTask.CHANGE_STATUS_TASK,
+    type: ActionTypeTask.UPDATE_TASK,
     todoListId,
     taskId,
-    status,
-  }
-}
-
-export function changeTaskTitleAC(
-  todoListId: string,
-  taskId: string,
-  title: string,
-): ChangeTaskTitleActionType {
-  return {
-    type: ActionTypeTask.CHANGE_TASK_TITLE,
-    todoListId,
-    taskId,
-    title,
+    model,
   }
 }
 

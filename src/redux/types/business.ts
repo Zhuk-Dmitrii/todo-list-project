@@ -1,4 +1,4 @@
-import { TaskType, TodoListType } from '../../api/typesAPI/todoListTypes'
+import { TaskPriority, TaskStatus, TaskType, TodoListType } from '../../api/typesAPI/todoListTypes'
 
 // ------------------- CONSTANTS ------------------------------
 export enum FilteredValues {
@@ -15,4 +15,13 @@ export type TodoListBusinessType = TodoListType & {
 // ------------------- TASKS TYPE ------------------------------
 export type TasksDataType = {
   [id: string]: TaskType[]
+}
+
+export type UpdateBusinessTaskModelType = {
+  title?: string
+  description?: string | null
+  status?: TaskStatus
+  priority?: TaskPriority
+  startDate?: string | null
+  deadline?: string | null
 }
