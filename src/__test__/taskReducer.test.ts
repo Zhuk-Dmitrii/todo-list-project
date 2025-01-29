@@ -1,12 +1,6 @@
-import { TasksDataType } from '../redux/types/business'
+import { TasksDataType, UpdateBusinessTaskModelType } from '../redux/types/business'
 import { TaskPriority, TaskStatus, TaskType, TodoListType } from '../api/typesAPI/todoListTypes'
-import {
-  changeTaskStatusAC,
-  changeTaskTitleAC,
-  createTaskAC,
-  deleteTaskAC,
-  setTasksAC,
-} from '../redux/action/taskAction'
+import { updateTaskAC, createTaskAC, deleteTaskAC, setTasksAC } from '../redux/action/taskAction'
 import { createTodoListAC, deleteTodoListAC, setTodoListsAC } from '../redux/action/todoListsAction'
 import { tasksReducer } from '../redux/reducer/tasksReducer'
 
@@ -125,8 +119,10 @@ test('todo list task should be deleted', () => {
 // --------------------------------------------------------------
 test('status todo list task should be changed', () => {
   const taskId = '1'
-  const isDone = TaskStatus.New
-  const action = changeTaskStatusAC(todoListId1, taskId, isDone)
+  const model: UpdateBusinessTaskModelType = {
+    status: TaskStatus.New,
+  }
+  const action = updateTaskAC(todoListId1, taskId, model)
   const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask[todoListId1][0].status).toBe(TaskStatus.New)
@@ -138,11 +134,13 @@ test('status todo list task should be changed', () => {
 // --------------------------------------------------------------
 test('title todo list task should be changed', () => {
   const taskId = '1'
-  const newTitle = 'water'
-  const action = changeTaskTitleAC(todoListId2, taskId, newTitle)
+  const model: UpdateBusinessTaskModelType = {
+    title: 'water',
+  }
+  const action = updateTaskAC(todoListId2, taskId, model)
   const endStateTask = tasksReducer(startStateTask, action)
 
-  expect(endStateTask[todoListId2][0].title).toBe(newTitle)
+  expect(endStateTask[todoListId2][0].title).toBe(model.title)
   expect(endStateTask[todoListId1][0].title).toBe('HTML & CSS')
 })
 
