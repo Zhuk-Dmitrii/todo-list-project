@@ -7,8 +7,8 @@ import {
   setTodoListsAC,
   TAction,
 } from '../action/todoListsAction'
-import { FilteredValues, TodoListBusinessType } from '../types/business'
-import { AppDispatch } from '../types/store'
+import { FilteredValues, TodoListBusinessType } from '../types/businessTypes'
+import { AppDispatch } from '../types/storeTypes'
 
 const initialState: TodoListBusinessType[] = []
 

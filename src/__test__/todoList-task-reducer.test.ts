@@ -1,8 +1,8 @@
-import { TodoListType } from '../api/typesAPI/todoListTypes'
 import { createTodoListAC } from '../redux/action/todoListsAction'
 import { tasksReducer } from '../redux/reducer/tasksReducer'
 import { todoListsReducer } from '../redux/reducer/todoListsReducer'
-import { TodoListBusinessType, TasksDataType } from '../redux/types/business'
+import { TodoListBusinessType, TasksDataType } from '../redux/types/businessTypes'
+import { TodoListType } from '../api/typesAPI/todoListTypes'
 
 test('to-do list ID should be equal to the tasks list ID', () => {
   const stateTodoList: TodoListBusinessType[] = []

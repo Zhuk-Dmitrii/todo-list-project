@@ -4,7 +4,7 @@ import { Delete } from '@mui/icons-material'
 
 import { useAppDispatch } from '../../redux/hooks'
 import { deleteTaskTC, updateTaskTC } from '../../redux/reducer/tasksReducer'
-import { EditableSpan } from '../EditableSpan/EditableSpan'
+import { EditableSpan } from '../EditableSpan'
 import { TaskStatus, TaskType } from '../../api/typesAPI/todoListTypes'
 import { customCSS } from './TodoCSS'
 

@@ -1,4 +1,3 @@
-import { TodoListBusinessType, FilteredValues } from '../redux/types/business'
 import {
   createTodoListAC,
   deleteTodoListAC,
@@ -8,6 +7,7 @@ import {
 } from '../redux/action/todoListsAction'
 import { todoListsReducer } from '../redux/reducer/todoListsReducer'
 import { TodoListType } from '../api/typesAPI/todoListTypes'
+import { TodoListBusinessType, FilteredValues } from '../redux/types/businessTypes'
 
 // --------------------------------------------------------
 let todoListId1: string

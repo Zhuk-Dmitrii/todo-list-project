@@ -1,8 +1,8 @@
-import { TasksDataType, UpdateBusinessTaskModelType } from '../redux/types/business'
-import { TaskPriority, TaskStatus, TaskType, TodoListType } from '../api/typesAPI/todoListTypes'
 import { updateTaskAC, createTaskAC, deleteTaskAC, setTasksAC } from '../redux/action/taskAction'
 import { createTodoListAC, deleteTodoListAC, setTodoListsAC } from '../redux/action/todoListsAction'
 import { tasksReducer } from '../redux/reducer/tasksReducer'
+import { TasksDataType, UpdateBusinessTaskModelType } from '../redux/types/businessTypes'
+import { TaskPriority, TaskStatus, TaskType, TodoListType } from '../api/typesAPI/todoListTypes'
 
 // --------------------------------------------------------------
 let todoListId1: string

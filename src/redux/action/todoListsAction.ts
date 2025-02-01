@@ -1,5 +1,7 @@
 import { TodoListType } from '../../api/typesAPI/todoListTypes'
-import { FilteredValues } from '../types/business'
+import { FilteredValues } from '../types/businessTypes'
+
+// ---------------------- TYPES ----------------------------
 
 export enum ActionTypeTodoList {
   CREATE_TODO_LIST = 'CREATE_TODO_LIST',
@@ -9,76 +11,52 @@ export enum ActionTypeTodoList {
   SET_TODO_LISTS = 'SET_TODO_LISTS',
 }
 
-export type createTodoListACtionType = {
-  type: ActionTypeTodoList.CREATE_TODO_LIST
-  todoList: TodoListType
-}
-
-export type DeleteTodoListActionType = {
-  type: ActionTypeTodoList.DELETE_TODO_LIST
-  id: string
-}
-
-export type ChangeTodoListFilterActionType = {
-  type: ActionTypeTodoList.CHANGE_FILTER_TODO_LIST
-  id: string
-  value: FilteredValues
-}
-
-export type ChangeTodoListTitleActionType = {
-  type: ActionTypeTodoList.CHANGE_TITLE_TODO_LIST
-  id: string
-  newTitle: string
-}
-
-export type SetTodoListsActionType = {
-  type: ActionTypeTodoList.SET_TODO_LISTS
-  todoLists: TodoListType[]
-}
+export type createTodoListACtionType = ReturnType<typeof createTodoListAC>
+export type DeleteTodoListActionType = ReturnType<typeof deleteTodoListAC>
+export type SetTodoListsActionType = ReturnType<typeof setTodoListsAC>
 
 export type TAction =
   | createTodoListACtionType
   | DeleteTodoListActionType
-  | ChangeTodoListFilterActionType
-  | ChangeTodoListTitleActionType
+  | ReturnType<typeof changeTodoListFilterAC>
+  | ReturnType<typeof changeTodoListTitleAC>
   | SetTodoListsActionType
 
-export function createTodoListAC(todoList: TodoListType): createTodoListACtionType {
+// ------------------ ACTION CREATORS ----------------------
+
+export function createTodoListAC(todoList: TodoListType) {
   return {
     type: ActionTypeTodoList.CREATE_TODO_LIST,
     todoList,
-  }
+  } as const
 }
 
-export function deleteTodoListAC(id: string): DeleteTodoListActionType {
+export function deleteTodoListAC(id: string) {
   return {
     type: ActionTypeTodoList.DELETE_TODO_LIST,
     id,
-  }
+  } as const
 }
 
-export function changeTodoListFilterAC(
-  id: string,
-  value: FilteredValues,
-): ChangeTodoListFilterActionType {
+export function changeTodoListFilterAC(id: string, value: FilteredValues) {
   return {
     type: ActionTypeTodoList.CHANGE_FILTER_TODO_LIST,
     id,
     value,
-  }
+  } as const
 }
 
-export function changeTodoListTitleAC(id: string, newTitle: string): ChangeTodoListTitleActionType {
+export function changeTodoListTitleAC(id: string, newTitle: string) {
   return {
     type: ActionTypeTodoList.CHANGE_TITLE_TODO_LIST,
     id,
     newTitle,
-  }
+  } as const
 }
 
-export function setTodoListsAC(todoLists: TodoListType[]): SetTodoListsActionType {
+export function setTodoListsAC(todoLists: TodoListType[]) {
   return {
     type: ActionTypeTodoList.SET_TODO_LISTS,
     todoLists,
-  }
+  } as const
 }

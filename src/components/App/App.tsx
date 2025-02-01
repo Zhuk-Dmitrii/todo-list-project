@@ -1,20 +1,15 @@
-import { useCallback, useEffect, useMemo } from 'react'
-import { Container, Paper } from '@mui/material'
+import { useCallback, useMemo } from 'react'
+import { Container } from '@mui/material'
 import { Grid2 } from '@mui/material'
 
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { createTodoListTC, getTodoListTC } from '../../redux/reducer/todoListsReducer'
-import { TodoList } from '../TodoList/TodoList'
-import { InputForm } from '../InputForm/InputForm'
-import { Header } from '../Header/Header'
+import { useAppDispatch } from '../../redux/hooks'
+import { createTodoListTC } from '../../redux/reducer/todoListsReducer'
+import { InputForm } from '../InputForm'
+import { Header } from '../Header'
+import { TodoListLists } from '../TodoListLists'
 
 export function App() {
   const dispatch = useAppDispatch()
-  const todoLists = useAppSelector(state => state.todoLists)
-
-  useEffect(() => {
-    dispatch(getTodoListTC())
-  }, [dispatch])
 
   const createTodoList = useCallback(
     (title: string) => {
@@ -45,17 +40,7 @@ export function App() {
         />
 
         <Grid2 container sx={{ mt: 6 }} spacing={4}>
-          {todoLists.map(todoList => (
-            <Grid2 key={todoList.id} sx={{ maxWidth: '300px', width: '100%', minHeight: '320px' }}>
-              <Paper elevation={4} sx={{ p: 1, height: '100%' }}>
-                <TodoList
-                  todoListId={todoList.id}
-                  title={todoList.title}
-                  filterValue={todoList.filter}
-                />
-              </Paper>
-            </Grid2>
-          ))}
+          <TodoListLists />
         </Grid2>
       </Container>
     </>

@@ -1,19 +1,12 @@
 import { TaskType } from '../../api/typesAPI/todoListTypes'
-import { UpdateBusinessTaskModelType } from '../types/business'
+import { UpdateBusinessTaskModelType } from '../types/businessTypes'
 import {
   createTodoListACtionType,
   DeleteTodoListActionType,
   SetTodoListsActionType,
 } from './todoListsAction'
 
-export type TAction =
-  | CreateTaskActionType
-  | DeleteTaskActionType
-  | UpdateTaskActionType
-  | createTodoListACtionType
-  | DeleteTodoListActionType
-  | SetTodoListsActionType
-  | SetTasksActionType
+// ---------------------- TYPES ----------------------------
 
 export enum ActionTypeTask {
   CREATE_TASK = 'CREATE_TASK',
@@ -22,62 +15,49 @@ export enum ActionTypeTask {
   SET_TASKS = 'SET_TASKS',
 }
 
-type CreateTaskActionType = {
-  type: ActionTypeTask.CREATE_TASK
-  task: TaskType
-}
+export type TAction =
+  | ReturnType<typeof createTaskAC>
+  | ReturnType<typeof deleteTaskAC>
+  | ReturnType<typeof updateTaskAC>
+  | ReturnType<typeof setTasksAC>
+  | createTodoListACtionType
+  | DeleteTodoListActionType
+  | SetTodoListsActionType
 
-type DeleteTaskActionType = {
-  type: ActionTypeTask.DELETE_TASK
-  todoListId: string
-  taskId: string
-}
+// ------------------ ACTION CREATORS ----------------------
 
-type UpdateTaskActionType = {
-  type: ActionTypeTask.UPDATE_TASK
-  todoListId: string
-  taskId: string
-  model: UpdateBusinessTaskModelType
-}
-
-type SetTasksActionType = {
-  type: ActionTypeTask.SET_TASKS
-  todoListId: string
-  tasks: TaskType[]
-}
-
-export function createTaskAC(task: TaskType): CreateTaskActionType {
+export function createTaskAC(task: TaskType) {
   return {
     type: ActionTypeTask.CREATE_TASK,
     task,
-  }
+  } as const
 }
 
-export function deleteTaskAC(todoListId: string, taskId: string): DeleteTaskActionType {
+export function deleteTaskAC(todoListId: string, taskId: string) {
   return {
     type: ActionTypeTask.DELETE_TASK,
     todoListId,
     taskId,
-  }
+  } as const
 }
 
 export function updateTaskAC(
   todoListId: string,
   taskId: string,
   model: UpdateBusinessTaskModelType,
-): UpdateTaskActionType {
+) {
   return {
     type: ActionTypeTask.UPDATE_TASK,
     todoListId,
     taskId,
     model,
-  }
+  } as const
 }
 
-export function setTasksAC(todoListId: string, tasks: TaskType[]): SetTasksActionType {
+export function setTasksAC(todoListId: string, tasks: TaskType[]) {
   return {
     type: ActionTypeTask.SET_TASKS,
     todoListId,
     tasks,
-  }
+  } as const
 }

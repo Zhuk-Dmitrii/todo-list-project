@@ -9,8 +9,8 @@ import {
 import { ActionTypeTodoList } from '../action/todoListsAction'
 import { todoListsAPI } from '../../api/todoList-api'
 import { TaskType, UpdateTaskModelType } from '../../api/typesAPI/todoListTypes'
-import { UpdateBusinessTaskModelType, TasksDataType } from '../types/business'
-import { AppDispatch, RootState } from '../types/store'
+import { UpdateBusinessTaskModelType, TasksDataType } from '../types/businessTypes'
+import { AppDispatch, RootState } from '../types/storeTypes'
 
 const initialState: TasksDataType = {}
 
@@ -18,7 +18,6 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
   switch (action.type) {
     case ActionTypeTask.CREATE_TASK: {
       const tasks = state[action.task.todoListId]
-
       const newTask: TaskType = action.task
 
       state[action.task.todoListId] = [newTask, ...tasks]
@@ -87,7 +86,7 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
   }
 }
 
-// ------------------------ THUNKS ------------------------------------
+// ------------------ THUNK CREATORS -------------------------------
 export const getTasksTC = (todoListId: string) => {
   return (dispatch: AppDispatch) => {
     todoListsAPI.getTodoListTasks(todoListId).then(res => {
