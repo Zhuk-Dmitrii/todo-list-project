@@ -1,5 +1,5 @@
-import { TaskType } from '../../api/typesAPI/todoListTypes'
-import { UpdateBusinessTaskModelType } from '../types/businessTypes'
+import { TaskType } from '../../../api/typesAPI/todoListTypes'
+import { UpdateBusinessTaskModelType } from '../../types/businessTypes'
 import {
   createTodoListACtionType,
   DeleteTodoListActionType,

@@ -7,10 +7,10 @@ import {
   updateTaskAC,
 } from '../action/taskAction'
 import { ActionTypeTodoList } from '../action/todoListsAction'
-import { todoListsAPI } from '../../api/todoList-api'
-import { TaskType, UpdateTaskModelType } from '../../api/typesAPI/todoListTypes'
-import { UpdateBusinessTaskModelType, TasksDataType } from '../types/businessTypes'
-import { AppDispatch, RootState } from '../types/storeTypes'
+import { todoListsAPI } from '../../../api/todoList-api'
+import { TaskType, UpdateTaskModelType } from '../../../api/typesAPI/todoListTypes'
+import { UpdateBusinessTaskModelType, TasksDataType } from '../../types/businessTypes'
+import { AppDispatch, RootState } from '../../types/storeTypes'
 
 const initialState: TasksDataType = {}
 

@@ -1,4 +1,4 @@
-import { todoListsAPI } from '../../api/todoList-api'
+import { todoListsAPI } from '../../../api/todoList-api'
 import {
   ActionTypeTodoList,
   changeTodoListTitleAC,
@@ -7,8 +7,8 @@ import {
   setTodoListsAC,
   TAction,
 } from '../action/todoListsAction'
-import { FilteredValues, TodoListBusinessType } from '../types/businessTypes'
-import { AppDispatch } from '../types/storeTypes'
+import { FilteredValues, TodoListBusinessType } from '../../types/businessTypes'
+import { AppDispatch } from '../../types/storeTypes'
 
 const initialState: TodoListBusinessType[] = []
 

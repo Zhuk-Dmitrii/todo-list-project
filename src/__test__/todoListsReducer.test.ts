@@ -4,10 +4,10 @@ import {
   changeTodoListFilterAC,
   changeTodoListTitleAC,
   setTodoListsAC,
-} from '../redux/action/todoListsAction'
-import { todoListsReducer } from '../redux/reducer/todoListsReducer'
+} from '../app/redux/action/todoListsAction'
+import { todoListsReducer } from '../app/redux/reducer/todoListsReducer'
 import { TodoListType } from '../api/typesAPI/todoListTypes'
-import { TodoListBusinessType, FilteredValues } from '../redux/types/businessTypes'
+import { TodoListBusinessType, FilteredValues } from '../app/types/businessTypes'
 
 // --------------------------------------------------------
 let todoListId1: string

@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { Grid2, Paper } from '@mui/material'
 
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { getTodoListTC } from '../../redux/reducer/todoListsReducer'
-import { TodoList } from '../TodoList'
+import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
+import { getTodoListTC } from '../../app/redux/reducer/todoListsReducer'
+import { TodoList } from './TodoList'
 
 export function TodoListLists() {
   const dispatch = useAppDispatch()

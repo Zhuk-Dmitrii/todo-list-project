@@ -2,11 +2,11 @@ import { useCallback, useMemo } from 'react'
 import { Container } from '@mui/material'
 import { Grid2 } from '@mui/material'
 
-import { useAppDispatch } from '../../redux/hooks'
-import { createTodoListTC } from '../../redux/reducer/todoListsReducer'
-import { InputForm } from '../InputForm'
-import { Header } from '../Header'
-import { TodoListLists } from '../TodoListLists'
+import { useAppDispatch } from '../hooks/reduxHooks'
+import { createTodoListTC } from '../redux/reducer/todoListsReducer'
+import { InputForm } from '../../components/InputForm'
+import { Header } from '../../components/Header'
+import { TodoListLists } from '../../features/TodoListLists'
 
 export function App() {
   const dispatch = useAppDispatch()

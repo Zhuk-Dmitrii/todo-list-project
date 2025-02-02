@@ -1,7 +1,7 @@
-import { createTodoListAC } from '../redux/action/todoListsAction'
-import { tasksReducer } from '../redux/reducer/tasksReducer'
-import { todoListsReducer } from '../redux/reducer/todoListsReducer'
-import { TodoListBusinessType, TasksDataType } from '../redux/types/businessTypes'
+import { createTodoListAC } from '../app/redux/action/todoListsAction'
+import { tasksReducer } from '../app/redux/reducer/tasksReducer'
+import { todoListsReducer } from '../app/redux/reducer/todoListsReducer'
+import { TodoListBusinessType, TasksDataType } from '../app/types/businessTypes'
 import { TodoListType } from '../api/typesAPI/todoListTypes'
 
 test('to-do list ID should be equal to the tasks list ID', () => {

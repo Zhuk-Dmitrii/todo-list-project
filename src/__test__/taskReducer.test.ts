@@ -1,7 +1,16 @@
-import { updateTaskAC, createTaskAC, deleteTaskAC, setTasksAC } from '../redux/action/taskAction'
-import { createTodoListAC, deleteTodoListAC, setTodoListsAC } from '../redux/action/todoListsAction'
-import { tasksReducer } from '../redux/reducer/tasksReducer'
-import { TasksDataType, UpdateBusinessTaskModelType } from '../redux/types/businessTypes'
+import {
+  updateTaskAC,
+  createTaskAC,
+  deleteTaskAC,
+  setTasksAC,
+} from '../app/redux/action/taskAction'
+import {
+  createTodoListAC,
+  deleteTodoListAC,
+  setTodoListsAC,
+} from '../app/redux/action/todoListsAction'
+import { tasksReducer } from '../app/redux/reducer/tasksReducer'
+import { TasksDataType, UpdateBusinessTaskModelType } from '../app/types/businessTypes'
 import { TaskPriority, TaskStatus, TaskType, TodoListType } from '../api/typesAPI/todoListTypes'
 
 // --------------------------------------------------------------

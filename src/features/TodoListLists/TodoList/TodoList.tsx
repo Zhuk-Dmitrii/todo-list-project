@@ -2,15 +2,18 @@ import React, { MouseEvent, useMemo, useCallback, useEffect } from 'react'
 import { Box, IconButton, List, Button } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { createTaskTC, getTasksTC } from '../../redux/reducer/tasksReducer'
-import { changeTodoListFilterAC } from '../../redux/action/todoListsAction'
-import { changeTodoListTitleTC, deleteTodoListTC } from '../../redux/reducer/todoListsReducer'
-import { FilteredValues } from '../../redux/types/businessTypes'
-import { TaskStatus } from '../../api/typesAPI/todoListTypes'
-import { Todo } from '../Todo'
-import { InputForm } from '../InputForm'
-import { EditableSpan } from '../EditableSpan'
+import { useAppDispatch, useAppSelector } from '../../../app/hooks/reduxHooks'
+import { createTaskTC, getTasksTC } from '../../../app/redux/reducer/tasksReducer'
+import { changeTodoListFilterAC } from '../../../app/redux/action/todoListsAction'
+import {
+  changeTodoListTitleTC,
+  deleteTodoListTC,
+} from '../../../app/redux/reducer/todoListsReducer'
+import { FilteredValues } from '../../../app/types/businessTypes'
+import { TaskStatus } from '../../../api/typesAPI/todoListTypes'
+import { Todo } from './Todo'
+import { InputForm } from '../../../components/InputForm'
+import { EditableSpan } from '../../../components/EditableSpan'
 import { customCSS } from './TodoListCSS'
 
 type TProps = {

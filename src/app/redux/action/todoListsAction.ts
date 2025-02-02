@@ -1,5 +1,5 @@
-import { TodoListType } from '../../api/typesAPI/todoListTypes'
-import { FilteredValues } from '../types/businessTypes'
+import { TodoListType } from '../../../api/typesAPI/todoListTypes'
+import { FilteredValues } from '../../types/businessTypes'
 
 // ---------------------- TYPES ----------------------------
 
