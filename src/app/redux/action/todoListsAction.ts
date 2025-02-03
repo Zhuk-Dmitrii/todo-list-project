@@ -11,12 +11,12 @@ export enum ActionTypeTodoList {
   SET_TODO_LISTS = 'SET_TODO_LISTS',
 }
 
-export type createTodoListACtionType = ReturnType<typeof createTodoListAC>
+export type createTodoListActionType = ReturnType<typeof createTodoListAC>
 export type DeleteTodoListActionType = ReturnType<typeof deleteTodoListAC>
 export type SetTodoListsActionType = ReturnType<typeof setTodoListsAC>
 
 export type TAction =
-  | createTodoListACtionType
+  | createTodoListActionType
   | DeleteTodoListActionType
   | ReturnType<typeof changeTodoListFilterAC>
   | ReturnType<typeof changeTodoListTitleAC>

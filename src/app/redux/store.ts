@@ -7,10 +7,12 @@ import {
 
 import { todoListsReducer } from './reducer/todoListsReducer'
 import { tasksReducer } from './reducer/tasksReducer'
+import { appReducer } from './reducer/appReducer'
 
 export const rootReducer = combineReducers({
   todoLists: todoListsReducer,
   tasks: tasksReducer,
+  app: appReducer,
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk))

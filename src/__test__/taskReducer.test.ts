@@ -13,7 +13,7 @@ import { tasksReducer } from '../app/redux/reducer/tasksReducer'
 import { TasksDataType, UpdateBusinessTaskModelType } from '../app/types/businessTypes'
 import { TaskPriority, TaskStatus, TaskType, TodoListType } from '../api/typesAPI/todoListTypes'
 
-// --------------------------------------------------------------
+// ------------------------- INITIAL DATA -------------------------------------
 let todoListId1: string
 let todoListId2: string
 let startStateTask: TasksDataType = {}
@@ -90,7 +90,7 @@ beforeEach(() => {
   }
 })
 
-// --------------------------------------------------------------
+// ---------------------------- TESTS ----------------------------------
 test('new todo list task should be created', () => {
   const newTask: TaskType = {
     id: '123',

@@ -11,6 +11,7 @@ import { todoListsAPI } from '../../../api/todoList-api'
 import { TaskType, UpdateTaskModelType } from '../../../api/typesAPI/todoListTypes'
 import { UpdateBusinessTaskModelType, TasksDataType } from '../../types/businessTypes'
 import { AppDispatch, RootState } from '../../types/storeTypes'
+import { setAppErrorAC, setAppStatusAC } from '../action/appAction'
 
 const initialState: TasksDataType = {}
 
@@ -89,27 +90,38 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
 // ------------------ THUNK CREATORS -------------------------------
 export const getTasksTC = (todoListId: string) => {
   return (dispatch: AppDispatch) => {
+    dispatch(setAppStatusAC('loading'))
+
     todoListsAPI.getTodoListTasks(todoListId).then(res => {
-      const action = setTasksAC(todoListId, res.data.items)
-      dispatch(action)
+      dispatch(setTasksAC(todoListId, res.data.items))
+      dispatch(setAppStatusAC('succeeded'))
     })
   }
 }
 
 export const createTaskTC = (todoListId: string, title: string) => {
   return (dispatch: AppDispatch) => {
+    dispatch(setAppStatusAC('loading'))
+
     todoListsAPI.createTodoListTask(todoListId, title).then(res => {
-      const action = createTaskAC(res.data.data.item)
-      dispatch(action)
+      if (res.data.resultCode === 0) {
+        dispatch(createTaskAC(res.data.data.item))
+        dispatch(setAppStatusAC('succeeded'))
+      } else {
+        dispatch(setAppErrorAC(res.data.messages[0]))
+        dispatch(setAppStatusAC('failed'))
+      }
     })
   }
 }
 
 export const deleteTaskTC = (todoListId: string, taskId: string) => {
   return (dispatch: AppDispatch) => {
+    dispatch(setAppStatusAC('loading'))
+
     todoListsAPI.deleteTodoListTask(todoListId, taskId).then(() => {
-      const action = deleteTaskAC(todoListId, taskId)
-      dispatch(action)
+      dispatch(deleteTaskAC(todoListId, taskId))
+      dispatch(setAppStatusAC('succeeded'))
     })
   }
 }
@@ -120,6 +132,8 @@ export const updateTaskTC = (
   businessModel: UpdateBusinessTaskModelType,
 ) => {
   return (dispatch: AppDispatch, getState: () => RootState) => {
+    dispatch(setAppStatusAC('loading'))
+
     const state = getState()
     const task = state.tasks[todoListId].find(task => task.id === taskId)
 
@@ -140,8 +154,8 @@ export const updateTaskTC = (
     }
 
     todoListsAPI.updateTodoListTask(todoListId, taskId, apiModel).then(() => {
-      const action = updateTaskAC(todoListId, taskId, businessModel)
-      dispatch(action)
+      dispatch(updateTaskAC(todoListId, taskId, businessModel))
+      dispatch(setAppStatusAC('succeeded'))
     })
   }
 }

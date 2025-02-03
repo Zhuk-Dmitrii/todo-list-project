@@ -6,6 +6,7 @@ import { useAppDispatch } from '../hooks/reduxHooks'
 import { createTodoListTC } from '../redux/reducer/todoListsReducer'
 import { InputForm } from '../../components/InputForm'
 import { Header } from '../../components/Header'
+import { CustomSnackbar } from '../../components/CustomSnackbar'
 import { TodoListLists } from '../../features/TodoListLists'
 
 export function App() {
@@ -38,11 +39,11 @@ export function App() {
           sx={styleInputForm.sx}
           size="small"
         />
-
         <Grid2 container sx={{ mt: 6 }} spacing={4}>
           <TodoListLists />
         </Grid2>
       </Container>
+      <CustomSnackbar />
     </>
   )
 }

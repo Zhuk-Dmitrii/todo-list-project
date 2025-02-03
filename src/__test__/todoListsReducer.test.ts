@@ -9,7 +9,7 @@ import { todoListsReducer } from '../app/redux/reducer/todoListsReducer'
 import { TodoListType } from '../api/typesAPI/todoListTypes'
 import { TodoListBusinessType, FilteredValues } from '../app/types/businessTypes'
 
-// --------------------------------------------------------
+// ----------------------- INITIAL DATA ---------------------------------
 let todoListId1: string
 let todoListId2: string
 let startStateTodoLists: TodoListBusinessType[] = []
@@ -36,7 +36,7 @@ beforeEach(() => {
   ]
 })
 
-// --------------------------------------------------------
+// --------------------------- TESTS -----------------------------
 test('new todo list should be created', () => {
   const newTodoList: TodoListType = {
     id: 'todoList1',

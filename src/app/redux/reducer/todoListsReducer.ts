@@ -9,6 +9,7 @@ import {
 } from '../action/todoListsAction'
 import { FilteredValues, TodoListBusinessType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
+import { setAppStatusAC } from '../action/appAction'
 
 const initialState: TodoListBusinessType[] = []
 
@@ -76,36 +77,44 @@ export function todoListsReducer(
 // ------------------------ THUNKS ------------------------------------
 export const getTodoListTC = () => {
   return (dispatch: AppDispatch) => {
+    dispatch(setAppStatusAC('loading'))
+
     todoListsAPI.getTodoLists().then(res => {
-      const action = setTodoListsAC(res.data)
-      dispatch(action)
+      dispatch(setTodoListsAC(res.data))
+      dispatch(setAppStatusAC('succeeded'))
     })
   }
 }
 
 export const createTodoListTC = (title: string) => {
   return (dispatch: AppDispatch) => {
+    dispatch(setAppStatusAC('loading'))
+
     todoListsAPI.createTodoList(title).then(res => {
-      const action = createTodoListAC(res.data.data.item)
-      dispatch(action)
+      dispatch(createTodoListAC(res.data.data.item))
+      dispatch(setAppStatusAC('succeeded'))
     })
   }
 }
 
 export const deleteTodoListTC = (id: string) => {
   return (dispatch: AppDispatch) => {
+    dispatch(setAppStatusAC('loading'))
+
     todoListsAPI.deleteTodoList(id).then(() => {
-      const action = deleteTodoListAC(id)
-      dispatch(action)
+      dispatch(deleteTodoListAC(id))
+      dispatch(setAppStatusAC('succeeded'))
     })
   }
 }
 
 export const changeTodoListTitleTC = (id: string, title: string) => {
   return (dispatch: AppDispatch) => {
+    dispatch(setAppStatusAC('loading'))
+
     todoListsAPI.updateTodoList(id, title).then(() => {
-      const action = changeTodoListTitleAC(id, title)
-      dispatch(action)
+      dispatch(changeTodoListTitleAC(id, title))
+      dispatch(setAppStatusAC('succeeded'))
     })
   }
 }
