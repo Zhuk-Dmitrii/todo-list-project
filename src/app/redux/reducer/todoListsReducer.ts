@@ -38,38 +38,33 @@ export function todoListsReducer(
     }
 
     case ActionTypeTodoList.CHANGE_FILTER_TODO_LIST: {
-      const stateCopy = [...state]
-      const todoList = stateCopy.find(item => item.id == action.id)
-
-      if (todoList) {
-        todoList.filter = action.filter
-      }
-
-      return stateCopy
+      return state.map(todoList => {
+        if (todoList.id === action.id) {
+          return { ...todoList, filter: action.filter }
+        } else {
+          return todoList
+        }
+      })
     }
 
     case ActionTypeTodoList.CHANGE_TITLE_TODO_LIST: {
-      const stateCopy = [...state]
-
-      const todoList = stateCopy.find(item => item.id == action.id)
-
-      if (todoList) {
-        todoList.title = action.newTitle
-      }
-
-      return stateCopy
+      return state.map(todoList => {
+        if (todoList.id === action.id) {
+          return { ...todoList, title: action.newTitle }
+        } else {
+          return todoList
+        }
+      })
     }
 
     case ActionTypeTodoList.CHANGE_ENTITY_STATUS_TODO_LIST: {
-      const stateCopy = [...state]
-
-      const todoList = stateCopy.find(item => item.id == action.id)
-
-      if (todoList) {
-        todoList.entityStatus = 'loading'
-      }
-
-      return stateCopy
+      return state.map(todoList => {
+        if (todoList.id === action.id) {
+          return { ...todoList, entityStatus: action.status }
+        } else {
+          return todoList
+        }
+      })
     }
 
     case ActionTypeTodoList.SET_TODO_LISTS: {
