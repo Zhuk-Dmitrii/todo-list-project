@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react'
-import { Container } from '@mui/material'
+import { Box, Container, LinearProgress } from '@mui/material'
 import { Grid2 } from '@mui/material'
 
-import { useAppDispatch } from '../hooks/reduxHooks'
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks'
 import { createTodoListTC } from '../redux/reducer/todoListsReducer'
 import { InputForm } from '../../components/InputForm'
 import { Header } from '../../components/Header'
@@ -10,6 +10,7 @@ import { CustomSnackbar } from '../../components/CustomSnackbar'
 import { TodoListLists } from '../../features/TodoListLists'
 
 export function App() {
+  const status = useAppSelector(state => state.app.status)
   const dispatch = useAppDispatch()
 
   const createTodoList = useCallback(
@@ -31,7 +32,12 @@ export function App() {
 
   return (
     <>
-      <Header />
+      <Box sx={{ position: 'relative' }}>
+        <Header />
+        {status === 'loading' && (
+          <LinearProgress sx={{ position: 'absolute', left: '0px', right: '0px', bottom: '0px' }} />
+        )}
+      </Box>
       <Container sx={{ pt: 6, pb: 2 }}>
         <InputForm
           createItem={createTodoList}
