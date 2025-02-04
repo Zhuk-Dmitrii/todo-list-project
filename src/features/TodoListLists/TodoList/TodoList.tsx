@@ -9,7 +9,7 @@ import {
   changeTodoListTitleTC,
   deleteTodoListTC,
 } from '../../../app/redux/reducer/todoListsReducer'
-import { FilteredValues } from '../../../app/types/businessTypes'
+import { FilteredValues, TodoListBusinessType } from '../../../app/types/businessTypes'
 import { TaskStatus } from '../../../api/typesAPI/todoListTypes'
 import { Todo } from './Todo'
 import { InputForm } from '../../../components/InputForm'
@@ -17,18 +17,16 @@ import { EditableSpan } from '../../../components/EditableSpan'
 import { customCSS } from './TodoListCSS'
 
 type TProps = {
-  todoListId: string
-  title: string
-  filterValue: string
+  todoList: TodoListBusinessType
 }
 
 export const TodoList = React.memo((props: TProps) => {
-  const tasks = useAppSelector(state => state.tasks[props.todoListId])
+  const tasks = useAppSelector(state => state.tasks[props.todoList.id])
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getTasksTC(props.todoListId))
-  }, [dispatch, props.todoListId])
+    dispatch(getTasksTC(props.todoList.id))
+  }, [dispatch, props.todoList.id])
 
   // -------------------------------- Todo Lists -------------------------------
   const handleClickBtnFilter = useCallback(
@@ -36,58 +34,58 @@ export const TodoList = React.memo((props: TProps) => {
       const targetValue = event.currentTarget.value
 
       if (targetValue === FilteredValues.all) {
-        const action = changeTodoListFilterAC(props.todoListId, FilteredValues.all)
+        const action = changeTodoListFilterAC(props.todoList.id, FilteredValues.all)
         dispatch(action)
       }
 
       if (targetValue === FilteredValues.active) {
-        const action = changeTodoListFilterAC(props.todoListId, FilteredValues.active)
+        const action = changeTodoListFilterAC(props.todoList.id, FilteredValues.active)
         dispatch(action)
       }
 
       if (targetValue === FilteredValues.completed) {
-        const action = changeTodoListFilterAC(props.todoListId, FilteredValues.completed)
+        const action = changeTodoListFilterAC(props.todoList.id, FilteredValues.completed)
         dispatch(action)
       }
     },
-    [props.todoListId, dispatch],
+    [props.todoList.id, dispatch],
   )
 
   const handleClickDeleteTodoList = useCallback(() => {
-    const thunk = deleteTodoListTC(props.todoListId)
+    const thunk = deleteTodoListTC(props.todoList.id)
     dispatch(thunk)
-  }, [props.todoListId, dispatch])
+  }, [props.todoList.id, dispatch])
 
   const handleChangeTodoListTitle = useCallback(
     (newTitle: string) => {
-      const thunk = changeTodoListTitleTC(props.todoListId, newTitle)
+      const thunk = changeTodoListTitleTC(props.todoList.id, newTitle)
       dispatch(thunk)
     },
-    [props.todoListId, dispatch],
+    [props.todoList.id, dispatch],
   )
 
   // -------------------------------- Tasks -------------------------------
   const filteredTasks = useMemo(() => {
     let filterTasks = tasks
 
-    if (props.filterValue == FilteredValues.active) {
+    if (props.todoList.filter == FilteredValues.active) {
       filterTasks = tasks.filter(task => task.status === TaskStatus.New)
     }
 
-    if (props.filterValue == FilteredValues.completed) {
+    if (props.todoList.filter == FilteredValues.completed) {
       filterTasks = tasks.filter(task => task.status === TaskStatus.Completed)
     }
 
     return filterTasks
-  }, [props.filterValue, tasks])
+  }, [props.todoList.filter, tasks])
 
   const createTask = useCallback(
     (title: string) => {
-      const thunk = createTaskTC(props.todoListId, title)
+      const thunk = createTaskTC(props.todoList.id, title)
 
       dispatch(thunk)
     },
-    [dispatch, props.todoListId],
+    [dispatch, props.todoList.id],
   )
 
   // -------------------------------- Custom Styles -------------------------------
@@ -111,7 +109,7 @@ export const TodoList = React.memo((props: TProps) => {
       </IconButton>
       <Box sx={{ mb: 2, height: '28px', display: 'flex', justifyContent: 'center' }}>
         <EditableSpan
-          title={props.title}
+          title={props.todoList.title}
           changeValue={handleChangeTodoListTitle}
           sx={customCSS.editableSpan}
         />
@@ -126,14 +124,14 @@ export const TodoList = React.memo((props: TProps) => {
 
       <List sx={{ maxHeight: '120px', overflow: 'auto' }}>
         {filteredTasks.map(task => (
-          <Todo key={task.id} todoListId={props.todoListId} task={task} />
+          <Todo key={task.id} todoListId={props.todoList.id} task={task} />
         ))}
       </List>
       <Box sx={{ height: '30px', display: 'flex', gap: 1, mt: 'auto' }}>
         <Button
           onClick={handleClickBtnFilter}
           value={FilteredValues.all}
-          variant={props.filterValue == FilteredValues.all ? 'contained' : 'outlined'}
+          variant={props.todoList.filter == FilteredValues.all ? 'contained' : 'outlined'}
           color="primary"
           children={'All'}
           sx={{ height: '100%' }}
@@ -141,7 +139,7 @@ export const TodoList = React.memo((props: TProps) => {
         <Button
           onClick={handleClickBtnFilter}
           value={FilteredValues.active}
-          variant={props.filterValue == FilteredValues.active ? 'contained' : 'outlined'}
+          variant={props.todoList.filter == FilteredValues.active ? 'contained' : 'outlined'}
           color="secondary"
           children={'Active'}
           sx={{ height: '100%' }}
@@ -149,7 +147,7 @@ export const TodoList = React.memo((props: TProps) => {
         <Button
           onClick={handleClickBtnFilter}
           value={FilteredValues.completed}
-          variant={props.filterValue == FilteredValues.completed ? 'contained' : 'outlined'}
+          variant={props.todoList.filter == FilteredValues.completed ? 'contained' : 'outlined'}
           color="success"
           children={'Completed'}
           sx={{ height: '100%' }}

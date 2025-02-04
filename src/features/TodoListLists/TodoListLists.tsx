@@ -18,11 +18,7 @@ export function TodoListLists() {
       {todoLists.map(todoList => (
         <Grid2 key={todoList.id} sx={{ maxWidth: '300px', width: '100%', minHeight: '320px' }}>
           <Paper elevation={4} sx={{ p: 1, height: '100%' }}>
-            <TodoList
-              todoListId={todoList.id}
-              title={todoList.title}
-              filterValue={todoList.filter}
-            />
+            <TodoList todoList={todoList} />
           </Paper>
         </Grid2>
       ))}
