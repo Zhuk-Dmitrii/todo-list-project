@@ -40,7 +40,7 @@ export function todoListsReducer(
       const todoList = stateCopy.find(item => item.id == action.id)
 
       if (todoList) {
-        todoList.filter = action.value
+        todoList.filter = action.filter
       }
 
       return stateCopy

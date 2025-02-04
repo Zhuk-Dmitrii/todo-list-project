@@ -38,11 +38,11 @@ export function deleteTodoListAC(id: string) {
   } as const
 }
 
-export function changeTodoListFilterAC(id: string, value: FilteredValues) {
+export function changeTodoListFilterAC(id: string, filter: FilteredValues) {
   return {
     type: ActionTypeTodoList.CHANGE_FILTER_TODO_LIST,
     id,
-    value,
+    filter,
   } as const
 }
 
