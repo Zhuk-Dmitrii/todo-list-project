@@ -1,4 +1,5 @@
 import { TaskPriority, TaskStatus, TaskType, TodoListType } from '../../api/typesAPI/todoListTypes'
+import { AppStatus } from '../redux/action/appAction'
 
 // ------------------- CONSTANTS ------------------------------
 export enum FilteredValues {
@@ -10,6 +11,7 @@ export enum FilteredValues {
 // ------------------- TODO LISTS TYPE ------------------------------
 export type TodoListBusinessType = TodoListType & {
   filter: FilteredValues
+  entityStatus: AppStatus
 }
 
 // ------------------- TASKS TYPE ------------------------------

@@ -1,6 +1,7 @@
 import { todoListsAPI } from '../../../api/todoList-api'
 import {
   ActionTypeTodoList,
+  changeTodoListEntityStatusAC,
   changeTodoListTitleAC,
   createTodoListAC,
   deleteTodoListAC,
@@ -24,6 +25,7 @@ export function todoListsReducer(
       const newTodoList: TodoListBusinessType = {
         ...action.todoList,
         filter: FilteredValues.all,
+        entityStatus: 'idle',
       }
 
       return [newTodoList, ...stateCopy]
@@ -58,11 +60,24 @@ export function todoListsReducer(
       return stateCopy
     }
 
+    case ActionTypeTodoList.CHANGE_ENTITY_STATUS_TODO_LIST: {
+      const stateCopy = [...state]
+
+      const todoList = stateCopy.find(item => item.id == action.id)
+
+      if (todoList) {
+        todoList.entityStatus = 'loading'
+      }
+
+      return stateCopy
+    }
+
     case ActionTypeTodoList.SET_TODO_LISTS: {
-      const todoLists = action.todoLists.map(tl => {
+      const todoLists: TodoListBusinessType[] = action.todoLists.map(tl => {
         return {
           ...tl,
           filter: FilteredValues.all,
+          entityStatus: 'idle',
         }
       })
 
@@ -100,6 +115,7 @@ export const createTodoListTC = (title: string) => {
 export const deleteTodoListTC = (id: string) => {
   return (dispatch: AppDispatch) => {
     dispatch(setAppStatusAC('loading'))
+    dispatch(changeTodoListEntityStatusAC(id, 'loading'))
 
     todoListsAPI.deleteTodoList(id).then(() => {
       dispatch(deleteTodoListAC(id))

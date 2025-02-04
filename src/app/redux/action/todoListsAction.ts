@@ -1,5 +1,6 @@
 import { TodoListType } from '../../../api/typesAPI/todoListTypes'
 import { FilteredValues } from '../../types/businessTypes'
+import { AppStatus } from './appAction'
 
 // ---------------------- TYPES ----------------------------
 
@@ -8,6 +9,7 @@ export enum ActionTypeTodoList {
   DELETE_TODO_LIST = 'DELETE_TODO_LIST',
   CHANGE_FILTER_TODO_LIST = 'CHANGE_FILTER_TODO_LIST',
   CHANGE_TITLE_TODO_LIST = 'CHANGE_TITLE_TODO_LIST',
+  CHANGE_ENTITY_STATUS_TODO_LIST = 'CHANGE_ENTITY_STATUS_TODO_LIST',
   SET_TODO_LISTS = 'SET_TODO_LISTS',
 }
 
@@ -20,6 +22,7 @@ export type TAction =
   | DeleteTodoListActionType
   | ReturnType<typeof changeTodoListFilterAC>
   | ReturnType<typeof changeTodoListTitleAC>
+  | ReturnType<typeof changeTodoListEntityStatusAC>
   | SetTodoListsActionType
 
 // ------------------ ACTION CREATORS ----------------------
@@ -51,6 +54,14 @@ export function changeTodoListTitleAC(id: string, newTitle: string) {
     type: ActionTypeTodoList.CHANGE_TITLE_TODO_LIST,
     id,
     newTitle,
+  } as const
+}
+
+export function changeTodoListEntityStatusAC(id: string, status: AppStatus) {
+  return {
+    type: ActionTypeTodoList.CHANGE_ENTITY_STATUS_TODO_LIST,
+    id,
+    status,
   } as const
 }
 
