@@ -9,16 +9,19 @@ type TEditableSpan = {
     textField?: Array<object | boolean> | object
     typography?: Array<object | boolean> | object
   }
+  disabled?: boolean
 }
 
-export const EditableSpan = React.memo((props: TEditableSpan) => {
+export const EditableSpan = React.memo(({ disabled = false, ...props }: TEditableSpan) => {
   const [editMode, setEditMode] = useState<boolean>(false)
   const [title, setTitle] = useState<string>('')
 
   const activateEditMode = useCallback(() => {
+    if (disabled) return
+
     setEditMode(true)
     setTitle(props.title)
-  }, [props.title])
+  }, [props.title, disabled])
 
   const disableEditMode = useCallback(() => {
     setEditMode(false)
@@ -39,7 +42,11 @@ export const EditableSpan = React.memo((props: TEditableSpan) => {
       autoFocus
     />
   ) : (
-    <Typography component={'span'} onDoubleClick={activateEditMode} sx={props.sx?.typography}>
+    <Typography
+      component={'span'}
+      onDoubleClick={activateEditMode}
+      sx={(props.sx?.typography, { opacity: disabled ? '0.5' : '1' })}
+    >
       {props.title}
     </Typography>
   )

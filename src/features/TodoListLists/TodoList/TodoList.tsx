@@ -28,6 +28,8 @@ export const TodoList = React.memo((props: TProps) => {
     dispatch(getTasksTC(props.todoList.id))
   }, [dispatch, props.todoList.id])
 
+  const isDisabled = props.todoList.entityStatus === 'loading'
+
   // -------------------------------- Todo Lists -------------------------------
   const handleClickBtnFilter = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
@@ -104,6 +106,7 @@ export const TodoList = React.memo((props: TProps) => {
         onClick={handleClickDeleteTodoList}
         size="small"
         sx={{ display: 'flex', ml: 'auto' }}
+        disabled={isDisabled}
       >
         <Clear />
       </IconButton>
@@ -112,6 +115,7 @@ export const TodoList = React.memo((props: TProps) => {
           title={props.todoList.title}
           changeValue={handleChangeTodoListTitle}
           sx={customCSS.editableSpan}
+          disabled={isDisabled}
         />
       </Box>
 
@@ -120,6 +124,7 @@ export const TodoList = React.memo((props: TProps) => {
         styleWrapper={styleInputForm.styleWrapper}
         sx={styleInputForm.sx}
         size="small"
+        disabled={isDisabled}
       />
 
       <List sx={{ maxHeight: '120px', overflow: 'auto' }}>

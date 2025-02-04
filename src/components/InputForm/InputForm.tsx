@@ -7,9 +7,10 @@ type TInputForm = {
   styleWrapper?: object
   sx?: object
   size?: 'medium' | 'small'
+  disabled?: boolean
 }
 
-export const InputForm = React.memo((props: TInputForm) => {
+export const InputForm = React.memo(({ disabled = false, ...props }: TInputForm) => {
   const [title, setTitle] = useState('')
   const [error, setError] = useState<string | null>(null)
 
@@ -54,8 +55,9 @@ export const InputForm = React.memo((props: TInputForm) => {
         error={!!error}
         value={title}
         onChange={handleChangeTitle}
+        disabled={disabled}
       />
-      <IconButton type="submit" color="primary" sx={{ ml: 1, mb: 'auto' }}>
+      <IconButton type="submit" color="primary" sx={{ ml: 1, mb: 'auto' }} disabled={disabled}>
         <AddCircleOutline />
       </IconButton>
     </Box>
