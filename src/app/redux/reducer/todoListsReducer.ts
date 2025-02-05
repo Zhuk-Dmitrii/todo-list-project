@@ -11,6 +11,7 @@ import {
 import { FilteredValues, TodoListBusinessType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
 import { setAppStatusAC } from '../action/appAction'
+import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
 
 const initialState: TodoListBusinessType[] = []
 
@@ -100,10 +101,17 @@ export const createTodoListTC = (title: string) => {
   return (dispatch: AppDispatch) => {
     dispatch(setAppStatusAC('loading'))
 
-    todoListsAPI.createTodoList(title).then(res => {
-      dispatch(createTodoListAC(res.data.data.item))
-      dispatch(setAppStatusAC('succeeded'))
-    })
+    todoListsAPI
+      .createTodoList(title)
+      .then(res => {
+        if (res.data.resultCode === 0) {
+          dispatch(createTodoListAC(res.data.data.item))
+          dispatch(setAppStatusAC('succeeded'))
+        } else {
+          handleServerErrorApp(res.data, dispatch)
+        }
+      })
+      .catch(error => handleNetworkErrorApp(error.message, dispatch))
   }
 }
 
@@ -112,10 +120,17 @@ export const deleteTodoListTC = (id: string) => {
     dispatch(setAppStatusAC('loading'))
     dispatch(changeTodoListEntityStatusAC(id, 'loading'))
 
-    todoListsAPI.deleteTodoList(id).then(() => {
-      dispatch(deleteTodoListAC(id))
-      dispatch(setAppStatusAC('succeeded'))
-    })
+    todoListsAPI
+      .deleteTodoList(id)
+      .then(res => {
+        if (res.data.resultCode === 0) {
+          dispatch(deleteTodoListAC(id))
+          dispatch(setAppStatusAC('succeeded'))
+        } else {
+          handleServerErrorApp(res.data, dispatch)
+        }
+      })
+      .catch(error => handleNetworkErrorApp(error.message, dispatch))
   }
 }
 
@@ -123,9 +138,16 @@ export const changeTodoListTitleTC = (id: string, title: string) => {
   return (dispatch: AppDispatch) => {
     dispatch(setAppStatusAC('loading'))
 
-    todoListsAPI.updateTodoList(id, title).then(() => {
-      dispatch(changeTodoListTitleAC(id, title))
-      dispatch(setAppStatusAC('succeeded'))
-    })
+    todoListsAPI
+      .updateTodoList(id, title)
+      .then(res => {
+        if (res.data.resultCode === 0) {
+          dispatch(changeTodoListTitleAC(id, title))
+          dispatch(setAppStatusAC('succeeded'))
+        } else {
+          handleServerErrorApp(res.data, dispatch)
+        }
+      })
+      .catch(error => handleNetworkErrorApp(error.message, dispatch))
   }
 }
