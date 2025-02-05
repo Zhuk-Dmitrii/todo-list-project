@@ -4,6 +4,7 @@ import {
   changeTodoListFilterAC,
   changeTodoListTitleAC,
   setTodoListsAC,
+  changeTodoListEntityStatusAC,
 } from '../app/redux/action/todoListsAction'
 import { todoListsReducer } from '../app/redux/reducer/todoListsReducer'
 import { TodoListType } from '../api/typesAPI/todoListTypes'
@@ -25,6 +26,7 @@ beforeEach(() => {
       filter: FilteredValues.all,
       addedDate: '',
       order: 0,
+      entityStatus: 'idle',
     },
     {
       id: todoListId2,
@@ -32,6 +34,7 @@ beforeEach(() => {
       filter: FilteredValues.active,
       addedDate: '',
       order: 0,
+      entityStatus: 'idle',
     },
   ]
 })
@@ -84,6 +87,16 @@ test('todo list title should be changed', () => {
 
   expect(endStateTodoList[1].title).toBe(newTitle)
   expect(endStateTodoList[0].title).toBe('What to learn')
+})
+
+// --------------------------------------------------------
+test('todo list status should be changed', () => {
+  const action = changeTodoListEntityStatusAC(todoListId2, 'loading')
+
+  const endStateTodoList: TodoListBusinessType[] = todoListsReducer(startStateTodoLists, action)
+
+  expect(endStateTodoList[1].entityStatus).toBe('loading')
+  expect(endStateTodoList[0].entityStatus).toBe('idle')
 })
 
 // --------------------------------------------------------
