@@ -4,7 +4,4 @@ export enum PATHS {
 
   // URL pages
   LOGIN = '/login',
-
-  // Error
-  NOT_FOUND = '*',
 }
