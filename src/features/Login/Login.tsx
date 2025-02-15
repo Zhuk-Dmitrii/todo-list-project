@@ -11,12 +11,37 @@ import {
   Checkbox,
   Button,
 } from '@mui/material'
+import { useFormik } from 'formik'
 
 export function Login() {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      rememberMe: false,
+    },
+    validate: values => {
+      const errors: { email?: string; password?: string } = {}
+
+      if (!values.email) {
+        errors.email = 'Email is required'
+      }
+
+      if (!values.password) {
+        errors.password = 'Password is required'
+      }
+
+      return errors
+    },
+    onSubmit: values => {
+      console.log(values)
+    },
+  })
+
   return (
-    <Container sx={{ display: 'flex', justifyContent: 'center', paddingTop: '10%' }}>
+    <Container sx={{ display: 'flex', justifyContent: 'center' }}>
       <Paper elevation={5} sx={{ p: 3 }}>
-        <Box component="form">
+        <Box component="form" onSubmit={formik.handleSubmit}>
           <Typography variant="body2" sx={{ display: 'inline-block' }} color="textSecondary">
             To log in get registered{' '}
             <Link
@@ -45,17 +70,30 @@ export function Login() {
                 variant="outlined"
                 size="small"
                 margin="normal"
-                required
+                {...formik.getFieldProps('email')}
               />
+              {formik.touched.email && formik.errors.email && (
+                <Typography variant="subtitle2" color="error" children={formik.errors.email} />
+              )}
+
               <TextField
                 label={'Password'}
                 type="password"
                 variant="outlined"
                 size="small"
                 margin="normal"
-                required
+                {...formik.getFieldProps('password')}
               />
-              <FormControlLabel control={<Checkbox />} label="Remember me" />
+              {formik.touched.password && formik.errors.password && (
+                <Typography variant="subtitle2" color="error" children={formik.errors.password} />
+              )}
+
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Remember me"
+                checked={formik.values.rememberMe}
+                {...formik.getFieldProps('rememberMe')}
+              />
             </FormGroup>
             <Button
               type="submit"
