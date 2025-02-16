@@ -27,3 +27,8 @@ export type UpdateBusinessTaskModelType = {
   startDate?: string | null
   deadline?: string | null
 }
+
+// ------------------- AUTH TYPE ------------------------------
+export type IsAuthorizationType = {
+  isLoggedIn: boolean
+}

@@ -90,10 +90,13 @@ export const getTodoListTC = () => {
   return (dispatch: AppDispatch) => {
     dispatch(setAppStatusAC('loading'))
 
-    todoListsAPI.getTodoLists().then(res => {
-      dispatch(setTodoListsAC(res.data))
-      dispatch(setAppStatusAC('succeeded'))
-    })
+    todoListsAPI
+      .getTodoLists()
+      .then(res => {
+        dispatch(setTodoListsAC(res.data))
+        dispatch(setAppStatusAC('succeeded'))
+      })
+      .catch(error => handleNetworkErrorApp(error.message, dispatch))
   }
 }
 

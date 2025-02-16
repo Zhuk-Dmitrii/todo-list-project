@@ -5,7 +5,17 @@ import { Button } from '@mui/material'
 import { IconButton } from '@mui/material'
 import { Menu } from '@mui/icons-material'
 
+import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
+import { logoutTC } from '../../app/redux/reducer/authReducer'
+
 export function Header() {
+  const dispatch = useAppDispatch()
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+
+  function handleLogout() {
+    dispatch(logoutTC())
+  }
+
   return (
     <AppBar position="relative">
       <Toolbar>
@@ -15,7 +25,11 @@ export function Header() {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           News
         </Typography>
-        <Button color="inherit">Login</Button>
+        {isLoggedIn && (
+          <Button color="inherit" onClick={handleLogout}>
+            Logout
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   )

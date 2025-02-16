@@ -1,18 +1,23 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import { Box, Grid2, Paper } from '@mui/material'
+import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
 import { createTodoListTC, getTodoListTC } from '../../app/redux/reducer/todoListsReducer'
 import { TodoList } from './TodoList'
 import { InputForm } from '../../components/InputForm'
+import { PATHS } from '../../app/routers/path'
 
 export function TodoListLists() {
   const dispatch = useAppDispatch()
   const todoLists = useAppSelector(state => state.todoLists)
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
   useEffect(() => {
+    if (!isLoggedIn) return
+
     dispatch(getTodoListTC())
-  }, [dispatch])
+  }, [dispatch, isLoggedIn])
 
   const createTodoList = useCallback(
     (title: string) => {
@@ -30,6 +35,10 @@ export function TodoListLists() {
     }),
     [],
   )
+
+  if (!isLoggedIn) {
+    return <Navigate to={PATHS.LOGIN} />
+  }
 
   return (
     <>

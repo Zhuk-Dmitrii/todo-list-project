@@ -12,8 +12,16 @@ import {
   Button,
 } from '@mui/material'
 import { useFormik } from 'formik'
+import { Navigate } from 'react-router-dom'
+
+import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
+import { loginTC } from '../../app/redux/reducer/authReducer'
+import { PATHS } from '../../app/routers/path'
 
 export function Login() {
+  const dispatch = useAppDispatch()
+  const isLoggedInStatus = useAppSelector(state => state.auth.isLoggedIn)
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -34,9 +42,13 @@ export function Login() {
       return errors
     },
     onSubmit: values => {
-      console.log(values)
+      dispatch(loginTC(values))
     },
   })
+
+  if (isLoggedInStatus) {
+    return <Navigate to={PATHS.HOME} />
+  }
 
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center' }}>
