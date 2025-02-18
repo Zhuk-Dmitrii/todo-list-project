@@ -1,9 +1,9 @@
-import React, { MouseEvent, useMemo, useCallback, useEffect } from 'react'
+import React, { MouseEvent, useMemo, useCallback } from 'react'
 import { Box, IconButton, List, Button } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '../../../app/hooks/reduxHooks'
-import { createTaskTC, getTasksTC } from '../../../app/redux/reducer/tasksReducer'
+import { createTaskTC } from '../../../app/redux/reducer/tasksReducer'
 import { changeTodoListFilterAC } from '../../../app/redux/action/todoListsAction'
 import {
   changeTodoListTitleTC,
@@ -23,10 +23,6 @@ type TProps = {
 export const TodoList = React.memo((props: TProps) => {
   const tasks = useAppSelector(state => state.tasks[props.todoList.id])
   const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(getTasksTC(props.todoList.id))
-  }, [dispatch, props.todoList.id])
 
   const isDisabled = props.todoList.entityStatus === 'loading'
 

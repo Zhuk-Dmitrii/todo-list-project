@@ -5,6 +5,7 @@ import { IsAuthorizationType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
 import { setAppStatusAC } from '../action/appAction'
 import { ActionTypeAuth, setIsLoggedInStatusAC, TAction } from '../action/authAction'
+import { resetStateAC } from '../action/todoListsAction'
 
 const initialState: IsAuthorizationType = {
   isLoggedIn: false,
@@ -52,6 +53,7 @@ export const logoutTC = () => {
         if (res.data.resultCode == 0) {
           dispatch(setIsLoggedInStatusAC(false))
           dispatch(setAppStatusAC('succeeded'))
+          dispatch(resetStateAC())
         } else {
           handleServerErrorApp(res.data, dispatch)
         }

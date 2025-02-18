@@ -11,11 +11,13 @@ export enum ActionTypeTodoList {
   CHANGE_TITLE_TODO_LIST = 'CHANGE_TITLE_TODO_LIST',
   CHANGE_ENTITY_STATUS_TODO_LIST = 'CHANGE_ENTITY_STATUS_TODO_LIST',
   SET_TODO_LISTS = 'SET_TODO_LISTS',
+  RESET_STATE = 'RESET_STATE',
 }
 
 export type createTodoListActionType = ReturnType<typeof createTodoListAC>
 export type DeleteTodoListActionType = ReturnType<typeof deleteTodoListAC>
 export type SetTodoListsActionType = ReturnType<typeof setTodoListsAC>
+export type resetStateActionType = ReturnType<typeof resetStateAC>
 
 export type TAction =
   | createTodoListActionType
@@ -24,6 +26,7 @@ export type TAction =
   | ReturnType<typeof changeTodoListTitleAC>
   | ReturnType<typeof changeTodoListEntityStatusAC>
   | SetTodoListsActionType
+  | resetStateActionType
 
 // ------------------ ACTION CREATORS ----------------------
 
@@ -69,5 +72,11 @@ export function setTodoListsAC(todoLists: TodoListType[]) {
   return {
     type: ActionTypeTodoList.SET_TODO_LISTS,
     todoLists,
+  } as const
+}
+
+export function resetStateAC() {
+  return {
+    type: ActionTypeTodoList.RESET_STATE,
   } as const
 }

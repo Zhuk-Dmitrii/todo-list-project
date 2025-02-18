@@ -83,6 +83,10 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
       return stateCopy
     }
 
+    case ActionTypeTodoList.RESET_STATE: {
+      return {}
+    }
+
     default:
       return state
   }

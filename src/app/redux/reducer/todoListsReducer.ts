@@ -12,6 +12,7 @@ import { FilteredValues, TodoListBusinessType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
 import { setAppStatusAC } from '../action/appAction'
 import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
+import { getTasksTC } from './tasksReducer'
 
 const initialState: TodoListBusinessType[] = []
 
@@ -80,6 +81,10 @@ export function todoListsReducer(
       return todoLists
     }
 
+    case ActionTypeTodoList.RESET_STATE: {
+      return []
+    }
+
     default:
       return state
   }
@@ -95,6 +100,11 @@ export const getTodoListTC = () => {
       .then(res => {
         dispatch(setTodoListsAC(res.data))
         dispatch(setAppStatusAC('succeeded'))
+
+        return res.data
+      })
+      .then(todoListsData => {
+        todoListsData.forEach(todoList => dispatch(getTasksTC(todoList.id)))
       })
       .catch(error => handleNetworkErrorApp(error.message, dispatch))
   }

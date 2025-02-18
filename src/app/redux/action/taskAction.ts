@@ -3,6 +3,7 @@ import { UpdateBusinessTaskModelType } from '../../types/businessTypes'
 import {
   createTodoListActionType,
   DeleteTodoListActionType,
+  resetStateActionType,
   SetTodoListsActionType,
 } from './todoListsAction'
 
@@ -23,6 +24,7 @@ export type TAction =
   | createTodoListActionType
   | DeleteTodoListActionType
   | SetTodoListsActionType
+  | resetStateActionType
 
 // ------------------ ACTION CREATORS ----------------------
 
