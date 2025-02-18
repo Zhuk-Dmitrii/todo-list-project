@@ -14,19 +14,19 @@ export enum ActionTypeTodoList {
   RESET_STATE = 'RESET_STATE',
 }
 
-export type createTodoListActionType = ReturnType<typeof createTodoListAC>
+export type CreateTodoListActionType = ReturnType<typeof createTodoListAC>
 export type DeleteTodoListActionType = ReturnType<typeof deleteTodoListAC>
 export type SetTodoListsActionType = ReturnType<typeof setTodoListsAC>
-export type resetStateActionType = ReturnType<typeof resetStateAC>
+export type ResetStateActionType = ReturnType<typeof resetStateAC>
 
 export type TAction =
-  | createTodoListActionType
+  | CreateTodoListActionType
   | DeleteTodoListActionType
   | ReturnType<typeof changeTodoListFilterAC>
   | ReturnType<typeof changeTodoListTitleAC>
   | ReturnType<typeof changeTodoListEntityStatusAC>
   | SetTodoListsActionType
-  | resetStateActionType
+  | ResetStateActionType
 
 // ------------------ ACTION CREATORS ----------------------
 
