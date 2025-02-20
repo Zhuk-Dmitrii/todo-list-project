@@ -2,7 +2,8 @@ import { authAPI } from '../../../api/auth-api'
 import { handleNetworkErrorApp } from '../../../utils/error-utils'
 import { AppDispatch } from '../../types/storeTypes'
 import { AppStatus, TAction, ActionTypeApp, setIsInitializedAC } from '../action/appAction'
-import { setIsLoggedInStatusAC } from '../action/authAction'
+// import { setIsLoggedInStatusAC } from '../action/authAction'
+import { setIsLoggedInStatusAC } from '../reducer/authReducer'
 
 export type AppInitialStateType = {
   status: AppStatus
