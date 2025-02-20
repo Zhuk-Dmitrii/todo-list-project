@@ -10,7 +10,7 @@ import {
 } from '../action/todoListsAction'
 import { FilteredValues, TodoListBusinessType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
-import { setAppStatusAC } from '../action/appAction'
+import { setAppStatusAC } from '../reducer/appReducer'
 import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
 import { getTasksTC } from './tasksReducer'
 

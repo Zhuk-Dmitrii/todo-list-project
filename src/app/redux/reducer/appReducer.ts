@@ -1,15 +1,11 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
 import { authAPI } from '../../../api/auth-api'
 import { handleNetworkErrorApp } from '../../../utils/error-utils'
+import { AppInitialStateType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
-import { AppStatus, TAction, ActionTypeApp, setIsInitializedAC } from '../action/appAction'
-// import { setIsLoggedInStatusAC } from '../action/authAction'
+import { AppStatus } from '../../types/businessTypes'
 import { setIsLoggedInStatusAC } from '../reducer/authReducer'
-
-export type AppInitialStateType = {
-  status: AppStatus
-  error: string | null
-  isInitialized: boolean
-}
 
 const initialState: AppInitialStateType = {
   status: 'idle',
@@ -17,27 +13,24 @@ const initialState: AppInitialStateType = {
   isInitialized: false,
 }
 
-export function appReducer(
-  state: AppInitialStateType = initialState,
-  action: TAction,
-): AppInitialStateType {
-  switch (action.type) {
-    case ActionTypeApp.APP_SET_STATUS: {
-      return { ...state, status: action.status }
-    }
+const appSlice = createSlice({
+  name: 'app',
+  initialState,
+  reducers: {
+    setAppStatusAC: (state, action: PayloadAction<AppStatus>) => {
+      state.status = action.payload
+    },
+    setAppErrorAC: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload
+    },
+    setIsInitializedAC: (state, action: PayloadAction<boolean>) => {
+      state.isInitialized = action.payload
+    },
+  },
+})
 
-    case ActionTypeApp.APP_SET_ERROR: {
-      return { ...state, error: action.error }
-    }
-
-    case ActionTypeApp.APP_SET_IS_INITIALIZED: {
-      return { ...state, isInitialized: action.isInitialized }
-    }
-
-    default:
-      return state
-  }
-}
+export const appReducer = appSlice.reducer
+export const { setAppStatusAC, setAppErrorAC, setIsInitializedAC } = appSlice.actions
 
 // ------------------------ THUNKS ------------------------------------
 export function initializedAppTC() {

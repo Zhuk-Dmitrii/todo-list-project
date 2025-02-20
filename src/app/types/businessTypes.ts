@@ -1,5 +1,4 @@
 import { TaskPriority, TaskStatus, TaskType, TodoListType } from '../../api/typesAPI/todoListTypes'
-import { AppStatus } from '../redux/action/appAction'
 
 // ------------------- CONSTANTS ------------------------------
 export enum FilteredValues {
@@ -31,4 +30,13 @@ export type UpdateBusinessTaskModelType = {
 // ------------------- AUTH TYPE ------------------------------
 export type IsAuthorizationType = {
   isLoggedIn: boolean
+}
+
+// ------------------- APP TYPE ------------------------------
+export type AppStatus = 'idle' | 'loading' | 'succeeded' | 'failed'
+
+export type AppInitialStateType = {
+  status: AppStatus
+  error: string | null
+  isInitialized: boolean
 }

@@ -2,7 +2,7 @@ import { Alert, Snackbar, SnackbarCloseReason } from '@mui/material'
 import { useDispatch } from 'react-redux'
 
 import { useAppSelector } from '../../app/hooks/reduxHooks'
-import { setAppErrorAC } from '../../app/redux/action/appAction'
+import { setAppErrorAC } from '../../app/redux/reducer/appReducer'
 
 export function CustomSnackbar() {
   const error = useAppSelector(state => state.app.error)
