@@ -16,6 +16,6 @@ export function handleServerErrorApp<D>(
 }
 
 export function handleNetworkErrorApp(errorMessage: string, dispatch: AppDispatch) {
-  dispatch(dispatch(setAppErrorAC(errorMessage)))
+  dispatch(setAppErrorAC(errorMessage))
   dispatch(setAppStatusAC('failed'))
 }
