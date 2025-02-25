@@ -6,7 +6,12 @@ import {
   deleteTaskAC,
   updateTaskAC,
 } from '../action/taskAction'
-import { ActionTypeTodoList } from '../action/todoListsAction'
+import {
+  createTodoListAC,
+  deleteTodoListAC,
+  setTodoListsAC,
+  resetStateAC,
+} from '../reducer/todoListsReducer'
 import { todoListsAPI } from '../../../api/todoList-api'
 import { TaskType, UpdateTaskModelType } from '../../../api/typesAPI/todoListTypes'
 import { UpdateBusinessTaskModelType, TasksDataType } from '../../types/businessTypes'
@@ -50,25 +55,25 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
       return { ...state }
     }
 
-    case ActionTypeTodoList.CREATE_TODO_LIST: {
+    case createTodoListAC.type: {
       return {
         ...state,
-        [action.todoList.id]: [],
+        [action.payload.todoList.id]: [],
       }
     }
 
-    case ActionTypeTodoList.DELETE_TODO_LIST: {
+    case deleteTodoListAC.type: {
       const stateCopy = { ...state }
 
-      delete stateCopy[action.id]
+      delete stateCopy[action.payload.id]
 
       return stateCopy
     }
 
-    case ActionTypeTodoList.SET_TODO_LISTS: {
+    case setTodoListsAC.type: {
       const stateCopy = { ...state }
 
-      action.todoLists.forEach(tl => {
+      action.payload.forEach((tl: { id: string }) => {
         stateCopy[tl.id] = []
       })
 
@@ -83,7 +88,7 @@ export function tasksReducer(state: TasksDataType = initialState, action: TActio
       return stateCopy
     }
 
-    case ActionTypeTodoList.RESET_STATE: {
+    case resetStateAC.type: {
       return {}
     }
 

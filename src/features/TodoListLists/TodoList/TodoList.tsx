@@ -4,7 +4,7 @@ import { Clear } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '../../../app/hooks/reduxHooks'
 import { createTaskTC } from '../../../app/redux/reducer/tasksReducer'
-import { changeTodoListFilterAC } from '../../../app/redux/action/todoListsAction'
+import { changeTodoListFilterAC } from '../../../app/redux/reducer/todoListsReducer'
 import {
   changeTodoListTitleTC,
   deleteTodoListTC,
@@ -32,17 +32,23 @@ export const TodoList = React.memo((props: TProps) => {
       const targetValue = event.currentTarget.value
 
       if (targetValue === FilteredValues.all) {
-        const action = changeTodoListFilterAC(props.todoList.id, FilteredValues.all)
+        const action = changeTodoListFilterAC({ id: props.todoList.id, filter: FilteredValues.all })
         dispatch(action)
       }
 
       if (targetValue === FilteredValues.active) {
-        const action = changeTodoListFilterAC(props.todoList.id, FilteredValues.active)
+        const action = changeTodoListFilterAC({
+          id: props.todoList.id,
+          filter: FilteredValues.active,
+        })
         dispatch(action)
       }
 
       if (targetValue === FilteredValues.completed) {
-        const action = changeTodoListFilterAC(props.todoList.id, FilteredValues.completed)
+        const action = changeTodoListFilterAC({
+          id: props.todoList.id,
+          filter: FilteredValues.completed,
+        })
         dispatch(action)
       }
     },

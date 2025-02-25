@@ -1,11 +1,11 @@
 import { TaskType } from '../../../api/typesAPI/todoListTypes'
 import { UpdateBusinessTaskModelType } from '../../types/businessTypes'
 import {
-  CreateTodoListActionType,
-  DeleteTodoListActionType,
-  ResetStateActionType,
-  SetTodoListsActionType,
-} from './todoListsAction'
+  createTodoListAC,
+  deleteTodoListAC,
+  resetStateAC,
+  setTodoListsAC,
+} from '../reducer/todoListsReducer'
 
 // ---------------------- TYPES ----------------------------
 
@@ -21,10 +21,10 @@ export type TAction =
   | ReturnType<typeof deleteTaskAC>
   | ReturnType<typeof updateTaskAC>
   | ReturnType<typeof setTasksAC>
-  | CreateTodoListActionType
-  | DeleteTodoListActionType
-  | SetTodoListsActionType
-  | ResetStateActionType
+  | ReturnType<typeof createTodoListAC>
+  | ReturnType<typeof deleteTodoListAC>
+  | ReturnType<typeof setTodoListsAC>
+  | ReturnType<typeof resetStateAC>
 
 // ------------------ ACTION CREATORS ----------------------
 

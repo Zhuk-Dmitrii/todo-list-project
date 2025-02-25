@@ -6,7 +6,7 @@ import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/erro
 import { IsAuthorizationType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
 import { setAppStatusAC } from '../reducer/appReducer'
-import { resetStateAC } from '../action/todoListsAction'
+import { resetStateAC } from '../reducer/todoListsReducer'
 
 const initialState: IsAuthorizationType = {
   isLoggedIn: false,
