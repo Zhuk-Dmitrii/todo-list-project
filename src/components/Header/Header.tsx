@@ -6,7 +6,7 @@ import { IconButton } from '@mui/material'
 import { Menu } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
-import { logoutTC } from '../../app/redux/reducer/authReducer'
+import { logoutTC } from '../../app/redux/slices/authSlice'
 
 export function Header() {
   const dispatch = useAppDispatch()

@@ -5,7 +5,7 @@ import { handleNetworkErrorApp } from '../../../utils/error-utils'
 import { AppInitialStateType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
 import { AppStatus } from '../../types/businessTypes'
-import { setIsLoggedInStatusAC } from '../reducer/authReducer'
+import { setIsLoggedInStatusAC } from './authSlice'
 
 const initialState: AppInitialStateType = {
   status: 'idle',

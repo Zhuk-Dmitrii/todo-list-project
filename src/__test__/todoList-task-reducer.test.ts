@@ -1,6 +1,6 @@
 import { createTodoListAC } from '../app/redux/action/todoListsAction'
-import { tasksReducer } from '../app/redux/reducer/tasksReducer'
-import { todoListsReducer } from '../app/redux/reducer/todoListsReducer'
+import { tasksReducer } from '../app/redux/slices/tasksSlice'
+import { todoListsReducer } from '../app/redux/slices/todoListsSlice'
 import { TodoListBusinessType, TasksDataType } from '../app/types/businessTypes'
 import { TodoListType } from '../api/typesAPI/todoListTypes'
 

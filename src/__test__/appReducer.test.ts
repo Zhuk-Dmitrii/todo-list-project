@@ -1,5 +1,5 @@
 import { AppStatus, setAppErrorAC, setAppStatusAC } from '../app/redux/action/appAction'
-import { AppInitialStateType, appReducer } from '../app/redux/reducer/appReducer'
+import { AppInitialStateType, appReducer } from '../app/redux/slices/appSlice'
 
 // --------------------------- INITIAL DATA -----------------------------
 let startState: AppInitialStateType

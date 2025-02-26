@@ -5,8 +5,8 @@ import { dataLoginType } from '../../../api/typesAPI/authTypes'
 import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
 import { IsAuthorizationType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
-import { setAppStatusAC } from '../reducer/appReducer'
-import { resetStateAC } from '../reducer/todoListsReducer'
+import { setAppStatusAC } from './appSlice'
+import { resetStateAC } from './todoListsSlice'
 
 const initialState: IsAuthorizationType = {
   isLoggedIn: false,

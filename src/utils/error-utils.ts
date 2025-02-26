@@ -1,5 +1,5 @@
 import { ResponseTodoLists, ResponseTodoListTask } from '../api/typesAPI/todoListTypes'
-import { setAppErrorAC, setAppStatusAC } from '../app/redux/reducer/appReducer'
+import { setAppErrorAC, setAppStatusAC } from '../app/redux/slices/appSlice'
 import { AppDispatch } from '../app/types/storeTypes'
 
 export function handleServerErrorApp<D>(

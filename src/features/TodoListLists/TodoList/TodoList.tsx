@@ -3,12 +3,9 @@ import { Box, IconButton, List, Button } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '../../../app/hooks/reduxHooks'
-import { createTaskTC } from '../../../app/redux/reducer/tasksReducer'
-import { changeTodoListFilterAC } from '../../../app/redux/reducer/todoListsReducer'
-import {
-  changeTodoListTitleTC,
-  deleteTodoListTC,
-} from '../../../app/redux/reducer/todoListsReducer'
+import { createTaskTC } from '../../../app/redux/slices/tasksSlice'
+import { changeTodoListFilterAC } from '../../../app/redux/slices/todoListsSlice'
+import { changeTodoListTitleTC, deleteTodoListTC } from '../../../app/redux/slices/todoListsSlice'
 import { FilteredValues, TodoListBusinessType } from '../../../app/types/businessTypes'
 import { TaskStatus } from '../../../api/typesAPI/todoListTypes'
 import { Todo } from './Todo'

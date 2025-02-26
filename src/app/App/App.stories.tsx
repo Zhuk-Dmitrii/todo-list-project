@@ -7,8 +7,8 @@ import {
 } from '@reduxjs/toolkit'
 import { thunk } from 'redux-thunk'
 
-import { tasksReducer } from '../redux/reducer/tasksReducer'
-import { todoListsReducer } from '../redux/reducer/todoListsReducer'
+import { tasksReducer } from '../redux/slices/tasksSlice'
+import { todoListsReducer } from '../redux/slices/todoListsSlice'
 import { App } from './App'
 
 const mockReducer = combineReducers({

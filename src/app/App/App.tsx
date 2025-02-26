@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks'
 import { Header } from '../../components/Header'
 import { CustomSnackbar } from '../../components/CustomSnackbar'
-import { initializedAppTC } from '../redux/reducer/appReducer'
+import { initializedAppTC } from '../redux/slices/appSlice'
 
 export function App() {
   const dispatch = useAppDispatch()

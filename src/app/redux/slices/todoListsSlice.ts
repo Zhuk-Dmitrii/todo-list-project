@@ -3,15 +3,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { todoListsAPI } from '../../../api/todoList-api'
 import { TodoListType } from '../../../api/typesAPI/todoListTypes'
 import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
-import { setAppStatusAC } from '../reducer/appReducer'
-import { getTasksTC } from './tasksReducer'
+import { setAppStatusAC } from './appSlice'
+import { getTasksTC } from './tasksSlice'
 import { AppStatus, FilteredValues, TodoListBusinessType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
 
 const initialState: TodoListBusinessType[] = []
 
 const todoListsSlice = createSlice({
-  name: 'auth',
+  name: 'todoLists',
   initialState,
   reducers: {
     createTodoListAC: (state, action: PayloadAction<{ todoList: TodoListType }>) => {
@@ -59,7 +59,9 @@ const todoListsSlice = createSlice({
       }))
     },
 
-    resetStateAC: () => [],
+    resetStateAC: () => {
+      return initialState
+    },
   },
 })
 

@@ -15,7 +15,7 @@ import { useFormik } from 'formik'
 import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
-import { loginTC } from '../../app/redux/reducer/authReducer'
+import { loginTC } from '../../app/redux/slices/authSlice'
 import { PATHS } from '../../app/routers/path'
 
 export function Login() {

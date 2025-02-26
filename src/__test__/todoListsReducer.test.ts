@@ -6,7 +6,7 @@ import {
   setTodoListsAC,
   changeTodoListEntityStatusAC,
 } from '../app/redux/action/todoListsAction'
-import { todoListsReducer } from '../app/redux/reducer/todoListsReducer'
+import { todoListsReducer } from '../app/redux/slices/todoListsSlice'
 import { TodoListType } from '../api/typesAPI/todoListTypes'
 import { TodoListBusinessType, FilteredValues } from '../app/types/businessTypes'
 

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Provider } from 'react-redux'
 import { combineReducers, legacy_createStore as createStore } from '@reduxjs/toolkit'
 
-import { tasksReducer } from '../../../../app/redux/reducer/tasksReducer'
+import { tasksReducer } from '../../../../app/redux/slices/tasksSlice'
 import { Todo } from './Todo'
 import { TaskPriority, TaskStatus, TaskType } from '../../../../api/typesAPI/todoListTypes'
 
