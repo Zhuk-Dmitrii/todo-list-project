@@ -5,7 +5,7 @@ import {
   changeTodoListTitleAC,
   setTodoListsAC,
   changeTodoListEntityStatusAC,
-} from '../app/redux/action/todoListsAction'
+} from '../app/redux/slices/todoListsSlice'
 import { todoListsReducer } from '../app/redux/slices/todoListsSlice'
 import { TodoListType } from '../api/typesAPI/todoListTypes'
 import { TodoListBusinessType, FilteredValues } from '../app/types/businessTypes'
@@ -48,7 +48,7 @@ test('new todo list should be created', () => {
     title: 'new todo list title',
   }
 
-  const action = createTodoListAC(newTodoList)
+  const action = createTodoListAC({ todoList: newTodoList })
 
   const endStateTodoLists = todoListsReducer(startStateTodoLists, action)
 
@@ -59,7 +59,7 @@ test('new todo list should be created', () => {
 
 // --------------------------------------------------------
 test('todo list should be deleted', () => {
-  const action = deleteTodoListAC(todoListId1)
+  const action = deleteTodoListAC({ id: todoListId1 })
 
   const endStateTodoList = todoListsReducer(startStateTodoLists, action)
 
@@ -70,7 +70,7 @@ test('todo list should be deleted', () => {
 // --------------------------------------------------------
 test('todo list filter should be changed', () => {
   const newFilter: FilteredValues = FilteredValues.completed
-  const action = changeTodoListFilterAC(todoListId2, newFilter)
+  const action = changeTodoListFilterAC({ id: todoListId2, filter: newFilter })
 
   const endStateTodoList: TodoListBusinessType[] = todoListsReducer(startStateTodoLists, action)
 
@@ -81,7 +81,7 @@ test('todo list filter should be changed', () => {
 // --------------------------------------------------------
 test('todo list title should be changed', () => {
   const newTitle: string = 'New Title Todo List'
-  const action = changeTodoListTitleAC(todoListId2, newTitle)
+  const action = changeTodoListTitleAC({ id: todoListId2, newTitle })
 
   const endStateTodoList: TodoListBusinessType[] = todoListsReducer(startStateTodoLists, action)
 
@@ -91,7 +91,7 @@ test('todo list title should be changed', () => {
 
 // --------------------------------------------------------
 test('todo list status should be changed', () => {
-  const action = changeTodoListEntityStatusAC(todoListId2, 'loading')
+  const action = changeTodoListEntityStatusAC({ id: todoListId2, status: 'loading' })
 
   const endStateTodoList: TodoListBusinessType[] = todoListsReducer(startStateTodoLists, action)
 
