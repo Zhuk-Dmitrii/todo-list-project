@@ -15,7 +15,7 @@ const tasksSlice = createSlice({
   initialState,
   reducers: {
     createTaskAC: (state, action: PayloadAction<{ task: TaskType }>) => {
-      state[action.payload.task.todoListId].push(action.payload.task)
+      state[action.payload.task.todoListId].unshift(action.payload.task)
     },
 
     deleteTaskAC: (state, action: PayloadAction<DeleteTaskPayload>) => {

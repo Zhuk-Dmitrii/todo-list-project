@@ -1,5 +1,6 @@
-import { AppStatus, setAppErrorAC, setAppStatusAC } from '../app/redux/action/appAction'
-import { AppInitialStateType, appReducer } from '../app/redux/slices/appSlice'
+import { setAppErrorAC, setAppStatusAC } from '../app/redux/slices/appSlice'
+import { appReducer } from '../app/redux/slices/appSlice'
+import { AppInitialStateType, AppStatus } from '../app/types/businessTypes'
 
 // --------------------------- INITIAL DATA -----------------------------
 let startState: AppInitialStateType
@@ -8,6 +9,7 @@ beforeEach(() => {
   startState = {
     status: 'idle',
     error: null,
+    isInitialized: true,
   }
 })
 
