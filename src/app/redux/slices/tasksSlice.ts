@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { createTodoListAC, deleteTodoListAC, setTodoListsAC, resetStateAC } from './todoListsSlice'
 import { todoListsAPI } from '../../../api/todoList-api'
@@ -9,6 +9,18 @@ import { setAppStatusAC } from './appSlice'
 import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
 
 const initialState: TasksDataType = {}
+
+export const getTasksTC = createAsyncThunk(
+  'tasks/getTasks',
+  async (todoListId: string, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatusAC('loading'))
+
+    const res = await todoListsAPI.getTodoListTasks(todoListId)
+    thunkAPI.dispatch(setAppStatusAC('succeeded'))
+
+    return { todoListId, tasks: res.data.items }
+  },
+)
 
 const tasksSlice = createSlice({
   name: 'tasks',
@@ -35,10 +47,6 @@ const tasksSlice = createSlice({
         tasks[index] = { ...tasks[index], ...action.payload.model }
       }
     },
-
-    setTasksAC: (state, action: PayloadAction<SetTasksPayload>) => {
-      state[action.payload.todoListId] = action.payload.tasks
-    },
   },
   extraReducers: builder => {
     builder.addCase(createTodoListAC, (state, action) => {
@@ -58,27 +66,17 @@ const tasksSlice = createSlice({
     builder.addCase(resetStateAC, () => {
       return initialState
     })
+
+    builder.addCase(getTasksTC.fulfilled, (state, action) => {
+      state[action.payload.todoListId] = action.payload.tasks
+    })
   },
 })
 
 export const tasksReducer = tasksSlice.reducer
-export const { createTaskAC, deleteTaskAC, updateTaskAC, setTasksAC } = tasksSlice.actions
+export const { createTaskAC, deleteTaskAC, updateTaskAC } = tasksSlice.actions
 
 // ------------------ THUNK CREATORS -------------------------------
-export const getTasksTC = (todoListId: string) => {
-  return (dispatch: AppDispatch) => {
-    dispatch(setAppStatusAC('loading'))
-
-    todoListsAPI
-      .getTodoListTasks(todoListId)
-      .then(res => {
-        dispatch(setTasksAC({ todoListId, tasks: res.data.items }))
-        dispatch(setAppStatusAC('succeeded'))
-      })
-      .catch(error => handleNetworkErrorApp(error.message, dispatch))
-  }
-}
-
 export const createTaskTC = (todoListId: string, title: string) => {
   return (dispatch: AppDispatch) => {
     dispatch(setAppStatusAC('loading'))
@@ -168,7 +166,7 @@ type UpdateTaskPayload = {
   model: UpdateBusinessTaskModelType
 }
 
-type SetTasksPayload = {
-  todoListId: string
-  tasks: TaskType[]
-}
+// type SetTasksPayload = {
+//   todoListId: string
+//   tasks: TaskType[]
+// }
