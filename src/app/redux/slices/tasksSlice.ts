@@ -22,6 +22,17 @@ export const getTasksTC = createAsyncThunk(
   },
 )
 
+export const deleteTaskTC = createAsyncThunk(
+  'tasks/deleteTask',
+  async ({ taskId, todoListId }: DeleteTaskPayload, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatusAC('loading'))
+
+    const res = await todoListsAPI.deleteTodoListTask(todoListId, taskId)
+
+    return { todoListId, taskId }
+  },
+)
+
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
@@ -86,24 +97,6 @@ export const createTaskTC = (todoListId: string, title: string) => {
       .then(res => {
         if (res.data.resultCode === 0) {
           dispatch(createTaskAC({ task: res.data.data.item }))
-          dispatch(setAppStatusAC('succeeded'))
-        } else {
-          handleServerErrorApp(res.data, dispatch)
-        }
-      })
-      .catch(error => handleNetworkErrorApp(error.message, dispatch))
-  }
-}
-
-export const deleteTaskTC = (todoListId: string, taskId: string) => {
-  return (dispatch: AppDispatch) => {
-    dispatch(setAppStatusAC('loading'))
-
-    todoListsAPI
-      .deleteTodoListTask(todoListId, taskId)
-      .then(res => {
-        if (res.data.resultCode === 0) {
-          dispatch(deleteTaskAC({ todoListId, taskId }))
           dispatch(setAppStatusAC('succeeded'))
         } else {
           handleServerErrorApp(res.data, dispatch)
