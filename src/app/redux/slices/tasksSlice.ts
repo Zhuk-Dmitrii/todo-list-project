@@ -27,7 +27,9 @@ export const deleteTaskTC = createAsyncThunk(
   async ({ taskId, todoListId }: DeleteTaskPayload, thunkAPI) => {
     thunkAPI.dispatch(setAppStatusAC('loading'))
 
-    const res = await todoListsAPI.deleteTodoListTask(todoListId, taskId)
+    await todoListsAPI.deleteTodoListTask(todoListId, taskId)
+
+    thunkAPI.dispatch(setAppStatusAC('succeeded'))
 
     return { todoListId, taskId }
   },
@@ -41,14 +43,14 @@ const tasksSlice = createSlice({
       state[action.payload.task.todoListId].unshift(action.payload.task)
     },
 
-    deleteTaskAC: (state, action: PayloadAction<DeleteTaskPayload>) => {
-      const tasks = state[action.payload.todoListId]
-      const index = tasks.findIndex(t => t.id === action.payload.taskId)
+    // deleteTaskAC: (state, action: PayloadAction<DeleteTaskPayload>) => {
+    //   const tasks = state[action.payload.todoListId]
+    //   const index = tasks.findIndex(t => t.id === action.payload.taskId)
 
-      if (index !== -1) {
-        state[action.payload.todoListId].splice(index, 1)
-      }
-    },
+    //   if (index !== -1) {
+    //     state[action.payload.todoListId].splice(index, 1)
+    //   }
+    // },
 
     updateTaskAC: (state, action: PayloadAction<UpdateTaskPayload>) => {
       const tasks = state[action.payload.todoListId]
@@ -81,11 +83,20 @@ const tasksSlice = createSlice({
     builder.addCase(getTasksTC.fulfilled, (state, action) => {
       state[action.payload.todoListId] = action.payload.tasks
     })
+
+    builder.addCase(deleteTaskTC.fulfilled, (state, action) => {
+      const tasks = state[action.payload.todoListId]
+      const index = tasks.findIndex(t => t.id === action.payload.taskId)
+
+      if (index !== -1) {
+        state[action.payload.todoListId].splice(index, 1)
+      }
+    })
   },
 })
 
 export const tasksReducer = tasksSlice.reducer
-export const { createTaskAC, deleteTaskAC, updateTaskAC } = tasksSlice.actions
+export const { createTaskAC, updateTaskAC } = tasksSlice.actions
 
 // ------------------ THUNK CREATORS -------------------------------
 export const createTaskTC = (todoListId: string, title: string) => {

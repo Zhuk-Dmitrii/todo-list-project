@@ -17,7 +17,7 @@ export const Todo = React.memo((props: TProps) => {
   const dispatch = useAppDispatch()
 
   const handleDeleteTask = useCallback(() => {
-    const action = deleteTaskTC(props.todoListId, props.task.id)
+    const action = deleteTaskTC({ taskId: props.task.id, todoListId: props.todoListId })
 
     dispatch(action)
   }, [props.todoListId, props.task.id, dispatch])

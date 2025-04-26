@@ -18,6 +18,10 @@ export function CustomSnackbar() {
 
   const isOpen = error !== null
 
+  if (!error) {
+    return null
+  }
+
   return (
     <Snackbar
       open={isOpen}
@@ -26,7 +30,7 @@ export function CustomSnackbar() {
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
     >
       <Alert onClose={handleClose} severity="error" variant="filled" sx={{ width: '100%' }}>
-        {error || 'some error'}
+        {error}
       </Alert>
     </Snackbar>
   )

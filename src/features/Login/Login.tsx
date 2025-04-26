@@ -11,12 +11,18 @@ import {
   Checkbox,
   Button,
 } from '@mui/material'
-import { useFormik } from 'formik'
+import { FormikHelpers, useFormik } from 'formik'
 import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
 import { loginTC } from '../../app/redux/slices/authSlice'
 import { PATHS } from '../../app/routers/path'
+
+type FormValueType = {
+  email: string
+  password: string
+  rememberMe: boolean
+}
 
 export function Login() {
   const dispatch = useAppDispatch()
@@ -41,8 +47,17 @@ export function Login() {
 
       return errors
     },
-    onSubmit: values => {
-      dispatch(loginTC(values))
+    onSubmit: async (values: FormValueType, formikHelpers: FormikHelpers<FormValueType>) => {
+      const res = await dispatch(loginTC(values))
+
+      if (loginTC.rejected.match(res)) {
+        if (res.payload?.fieldsErrors?.length) {
+          const field = res.payload.fieldsErrors[0].field
+          const message = res.payload.fieldsErrors[0].error
+
+          formikHelpers.setFieldError(field, message)
+        }
+      }
     },
   })
 

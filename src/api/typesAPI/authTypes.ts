@@ -5,10 +5,16 @@ export type dataLoginType = {
   captcha?: string
 }
 
+export type FieldErrorType = {
+  field: string
+  error: string
+}
+
 export type ResponseAuth<D = object> = {
   resultCode: number
   messages: string[]
   data: D
+  fieldsErrors?: FieldErrorType[]
 }
 
 export type DataAuthLogin = {
