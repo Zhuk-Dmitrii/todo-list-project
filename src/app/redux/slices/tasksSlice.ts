@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { AxiosError } from 'axios'
 
 import { createTodoListAC, deleteTodoListAC, setTodoListsAC, resetStateAC } from './todoListsSlice'
 import { todoListsAPI } from '../../../api/todoList-api'
@@ -10,30 +11,64 @@ import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/erro
 
 const initialState: TasksDataType = {}
 
-export const getTasksTC = createAsyncThunk(
-  'tasks/getTasks',
-  async (todoListId: string, thunkAPI) => {
-    thunkAPI.dispatch(setAppStatusAC('loading'))
+export const getTasksTC = createAsyncThunk<
+  SetTasksPayload,
+  string,
+  { dispatch: AppDispatch; rejectValue: string }
+>('tasks/getTasks', async (todoListId, { dispatch, rejectWithValue }) => {
+  dispatch(setAppStatusAC('loading'))
 
+  try {
     const res = await todoListsAPI.getTodoListTasks(todoListId)
-    thunkAPI.dispatch(setAppStatusAC('succeeded'))
+    dispatch(setAppStatusAC('succeeded'))
 
     return { todoListId, tasks: res.data.items }
-  },
-)
+  } catch (err) {
+    const error = err as AxiosError
+    handleNetworkErrorApp(error.message, dispatch)
 
-export const deleteTaskTC = createAsyncThunk(
-  'tasks/deleteTask',
-  async ({ taskId, todoListId }: DeleteTaskPayload, thunkAPI) => {
-    thunkAPI.dispatch(setAppStatusAC('loading'))
+    return rejectWithValue(error.message)
+  }
+})
 
+export const deleteTaskTC = createAsyncThunk<
+  DeleteTaskPayload,
+  DeleteTaskPayload,
+  { dispatch: AppDispatch; rejectValue: string }
+>('tasks/deleteTask', async ({ taskId, todoListId }, { dispatch, rejectWithValue }) => {
+  dispatch(setAppStatusAC('loading'))
+
+  try {
     await todoListsAPI.deleteTodoListTask(todoListId, taskId)
 
-    thunkAPI.dispatch(setAppStatusAC('succeeded'))
+    dispatch(setAppStatusAC('succeeded'))
 
     return { todoListId, taskId }
-  },
-)
+  } catch (err) {
+    const error = err as AxiosError
+    handleNetworkErrorApp(error.message, dispatch)
+
+    return rejectWithValue(error.message)
+  }
+})
+
+export const createTaskTC = (todoListId: string, title: string) => {
+  return (dispatch: AppDispatch) => {
+    dispatch(setAppStatusAC('loading'))
+
+    todoListsAPI
+      .createTodoListTask(todoListId, title)
+      .then(res => {
+        if (res.data.resultCode === 0) {
+          dispatch(createTaskAC({ task: res.data.data.item }))
+          dispatch(setAppStatusAC('succeeded'))
+        } else {
+          handleServerErrorApp(res.data, dispatch)
+        }
+      })
+      .catch(error => handleNetworkErrorApp(error.message, dispatch))
+  }
+}
 
 const tasksSlice = createSlice({
   name: 'tasks',
@@ -42,16 +77,6 @@ const tasksSlice = createSlice({
     createTaskAC: (state, action: PayloadAction<{ task: TaskType }>) => {
       state[action.payload.task.todoListId].unshift(action.payload.task)
     },
-
-    // deleteTaskAC: (state, action: PayloadAction<DeleteTaskPayload>) => {
-    //   const tasks = state[action.payload.todoListId]
-    //   const index = tasks.findIndex(t => t.id === action.payload.taskId)
-
-    //   if (index !== -1) {
-    //     state[action.payload.todoListId].splice(index, 1)
-    //   }
-    // },
-
     updateTaskAC: (state, action: PayloadAction<UpdateTaskPayload>) => {
       const tasks = state[action.payload.todoListId]
       const index = tasks.findIndex(t => t.id === action.payload.taskId)
@@ -99,23 +124,6 @@ export const tasksReducer = tasksSlice.reducer
 export const { createTaskAC, updateTaskAC } = tasksSlice.actions
 
 // ------------------ THUNK CREATORS -------------------------------
-export const createTaskTC = (todoListId: string, title: string) => {
-  return (dispatch: AppDispatch) => {
-    dispatch(setAppStatusAC('loading'))
-
-    todoListsAPI
-      .createTodoListTask(todoListId, title)
-      .then(res => {
-        if (res.data.resultCode === 0) {
-          dispatch(createTaskAC({ task: res.data.data.item }))
-          dispatch(setAppStatusAC('succeeded'))
-        } else {
-          handleServerErrorApp(res.data, dispatch)
-        }
-      })
-      .catch(error => handleNetworkErrorApp(error.message, dispatch))
-  }
-}
 
 export const updateTaskTC = (
   todoListId: string,
@@ -170,7 +178,7 @@ type UpdateTaskPayload = {
   model: UpdateBusinessTaskModelType
 }
 
-// type SetTasksPayload = {
-//   todoListId: string
-//   tasks: TaskType[]
-// }
+type SetTasksPayload = {
+  todoListId: string
+  tasks: TaskType[]
+}
