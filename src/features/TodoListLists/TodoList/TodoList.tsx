@@ -82,7 +82,7 @@ export const TodoList = React.memo((props: TProps) => {
 
   const createTask = useCallback(
     (title: string) => {
-      const thunk = createTaskTC(props.todoList.id, title)
+      const thunk = createTaskTC({ todoListId: props.todoList.id, title })
 
       dispatch(thunk)
     },

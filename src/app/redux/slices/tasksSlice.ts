@@ -52,31 +52,39 @@ export const deleteTaskTC = createAsyncThunk<
   }
 })
 
-export const createTaskTC = (todoListId: string, title: string) => {
-  return (dispatch: AppDispatch) => {
+export const createTaskTC = createAsyncThunk<
+  { task: TaskType },
+  { todoListId: string; title: string },
+  { dispatch: AppDispatch; rejectValue: string | string[] }
+>('tasks/createTask', async ({ todoListId, title }, { dispatch, rejectWithValue }) => {
+  dispatch(setAppStatusAC('loading'))
+
+  try {
     dispatch(setAppStatusAC('loading'))
 
-    todoListsAPI
-      .createTodoListTask(todoListId, title)
-      .then(res => {
-        if (res.data.resultCode === 0) {
-          dispatch(createTaskAC({ task: res.data.data.item }))
-          dispatch(setAppStatusAC('succeeded'))
-        } else {
-          handleServerErrorApp(res.data, dispatch)
-        }
-      })
-      .catch(error => handleNetworkErrorApp(error.message, dispatch))
+    const res = await todoListsAPI.createTodoListTask(todoListId, title)
+
+    if (res.data.resultCode === 0) {
+      dispatch(setAppStatusAC('succeeded'))
+
+      return { task: res.data.data.item }
+    } else {
+      handleServerErrorApp(res.data, dispatch)
+
+      return rejectWithValue(res.data.messages)
+    }
+  } catch (err) {
+    const error = err as AxiosError
+    handleNetworkErrorApp(error.message, dispatch)
+
+    return rejectWithValue(error.message)
   }
-}
+})
 
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    createTaskAC: (state, action: PayloadAction<{ task: TaskType }>) => {
-      state[action.payload.task.todoListId].unshift(action.payload.task)
-    },
     updateTaskAC: (state, action: PayloadAction<UpdateTaskPayload>) => {
       const tasks = state[action.payload.todoListId]
       const index = tasks.findIndex(t => t.id === action.payload.taskId)
@@ -117,11 +125,15 @@ const tasksSlice = createSlice({
         state[action.payload.todoListId].splice(index, 1)
       }
     })
+
+    builder.addCase(createTaskTC.fulfilled, (state, action) => {
+      state[action.payload.task.todoListId].unshift(action.payload.task)
+    })
   },
 })
 
 export const tasksReducer = tasksSlice.reducer
-export const { createTaskAC, updateTaskAC } = tasksSlice.actions
+export const { updateTaskAC } = tasksSlice.actions
 
 // ------------------ THUNK CREATORS -------------------------------
 
