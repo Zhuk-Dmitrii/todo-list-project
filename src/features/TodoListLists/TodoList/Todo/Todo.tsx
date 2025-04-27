@@ -27,7 +27,11 @@ export const Todo = React.memo((props: TProps) => {
       const taskId = props.task.id
       const checked = event.currentTarget.checked
       const status = checked ? TaskStatus.Completed : TaskStatus.New
-      const action = updateTaskTC(props.todoListId, taskId, { status })
+      const action = updateTaskTC({
+        todoListId: props.todoListId,
+        taskId,
+        businessModel: { status },
+      })
 
       dispatch(action)
     },
@@ -36,7 +40,11 @@ export const Todo = React.memo((props: TProps) => {
 
   const handleChangeTaskTitle = useCallback(
     (newValue: string) => {
-      const action = updateTaskTC(props.todoListId, props.task.id, { title: newValue })
+      const action = updateTaskTC({
+        todoListId: props.todoListId,
+        taskId: props.task.id,
+        businessModel: { title: newValue },
+      })
 
       dispatch(action)
     },

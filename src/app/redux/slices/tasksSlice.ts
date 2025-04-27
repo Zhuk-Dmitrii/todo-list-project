@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
 
 import { createTodoListAC, deleteTodoListAC, setTodoListsAC, resetStateAC } from './todoListsSlice'
@@ -81,19 +81,59 @@ export const createTaskTC = createAsyncThunk<
   }
 })
 
+export const updateTaskTC = createAsyncThunk<
+  UpdateTaskPayload,
+  UpdateTaskThunkParam,
+  { state: RootState; dispatch: AppDispatch; rejectValue: string | string[] }
+>(
+  'tasks/updateTask',
+  async ({ todoListId, taskId, businessModel }, { getState, dispatch, rejectWithValue }) => {
+    dispatch(setAppStatusAC('loading'))
+
+    const state = getState()
+    const task = state.tasks[todoListId].find(task => task.id === taskId)
+
+    if (!task) {
+      console.warn('таска не найдена')
+
+      return rejectWithValue('таска не найдена')
+    }
+
+    const apiModel: UpdateTaskModelType = {
+      deadline: task.deadline,
+      description: task.description,
+      priority: task.priority,
+      startDate: task.startDate,
+      status: task.status,
+      title: task.title,
+      ...businessModel,
+    }
+
+    try {
+      const res = await todoListsAPI.updateTodoListTask(todoListId, taskId, apiModel)
+
+      if (res.data.resultCode === 0) {
+        dispatch(setAppStatusAC('succeeded'))
+
+        return { todoListId, taskId, model: businessModel }
+      } else {
+        handleServerErrorApp(res.data, dispatch)
+
+        return rejectWithValue(res.data.messages)
+      }
+    } catch (err) {
+      const error = err as AxiosError
+      handleNetworkErrorApp(error.message, dispatch)
+
+      return rejectWithValue(error.message)
+    }
+  },
+)
+
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
-  reducers: {
-    updateTaskAC: (state, action: PayloadAction<UpdateTaskPayload>) => {
-      const tasks = state[action.payload.todoListId]
-      const index = tasks.findIndex(t => t.id === action.payload.taskId)
-
-      if (index !== -1) {
-        tasks[index] = { ...tasks[index], ...action.payload.model }
-      }
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder.addCase(createTodoListAC, (state, action) => {
       state[action.payload.todoList.id] = []
@@ -129,54 +169,19 @@ const tasksSlice = createSlice({
     builder.addCase(createTaskTC.fulfilled, (state, action) => {
       state[action.payload.task.todoListId].unshift(action.payload.task)
     })
+
+    builder.addCase(updateTaskTC.fulfilled, (state, action) => {
+      const tasks = state[action.payload.todoListId]
+      const index = tasks.findIndex(t => t.id === action.payload.taskId)
+
+      if (index !== -1) {
+        tasks[index] = { ...tasks[index], ...action.payload.model }
+      }
+    })
   },
 })
 
 export const tasksReducer = tasksSlice.reducer
-export const { updateTaskAC } = tasksSlice.actions
-
-// ------------------ THUNK CREATORS -------------------------------
-
-export const updateTaskTC = (
-  todoListId: string,
-  taskId: string,
-  businessModel: UpdateBusinessTaskModelType,
-) => {
-  return (dispatch: AppDispatch, getState: () => RootState) => {
-    dispatch(setAppStatusAC('loading'))
-
-    const state = getState()
-    const task = state.tasks[todoListId].find(task => task.id === taskId)
-
-    if (!task) {
-      console.warn('таска не найдена')
-
-      return
-    }
-
-    const apiModel: UpdateTaskModelType = {
-      deadline: task.deadline,
-      description: task.description,
-      priority: task.priority,
-      startDate: task.startDate,
-      status: task.status,
-      title: task.title,
-      ...businessModel,
-    }
-
-    todoListsAPI
-      .updateTodoListTask(todoListId, taskId, apiModel)
-      .then(res => {
-        if (res.data.resultCode === 0) {
-          dispatch(updateTaskAC({ todoListId, taskId, model: businessModel }))
-          dispatch(setAppStatusAC('succeeded'))
-        } else {
-          handleServerErrorApp(res.data, dispatch)
-        }
-      })
-      .catch(error => handleNetworkErrorApp(error.message, dispatch))
-  }
-}
 
 // ------------------------ TYPES ------------------------------------
 type DeleteTaskPayload = {
@@ -190,6 +195,12 @@ type UpdateTaskPayload = {
   todoListId: string
   taskId: string
   model: UpdateBusinessTaskModelType
+}
+
+type UpdateTaskThunkParam = {
+  todoListId: string
+  taskId: string
+  businessModel: UpdateBusinessTaskModelType
 }
 
 type SetTasksPayload = {
