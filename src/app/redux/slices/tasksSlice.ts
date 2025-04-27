@@ -33,7 +33,7 @@ export const getTasksTC = createAsyncThunk<
 
 export const deleteTaskTC = createAsyncThunk<
   DeleteTaskPayload,
-  DeleteTaskPayload,
+  DeleteTaskThunkParam,
   { dispatch: AppDispatch; rejectValue: string }
 >('tasks/deleteTask', async ({ taskId, todoListId }, { dispatch, rejectWithValue }) => {
   dispatch(setAppStatusAC('loading'))
@@ -183,6 +183,8 @@ type DeleteTaskPayload = {
   todoListId: string
   taskId: string
 }
+
+type DeleteTaskThunkParam = DeleteTaskPayload
 
 type UpdateTaskPayload = {
   todoListId: string
