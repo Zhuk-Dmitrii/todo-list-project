@@ -1,7 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { AxiosError } from 'axios'
 
 import { authAPI } from '../../../api/auth-api'
-import { handleNetworkErrorApp } from '../../../utils/error-utils'
+import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
 import { AppInitialStateType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
 import { AppStatus } from '../../types/businessTypes'
@@ -13,6 +14,29 @@ const initialState: AppInitialStateType = {
   isInitialized: false,
 }
 
+export const initializedAppTC = createAsyncThunk<boolean, void, { dispatch: AppDispatch }>(
+  'app/initializedApp',
+  async (_, { dispatch }) => {
+    try {
+      const res = await authAPI.me()
+
+      if (res.data.resultCode == 0) {
+        dispatch(setIsLoggedInStatusAC(true))
+      } else {
+        handleServerErrorApp(res.data, dispatch)
+      }
+
+      return true
+    } catch (err) {
+      const error = err as AxiosError
+
+      handleNetworkErrorApp(error.message, dispatch)
+
+      return true
+    }
+  },
+)
+
 const appSlice = createSlice({
   name: 'app',
   initialState,
@@ -23,27 +47,13 @@ const appSlice = createSlice({
     setAppErrorAC: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload
     },
-    setIsInitializedAC: (state, action: PayloadAction<boolean>) => {
+  },
+  extraReducers: builder => {
+    builder.addCase(initializedAppTC.fulfilled, (state, action) => {
       state.isInitialized = action.payload
-    },
+    })
   },
 })
 
 export const appReducer = appSlice.reducer
-export const { setAppStatusAC, setAppErrorAC, setIsInitializedAC } = appSlice.actions
-
-// ------------------------ THUNKS ------------------------------------
-export function initializedAppTC() {
-  return (dispatch: AppDispatch) => {
-    authAPI
-      .me()
-      .then(res => {
-        if (res.data.resultCode == 0) {
-          dispatch(setIsLoggedInStatusAC(true))
-        }
-
-        dispatch(setIsInitializedAC(true))
-      })
-      .catch(error => handleNetworkErrorApp(error.message, dispatch))
-  }
-}
+export const { setAppStatusAC, setAppErrorAC } = appSlice.actions
