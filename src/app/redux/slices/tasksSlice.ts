@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
 
-import { createTodoListTC, deleteTodoListAC, getTodoListTC, resetStateAC } from './todoListsSlice'
+import { createTodoListTC, deleteTodoListTC, getTodoListTC, resetStateAC } from './todoListsSlice'
 import { todoListsAPI } from '../../../api/todoList-api'
 import { TaskType, UpdateTaskModelType } from '../../../api/typesAPI/todoListTypes'
 import { UpdateBusinessTaskModelType, TasksDataType } from '../../types/businessTypes'
@@ -138,7 +138,7 @@ const tasksSlice = createSlice({
       state[action.payload.todoList.id] = []
     })
 
-    builder.addCase(deleteTodoListAC, (state, action) => {
+    builder.addCase(deleteTodoListTC.fulfilled, (state, action) => {
       delete state[action.payload.id]
     })
 
