@@ -1,4 +1,4 @@
-import { createTodoListAC } from '../app/redux/slices/todoListsSlice'
+import { createTodoListTC } from '../app/redux/slices/todoListsSlice'
 import { tasksReducer } from '../app/redux/slices/tasksSlice'
 import { todoListsReducer } from '../app/redux/slices/todoListsSlice'
 import { TodoListBusinessType, TasksDataType } from '../app/types/businessTypes'
@@ -15,7 +15,11 @@ test('to-do list ID should be equal to the tasks list ID', () => {
     title: 'new todo list title',
   }
 
-  const action = createTodoListAC({ todoList: newTodoList })
+  const action = createTodoListTC.fulfilled(
+    { todoList: newTodoList },
+    'mockRequestID',
+    newTodoList.title,
+  )
   const endStateTodoList = todoListsReducer(stateTodoList, action)
   const endStateTask = tasksReducer(stateTask, action)
 

@@ -1,13 +1,13 @@
 import {
-  updateTaskAC,
-  createTaskAC,
-  deleteTaskAC,
-  setTasksAC,
+  updateTaskTC,
+  createTaskTC,
+  deleteTaskTC,
+  getTasksTC,
 } from '../app/redux/slices/tasksSlice'
 import {
-  createTodoListAC,
-  deleteTodoListAC,
-  setTodoListsAC,
+  createTodoListTC,
+  deleteTodoListTC,
+  getTodoListTC,
 } from '../app/redux/slices/todoListsSlice'
 import { tasksReducer } from '../app/redux/slices/tasksSlice'
 import { TasksDataType, UpdateBusinessTaskModelType } from '../app/types/businessTypes'
@@ -104,7 +104,10 @@ test('new todo list task should be created', () => {
     description: '',
     startDate: '',
   }
-  const action = createTaskAC({ task: newTask })
+  const action = createTaskTC.fulfilled({ task: newTask }, 'mockRequestID', {
+    todoListId: newTask.todoListId,
+    title: newTask.title,
+  })
   const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask['todoListId2'].length).toBe(2)
@@ -117,7 +120,10 @@ test('new todo list task should be created', () => {
 // --------------------------------------------------------------
 test('todo list task should be deleted', () => {
   const taskId = '1'
-  const action = deleteTaskAC({ todoListId: todoListId1, taskId })
+  const action = deleteTaskTC.fulfilled({ todoListId: todoListId1, taskId }, 'mockRequestID', {
+    taskId,
+    todoListId: todoListId1,
+  })
   const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask[todoListId1].length).toBe(2)
@@ -131,7 +137,11 @@ test('status todo list task should be changed', () => {
   const model: UpdateBusinessTaskModelType = {
     status: TaskStatus.New,
   }
-  const action = updateTaskAC({ todoListId: todoListId1, taskId, model })
+  const action = updateTaskTC.fulfilled(
+    { todoListId: todoListId1, taskId, model },
+    'mockRequestID',
+    { todoListId: todoListId1, taskId, businessModel: model },
+  )
   const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask[todoListId1][0].status).toBe(TaskStatus.New)
@@ -146,7 +156,11 @@ test('title todo list task should be changed', () => {
   const model: UpdateBusinessTaskModelType = {
     title: 'water',
   }
-  const action = updateTaskAC({ todoListId: todoListId2, taskId, model })
+  const action = updateTaskTC.fulfilled(
+    { todoListId: todoListId2, taskId, model },
+    'mockRequestID',
+    { todoListId: todoListId2, taskId, businessModel: model },
+  )
   const endStateTask = tasksReducer(startStateTask, action)
 
   expect(endStateTask[todoListId2][0].title).toBe(model.title)
@@ -161,7 +175,11 @@ test('new property should be added in task array', () => {
     order: 0,
     title: 'new todo list title',
   }
-  const action = createTodoListAC({ todoList: newTodoList })
+  const action = createTodoListTC.fulfilled(
+    { todoList: newTodoList },
+    'mockRequestID',
+    newTodoList.title,
+  )
   const endStateTask = tasksReducer(startStateTask, action)
 
   const keys = Object.keys(endStateTask)
@@ -177,7 +195,7 @@ test('new property should be added in task array', () => {
 
 // --------------------------------------------------------------
 test('task array should be deleted', () => {
-  const action = deleteTodoListAC({ id: todoListId2 })
+  const action = deleteTodoListTC.fulfilled({ id: todoListId2 }, 'mockRequestID', todoListId2)
   const endStateTask = tasksReducer(startStateTask, action)
 
   const keys = Object.keys(endStateTask)
@@ -205,7 +223,7 @@ test('empty arrays should be added when we set todo lists', () => {
     },
   ]
 
-  const action = setTodoListsAC(startState)
+  const action = getTodoListTC.fulfilled(startState, 'mockRequestID')
   const endState = tasksReducer({}, action)
 
   expect(endState[todoListId1]).toStrictEqual([])
@@ -218,7 +236,11 @@ test('tasks should be set for todo list', () => {
     todoListId1: [],
     todoListId2: [],
   }
-  const action = setTasksAC({ todoListId: todoListId1, tasks: startStateTask[todoListId1] })
+  const action = getTasksTC.fulfilled(
+    { todoListId: todoListId1, tasks: startStateTask[todoListId1] },
+    'mockRequestID',
+    todoListId1,
+  )
 
   const endState = tasksReducer(startState, action)
 

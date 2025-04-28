@@ -1,9 +1,9 @@
 import {
-  createTodoListAC,
-  deleteTodoListAC,
+  createTodoListTC,
+  deleteTodoListTC,
   changeTodoListFilterAC,
-  changeTodoListTitleAC,
-  setTodoListsAC,
+  changeTodoListTitleTC,
+  getTodoListTC,
   changeTodoListEntityStatusAC,
 } from '../app/redux/slices/todoListsSlice'
 import { todoListsReducer } from '../app/redux/slices/todoListsSlice'
@@ -48,7 +48,11 @@ test('new todo list should be created', () => {
     title: 'new todo list title',
   }
 
-  const action = createTodoListAC({ todoList: newTodoList })
+  const action = createTodoListTC.fulfilled(
+    { todoList: newTodoList },
+    'mockRequestID',
+    newTodoList.title,
+  )
 
   const endStateTodoLists = todoListsReducer(startStateTodoLists, action)
 
@@ -59,7 +63,7 @@ test('new todo list should be created', () => {
 
 // --------------------------------------------------------
 test('todo list should be deleted', () => {
-  const action = deleteTodoListAC({ id: todoListId1 })
+  const action = deleteTodoListTC.fulfilled({ id: todoListId1 }, 'mockRequestID', todoListId1)
 
   const endStateTodoList = todoListsReducer(startStateTodoLists, action)
 
@@ -81,7 +85,11 @@ test('todo list filter should be changed', () => {
 // --------------------------------------------------------
 test('todo list title should be changed', () => {
   const newTitle: string = 'New Title Todo List'
-  const action = changeTodoListTitleAC({ id: todoListId2, newTitle })
+  const action = changeTodoListTitleTC.fulfilled(
+    { id: todoListId2, title: newTitle },
+    'mockRequestID',
+    { id: todoListId2, title: newTitle },
+  )
 
   const endStateTodoList: TodoListBusinessType[] = todoListsReducer(startStateTodoLists, action)
 
@@ -101,7 +109,7 @@ test('todo list status should be changed', () => {
 
 // --------------------------------------------------------
 test('todo list should be set', () => {
-  const action = setTodoListsAC(startStateTodoLists)
+  const action = getTodoListTC.fulfilled(startStateTodoLists, 'mockRequestID')
 
   const endStateTodoList: TodoListBusinessType[] = todoListsReducer([], action)
 
