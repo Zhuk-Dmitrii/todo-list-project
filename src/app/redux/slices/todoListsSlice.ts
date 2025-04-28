@@ -86,6 +86,33 @@ export const deleteTodoListTC = createAsyncThunk<
   }
 })
 
+export const changeTodoListTitleTC = createAsyncThunk<
+  ChangeTodoListTitlePayload,
+  ChangeTodoListTitleThunkParam,
+  { dispatch: AppDispatch; rejectValue: string | string[] }
+>('todoLists/changeTodoListTitle', async ({ id, title }, { dispatch, rejectWithValue }) => {
+  dispatch(setAppStatusAC('loading'))
+
+  try {
+    const res = await todoListsAPI.updateTodoList(id, title)
+
+    if (res.data.resultCode === 0) {
+      dispatch(setAppStatusAC('succeeded'))
+
+      return { id, title }
+    } else {
+      handleServerErrorApp(res.data, dispatch)
+
+      return rejectWithValue(res.data.messages)
+    }
+  } catch (err) {
+    const error = err as AxiosError
+    handleNetworkErrorApp(error.message, dispatch)
+
+    return rejectWithValue(error.message)
+  }
+})
+
 const todoListsSlice = createSlice({
   name: 'todoLists',
   initialState,
@@ -94,12 +121,6 @@ const todoListsSlice = createSlice({
       const index = state.findIndex(tl => tl.id === action.payload.id)
 
       if (index !== -1) state[index].filter = action.payload.filter
-    },
-
-    changeTodoListTitleAC: (state, action: PayloadAction<ChangeTodoListTitlePayload>) => {
-      const index = state.findIndex(tl => tl.id === action.payload.id)
-
-      if (index !== -1) state[index].title = action.payload.newTitle
     },
 
     changeTodoListEntityStatusAC: (
@@ -139,36 +160,18 @@ const todoListsSlice = createSlice({
 
       if (index !== -1) state.splice(index, 1)
     })
+
+    builder.addCase(changeTodoListTitleTC.fulfilled, (state, action) => {
+      const index = state.findIndex(tl => tl.id === action.payload.id)
+
+      if (index !== -1) state[index].title = action.payload.title
+    })
   },
 })
 
 export const todoListsReducer = todoListsSlice.reducer
-export const {
-  changeTodoListFilterAC,
-  changeTodoListTitleAC,
-  changeTodoListEntityStatusAC,
-  resetStateAC,
-} = todoListsSlice.actions
-
-// ------------------------ THUNKS ------------------------------------
-
-export const changeTodoListTitleTC = (id: string, title: string) => {
-  return (dispatch: AppDispatch) => {
-    dispatch(setAppStatusAC('loading'))
-
-    todoListsAPI
-      .updateTodoList(id, title)
-      .then(res => {
-        if (res.data.resultCode === 0) {
-          dispatch(changeTodoListTitleAC({ id, newTitle: title }))
-          dispatch(setAppStatusAC('succeeded'))
-        } else {
-          handleServerErrorApp(res.data, dispatch)
-        }
-      })
-      .catch(error => handleNetworkErrorApp(error.message, dispatch))
-  }
-}
+export const { changeTodoListFilterAC, changeTodoListEntityStatusAC, resetStateAC } =
+  todoListsSlice.actions
 
 // ------------------------ TYPES ------------------------------------
 type GetTodoListsPayload = TodoListType[]
@@ -181,14 +184,19 @@ type DeleteTodoListPayload = {
   id: string
 }
 
+type ChangeTodoListTitlePayload = {
+  id: string
+  title: string
+}
+
+type ChangeTodoListTitleThunkParam = {
+  id: string
+  title: string
+}
+
 type ChangeTodoListFilterPayload = {
   id: string
   filter: FilteredValues
-}
-
-type ChangeTodoListTitlePayload = {
-  id: string
-  newTitle: string
 }
 
 type ChangeTodoListEntityStatusPayload = {
