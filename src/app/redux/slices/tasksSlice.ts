@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
 
-import { createTodoListAC, deleteTodoListAC, setTodoListsAC, resetStateAC } from './todoListsSlice'
+import { createTodoListAC, deleteTodoListAC, getTodoListTC, resetStateAC } from './todoListsSlice'
 import { todoListsAPI } from '../../../api/todoList-api'
 import { TaskType, UpdateTaskModelType } from '../../../api/typesAPI/todoListTypes'
 import { UpdateBusinessTaskModelType, TasksDataType } from '../../types/businessTypes'
@@ -17,7 +17,6 @@ export const getTasksTC = createAsyncThunk<
   { dispatch: AppDispatch; rejectValue: string }
 >('tasks/getTasks', async (todoListId, { dispatch, rejectWithValue }) => {
   dispatch(setAppStatusAC('loading'))
-
   try {
     const res = await todoListsAPI.getTodoListTasks(todoListId)
     dispatch(setAppStatusAC('succeeded'))
@@ -143,7 +142,7 @@ const tasksSlice = createSlice({
       delete state[action.payload.id]
     })
 
-    builder.addCase(setTodoListsAC, (state, action) => {
+    builder.addCase(getTodoListTC.fulfilled, (state, action) => {
       action.payload.forEach(tl => {
         state[tl.id] = []
       })

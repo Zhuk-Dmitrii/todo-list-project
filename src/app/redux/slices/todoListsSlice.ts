@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { AxiosError } from 'axios'
 
 import { todoListsAPI } from '../../../api/todoList-api'
 import { TodoListType } from '../../../api/typesAPI/todoListTypes'
@@ -9,6 +10,26 @@ import { AppStatus, FilteredValues, TodoListBusinessType } from '../../types/bus
 import { AppDispatch } from '../../types/storeTypes'
 
 const initialState: TodoListBusinessType[] = []
+
+export const getTodoListTC = createAsyncThunk<
+  TodoListType[],
+  void,
+  { dispatch: AppDispatch; rejectValue: string | string[] }
+>('todoLists/getTodoList', async (_, { dispatch, rejectWithValue }) => {
+  dispatch(setAppStatusAC('loading'))
+  try {
+    const res = await todoListsAPI.getTodoLists()
+    res.data.forEach(todoList => dispatch(getTasksTC(todoList.id)))
+    dispatch(setAppStatusAC('succeeded'))
+
+    return res.data
+  } catch (err) {
+    const error = err as AxiosError
+    handleNetworkErrorApp(error.message, dispatch)
+
+    return rejectWithValue(error.message)
+  }
+})
 
 const todoListsSlice = createSlice({
   name: 'todoLists',
@@ -51,17 +72,18 @@ const todoListsSlice = createSlice({
       if (index !== -1) state[index].entityStatus = action.payload.status
     },
 
-    setTodoListsAC: (state, action: PayloadAction<TodoListType[]>) => {
+    resetStateAC: () => {
+      return initialState
+    },
+  },
+  extraReducers: builder => {
+    builder.addCase(getTodoListTC.fulfilled, (_, action) => {
       return action.payload.map(tl => ({
         ...tl,
         filter: FilteredValues.all,
         entityStatus: 'idle',
       }))
-    },
-
-    resetStateAC: () => {
-      return initialState
-    },
+    })
   },
 })
 
@@ -72,29 +94,10 @@ export const {
   changeTodoListFilterAC,
   changeTodoListTitleAC,
   changeTodoListEntityStatusAC,
-  setTodoListsAC,
   resetStateAC,
 } = todoListsSlice.actions
 
 // ------------------------ THUNKS ------------------------------------
-export const getTodoListTC = () => {
-  return (dispatch: AppDispatch) => {
-    dispatch(setAppStatusAC('loading'))
-
-    todoListsAPI
-      .getTodoLists()
-      .then(res => {
-        dispatch(setTodoListsAC(res.data))
-        dispatch(setAppStatusAC('succeeded'))
-
-        return res.data
-      })
-      .then(todoListsData => {
-        todoListsData.forEach(todoList => dispatch(getTasksTC(todoList.id)))
-      })
-      .catch(error => handleNetworkErrorApp(error.message, dispatch))
-  }
-}
 
 export const createTodoListTC = (title: string) => {
   return (dispatch: AppDispatch) => {
