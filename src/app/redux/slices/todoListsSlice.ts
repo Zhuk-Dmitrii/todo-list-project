@@ -6,6 +6,7 @@ import { TodoListType } from '../../../api/typesAPI/todoListTypes'
 import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
 import { setAppStatusAC } from './appSlice'
 import { getTasksTC } from './tasksSlice'
+import { clearTodoListsAndTaskState } from '../common/actions/common.actions'
 import { AppStatus, FilteredValues, TodoListBusinessType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
 
@@ -132,9 +133,9 @@ const todoListsSlice = createSlice({
       if (index !== -1) state[index].entityStatus = action.payload.status
     },
 
-    resetStateAC: () => {
-      return initialState
-    },
+    // resetStateAC: () => {
+    //   return initialState
+    // },
   },
   extraReducers: builder => {
     builder.addCase(getTodoListTC.fulfilled, (_, action) => {
@@ -166,12 +167,15 @@ const todoListsSlice = createSlice({
 
       if (index !== -1) state[index].title = action.payload.title
     })
+
+    builder.addCase(clearTodoListsAndTaskState, () => {
+      return initialState
+    })
   },
 })
 
 export const todoListsReducer = todoListsSlice.reducer
-export const { changeTodoListFilterAC, changeTodoListEntityStatusAC, resetStateAC } =
-  todoListsSlice.actions
+export const { changeTodoListFilterAC, changeTodoListEntityStatusAC } = todoListsSlice.actions
 
 // ------------------------ TYPES ------------------------------------
 type GetTodoListsPayload = TodoListType[]

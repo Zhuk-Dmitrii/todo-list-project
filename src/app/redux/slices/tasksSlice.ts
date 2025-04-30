@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
 
-import { createTodoListTC, deleteTodoListTC, getTodoListTC, resetStateAC } from './todoListsSlice'
+import { createTodoListTC, deleteTodoListTC, getTodoListTC } from './todoListsSlice'
 import { todoListsAPI } from '../../../api/todoList-api'
 import { TaskType, UpdateTaskModelType } from '../../../api/typesAPI/todoListTypes'
 import { UpdateBusinessTaskModelType, TasksDataType } from '../../types/businessTypes'
 import { AppDispatch, RootState } from '../../types/storeTypes'
 import { setAppStatusAC } from './appSlice'
+import { clearTodoListsAndTaskState } from '../common/actions/common.actions'
 import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
 
 const initialState: TasksDataType = {}
@@ -148,7 +149,7 @@ const tasksSlice = createSlice({
       })
     })
 
-    builder.addCase(resetStateAC, () => {
+    builder.addCase(clearTodoListsAndTaskState, () => {
       return initialState
     })
 

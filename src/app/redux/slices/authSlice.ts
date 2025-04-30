@@ -7,7 +7,7 @@ import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/erro
 import { IsAuthorizationType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
 import { setAppStatusAC } from './appSlice'
-import { resetStateAC } from './todoListsSlice'
+import { clearTodoListsAndTaskState } from '../common/actions/common.actions'
 
 const initialState: IsAuthorizationType = {
   isLoggedIn: false,
@@ -51,7 +51,7 @@ export const logoutTC = createAsyncThunk<
 
     if (res.data.resultCode == 0) {
       dispatch(setAppStatusAC('succeeded'))
-      dispatch(resetStateAC())
+      dispatch(clearTodoListsAndTaskState())
 
       return false
     } else {
