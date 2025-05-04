@@ -15,7 +15,7 @@ import { FormikHelpers, useFormik } from 'formik'
 import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
-import { login } from '../../app/redux/slices/authSlice'
+import { authSelectors, login } from '../../app/redux/slices/authSlice'
 import { PATHS } from '../../app/routers/path'
 
 type FormValueType = {
@@ -26,7 +26,7 @@ type FormValueType = {
 
 export function Login() {
   const dispatch = useAppDispatch()
-  const isLoggedInStatus = useAppSelector(state => state.auth.isLoggedIn)
+  const isLoggedInStatus = useAppSelector(authSelectors.isLoggedIn)
 
   const formik = useFormik({
     initialValues: {

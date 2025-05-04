@@ -8,6 +8,7 @@ import { IsAuthorizationType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
 import { setAppStatus } from './appSlice'
 import { clearTodoListsAndTaskState } from '../common/actions/common.actions'
+import { selectors } from '../selectors'
 
 const initialState: IsAuthorizationType = {
   isLoggedIn: false,
@@ -84,7 +85,9 @@ const authSlice = createSlice({
       state.isLoggedIn = action.payload
     })
   },
+  selectors: selectors.authSelectors,
 })
 
 export const authReducer = authSlice.reducer
 export const { setIsLoggedInStatus } = authSlice.actions
+export const authSelectors = authSlice.selectors

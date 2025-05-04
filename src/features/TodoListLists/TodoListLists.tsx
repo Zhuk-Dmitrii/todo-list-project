@@ -7,11 +7,12 @@ import { createTodoList, getTodoList } from '../../app/redux/slices/todoListsSli
 import { TodoList } from './TodoList'
 import { InputForm } from '../../components/InputForm'
 import { PATHS } from '../../app/routers/path'
+import { authSelectors } from '../../app/redux/slices/authSlice'
 
 export function TodoListLists() {
   const dispatch = useAppDispatch()
   const todoLists = useAppSelector(state => state.todoLists)
-  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+  const isLoggedIn = useAppSelector(authSelectors.isLoggedIn)
 
   useEffect(() => {
     if (!isLoggedIn) return
