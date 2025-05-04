@@ -6,14 +6,14 @@ import { IconButton } from '@mui/material'
 import { Menu } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
-import { logoutTC } from '../../app/redux/slices/authSlice'
+import { logout } from '../../app/redux/slices/authSlice'
 
 export function Header() {
   const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
   function handleLogout() {
-    dispatch(logoutTC())
+    dispatch(logout())
   }
 
   return (

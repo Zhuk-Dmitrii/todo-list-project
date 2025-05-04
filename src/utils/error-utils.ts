@@ -1,5 +1,5 @@
 import { ResponseTodoLists, ResponseTodoListTask } from '../api/typesAPI/todoListTypes'
-import { setAppErrorAC, setAppStatusAC } from '../app/redux/slices/appSlice'
+import { setAppError, setAppStatus } from '../app/redux/slices/appSlice'
 import { AppDispatch } from '../app/types/storeTypes'
 
 export function handleServerErrorApp<D>(
@@ -7,15 +7,15 @@ export function handleServerErrorApp<D>(
   dispatch: AppDispatch,
 ) {
   if (data.messages.length) {
-    dispatch(setAppErrorAC(data.messages[0]))
+    dispatch(setAppError(data.messages[0]))
   } else {
-    dispatch(setAppErrorAC('some error'))
+    dispatch(setAppError('some error'))
   }
 
-  dispatch(setAppStatusAC('failed'))
+  dispatch(setAppStatus('failed'))
 }
 
 export function handleNetworkErrorApp(errorMessage: string, dispatch: AppDispatch) {
-  dispatch(setAppErrorAC(errorMessage))
-  dispatch(setAppStatusAC('failed'))
+  dispatch(setAppError(errorMessage))
+  dispatch(setAppStatus('failed'))
 }

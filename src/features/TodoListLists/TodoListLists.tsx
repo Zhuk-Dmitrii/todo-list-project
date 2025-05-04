@@ -3,7 +3,7 @@ import { Box, Grid2, Paper } from '@mui/material'
 import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
-import { createTodoListTC, getTodoListTC } from '../../app/redux/slices/todoListsSlice'
+import { createTodoList, getTodoList } from '../../app/redux/slices/todoListsSlice'
 import { TodoList } from './TodoList'
 import { InputForm } from '../../components/InputForm'
 import { PATHS } from '../../app/routers/path'
@@ -16,12 +16,12 @@ export function TodoListLists() {
   useEffect(() => {
     if (!isLoggedIn) return
 
-    dispatch(getTodoListTC())
+    dispatch(getTodoList())
   }, [dispatch, isLoggedIn])
 
-  const createTodoList = useCallback(
+  const addTodoList = useCallback(
     (title: string) => {
-      const thunk = createTodoListTC(title)
+      const thunk = createTodoList(title)
 
       dispatch(thunk)
     },
@@ -44,7 +44,7 @@ export function TodoListLists() {
     <>
       <Box>
         <InputForm
-          createItem={createTodoList}
+          createItem={addTodoList}
           styleWrapper={styleInputForm.styleWrapper}
           sx={styleInputForm.sx}
           size="small"

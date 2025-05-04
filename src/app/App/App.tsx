@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks'
 import { Header } from '../../components/Header'
 import { CustomSnackbar } from '../../components/CustomSnackbar'
-import { initializedAppTC } from '../redux/slices/appSlice'
+import { initializedApp } from '../redux/slices/appSlice'
 
 export function App() {
   const dispatch = useAppDispatch()
@@ -13,7 +13,7 @@ export function App() {
   const isInitialized = useAppSelector(state => state.app.isInitialized)
 
   useEffect(() => {
-    dispatch(initializedAppTC())
+    dispatch(initializedApp())
   }, [dispatch])
 
   if (!isInitialized) {

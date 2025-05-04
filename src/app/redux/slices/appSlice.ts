@@ -6,7 +6,7 @@ import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/erro
 import { AppInitialStateType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
 import { AppStatus } from '../../types/businessTypes'
-import { setIsLoggedInStatusAC } from './authSlice'
+import { setIsLoggedInStatus } from './authSlice'
 
 const initialState: AppInitialStateType = {
   status: 'idle',
@@ -14,14 +14,14 @@ const initialState: AppInitialStateType = {
   isInitialized: false,
 }
 
-export const initializedAppTC = createAsyncThunk<boolean, void, { dispatch: AppDispatch }>(
+export const initializedApp = createAsyncThunk<boolean, void, { dispatch: AppDispatch }>(
   'app/initializedApp',
   async (_, { dispatch }) => {
     try {
       const res = await authAPI.me()
 
       if (res.data.resultCode == 0) {
-        dispatch(setIsLoggedInStatusAC(true))
+        dispatch(setIsLoggedInStatus(true))
       } else {
         handleServerErrorApp(res.data, dispatch)
       }
@@ -41,19 +41,19 @@ const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    setAppStatusAC: (state, action: PayloadAction<AppStatus>) => {
+    setAppStatus: (state, action: PayloadAction<AppStatus>) => {
       state.status = action.payload
     },
-    setAppErrorAC: (state, action: PayloadAction<string | null>) => {
+    setAppError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload
     },
   },
   extraReducers: builder => {
-    builder.addCase(initializedAppTC.fulfilled, (state, action) => {
+    builder.addCase(initializedApp.fulfilled, (state, action) => {
       state.isInitialized = action.payload
     })
   },
 })
 
 export const appReducer = appSlice.reducer
-export const { setAppStatusAC, setAppErrorAC } = appSlice.actions
+export const { setAppStatus, setAppError } = appSlice.actions

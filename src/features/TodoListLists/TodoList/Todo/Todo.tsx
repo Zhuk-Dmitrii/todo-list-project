@@ -3,7 +3,7 @@ import { ListItem, Checkbox, IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 
 import { useAppDispatch } from '../../../../app/hooks/reduxHooks'
-import { deleteTaskTC, updateTaskTC } from '../../../../app/redux/slices/tasksSlice'
+import { deleteTask, updateTask } from '../../../../app/redux/slices/tasksSlice'
 import { EditableSpan } from '../../../../components/EditableSpan'
 import { TaskStatus, TaskType } from '../../../../api/typesAPI/todoListTypes'
 import { customCSS } from './TodoCSS'
@@ -17,7 +17,7 @@ export const Todo = React.memo((props: TProps) => {
   const dispatch = useAppDispatch()
 
   const handleDeleteTask = useCallback(() => {
-    const action = deleteTaskTC({ taskId: props.task.id, todoListId: props.todoListId })
+    const action = deleteTask({ taskId: props.task.id, todoListId: props.todoListId })
 
     dispatch(action)
   }, [props.todoListId, props.task.id, dispatch])
@@ -27,7 +27,7 @@ export const Todo = React.memo((props: TProps) => {
       const taskId = props.task.id
       const checked = event.currentTarget.checked
       const status = checked ? TaskStatus.Completed : TaskStatus.New
-      const action = updateTaskTC({
+      const action = updateTask({
         todoListId: props.todoListId,
         taskId,
         businessModel: { status },
@@ -40,7 +40,7 @@ export const Todo = React.memo((props: TProps) => {
 
   const handleChangeTaskTitle = useCallback(
     (newValue: string) => {
-      const action = updateTaskTC({
+      const action = updateTask({
         todoListId: props.todoListId,
         taskId: props.task.id,
         businessModel: { title: newValue },
