@@ -5,12 +5,12 @@ import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks'
 import { Header } from '../../components/Header'
 import { CustomSnackbar } from '../../components/CustomSnackbar'
-import { initializedApp } from '../redux/slices/appSlice'
+import { initializedApp, appSelectors } from '../redux/slices/appSlice'
 
 export function App() {
   const dispatch = useAppDispatch()
-  const status = useAppSelector(state => state.app.status)
-  const isInitialized = useAppSelector(state => state.app.isInitialized)
+  const status = useAppSelector(appSelectors.status)
+  const isInitialized = useAppSelector(appSelectors.isInitialized)
 
   useEffect(() => {
     dispatch(initializedApp())

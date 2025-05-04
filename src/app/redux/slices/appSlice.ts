@@ -7,6 +7,7 @@ import { AppInitialStateType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
 import { AppStatus } from '../../types/businessTypes'
 import { setIsLoggedInStatus } from './authSlice'
+import { selectors } from '../selectors'
 
 const initialState: AppInitialStateType = {
   status: 'idle',
@@ -53,7 +54,9 @@ const appSlice = createSlice({
       state.isInitialized = action.payload
     })
   },
+  selectors: selectors.appSelectors,
 })
 
 export const appReducer = appSlice.reducer
 export const { setAppStatus, setAppError } = appSlice.actions
+export const appSelectors = appSlice.selectors
