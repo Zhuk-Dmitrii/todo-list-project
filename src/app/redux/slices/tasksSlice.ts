@@ -7,7 +7,7 @@ import { TaskType, UpdateTaskModelType } from '../../../api/typesAPI/todoListTyp
 import { UpdateBusinessTaskModelType, TasksDataType } from '../../types/businessTypes'
 import { AppDispatch, RootState } from '../../types/storeTypes'
 import { setAppStatus } from './appSlice'
-import { clearTodoListsAndTaskState } from '../common/actions/common.actions'
+import { clearTodoListsAndTaskState } from '../common/actions'
 import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
 import { selectors } from '../selectors'
 
