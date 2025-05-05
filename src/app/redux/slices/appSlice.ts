@@ -1,42 +1,15 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { AxiosError } from 'axios'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { authAPI } from '../../../api/auth-api'
-import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
 import { AppInitialStateType } from '../../types/businessTypes'
-import { AppDispatch } from '../../types/storeTypes'
 import { AppStatus } from '../../types/businessTypes'
-import { setIsLoggedInStatus } from './authSlice'
 import { selectors } from '../selectors'
+import { initializedApp } from '../thunks'
 
 const initialState: AppInitialStateType = {
   status: 'idle',
   error: null,
   isInitialized: false,
 }
-
-export const initializedApp = createAsyncThunk<boolean, void, { dispatch: AppDispatch }>(
-  'app/initializedApp',
-  async (_, { dispatch }) => {
-    try {
-      const res = await authAPI.me()
-
-      if (res.data.resultCode == 0) {
-        dispatch(setIsLoggedInStatus(true))
-      } else {
-        handleServerErrorApp(res.data, dispatch)
-      }
-
-      return true
-    } catch (err) {
-      const error = err as AxiosError
-
-      handleNetworkErrorApp(error.message, dispatch)
-
-      return true
-    }
-  },
-)
 
 const appSlice = createSlice({
   name: 'app',
