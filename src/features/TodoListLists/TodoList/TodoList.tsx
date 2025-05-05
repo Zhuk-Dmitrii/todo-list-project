@@ -3,7 +3,7 @@ import { Box, IconButton, List, Button } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 
 import { useAppDispatch, useAppSelector } from '../../../app/hooks/reduxHooks'
-import { createTask } from '../../../app/redux/slices/tasksSlice'
+import { createTask, tasksSelectors } from '../../../app/redux/slices/tasksSlice'
 import { changeTodoListFilter } from '../../../app/redux/slices/todoListsSlice'
 import { changeTodoListTitle, deleteTodoList } from '../../../app/redux/slices/todoListsSlice'
 import { FilteredValues, TodoListBusinessType } from '../../../app/types/businessTypes'
@@ -18,7 +18,9 @@ type TProps = {
 }
 
 export const TodoList = React.memo((props: TProps) => {
-  const tasks = useAppSelector(state => state.tasks[props.todoList.id])
+  const tasksForTodoList = useAppSelector(state =>
+    tasksSelectors.tasksForTodoList(state, props.todoList.id),
+  )
   const dispatch = useAppDispatch()
 
   const isDisabled = props.todoList.entityStatus === 'loading'
@@ -67,18 +69,18 @@ export const TodoList = React.memo((props: TProps) => {
 
   // -------------------------------- Tasks -------------------------------
   const filteredTasks = useMemo(() => {
-    let filterTasks = tasks
+    let filterTasks = tasksForTodoList
 
     if (props.todoList.filter == FilteredValues.active) {
-      filterTasks = tasks.filter(task => task.status === TaskStatus.New)
+      filterTasks = tasksForTodoList.filter(task => task.status === TaskStatus.New)
     }
 
     if (props.todoList.filter == FilteredValues.completed) {
-      filterTasks = tasks.filter(task => task.status === TaskStatus.Completed)
+      filterTasks = tasksForTodoList.filter(task => task.status === TaskStatus.Completed)
     }
 
     return filterTasks
-  }, [props.todoList.filter, tasks])
+  }, [props.todoList.filter, tasksForTodoList])
 
   const addTask = useCallback(
     (title: string) => {

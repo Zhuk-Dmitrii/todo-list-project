@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from '../../types/storeTypes'
 import { setAppStatus } from './appSlice'
 import { clearTodoListsAndTaskState } from '../common/actions/common.actions'
 import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
+import { selectors } from '../selectors'
 
 const initialState: TasksDataType = {}
 
@@ -179,10 +180,11 @@ const tasksSlice = createSlice({
       }
     })
   },
+  selectors: selectors.tasksSelectors,
 })
 
 export const tasksReducer = tasksSlice.reducer
-
+export const tasksSelectors = tasksSlice.selectors
 // ------------------------ TYPES ------------------------------------
 type DeleteTaskPayload = {
   todoListId: string
