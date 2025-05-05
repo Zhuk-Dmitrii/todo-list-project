@@ -1,12 +1,14 @@
 import {
+  changeTodoListFilter,
+  changeTodoListEntityStatus,
+  todoListsReducer,
+} from '../app/redux/slices/todoListsSlice'
+import {
   createTodoList,
   deleteTodoList,
-  changeTodoListFilter,
   changeTodoListTitle,
   getTodoList,
-  changeTodoListEntityStatus,
-} from '../app/redux/slices/todoListsSlice'
-import { todoListsReducer } from '../app/redux/slices/todoListsSlice'
+} from '../app/redux/thunks'
 import { TodoListType } from '../api/typesAPI/todoListTypes'
 import { TodoListBusinessType, FilteredValues } from '../app/types/businessTypes'
 

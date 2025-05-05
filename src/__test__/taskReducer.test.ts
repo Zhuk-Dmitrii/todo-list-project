@@ -1,5 +1,12 @@
-import { updateTask, createTask, deleteTask, getTasks } from '../app/redux/thunks'
-import { createTodoList, deleteTodoList, getTodoList } from '../app/redux/slices/todoListsSlice'
+import {
+  updateTask,
+  createTask,
+  deleteTask,
+  getTasks,
+  createTodoList,
+  deleteTodoList,
+  getTodoList,
+} from '../app/redux/thunks'
 import { tasksReducer } from '../app/redux/slices/tasksSlice'
 import { TasksDataType, UpdateBusinessTaskModelType } from '../app/types/businessTypes'
 import { TaskPriority, TaskStatus, TaskType, TodoListType } from '../api/typesAPI/todoListTypes'

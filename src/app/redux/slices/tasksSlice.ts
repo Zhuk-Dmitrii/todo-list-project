@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { createTodoList, deleteTodoList, getTodoList } from './todoListsSlice'
+import { createTodoList, deleteTodoList, getTodoList } from '../thunks'
 import { TasksDataType } from '../../types/businessTypes'
 import { clearTodoListsAndTaskState } from '../common/actions'
 import { selectors } from '../selectors'

@@ -3,11 +3,8 @@ import { Box, Grid2, Paper } from '@mui/material'
 import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
-import {
-  createTodoList,
-  getTodoList,
-  todoListsSelectors,
-} from '../../app/redux/slices/todoListsSlice'
+import { todoListsSelectors } from '../../app/redux/slices/todoListsSlice'
+import { createTodoList, getTodoList } from '../../app/redux/thunks'
 import { TodoList } from './TodoList'
 import { InputForm } from '../../components/InputForm'
 import { PATHS } from '../../app/routers/path'
