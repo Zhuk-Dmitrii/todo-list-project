@@ -15,8 +15,9 @@ import { FormikHelpers, useFormik } from 'formik'
 import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
-import { authSelectors, login } from '../../app/redux/slices/authSlice'
+import { authSelectors } from '../../app/redux/slices/authSlice'
 import { PATHS } from '../../app/routers/path'
+import { login } from '../../app/redux/thunks'
 
 type FormValueType = {
   email: string
