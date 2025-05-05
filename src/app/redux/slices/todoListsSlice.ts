@@ -9,6 +9,7 @@ import { getTasks } from './tasksSlice'
 import { clearTodoListsAndTaskState } from '../common/actions/common.actions'
 import { AppStatus, FilteredValues, TodoListBusinessType } from '../../types/businessTypes'
 import { AppDispatch } from '../../types/storeTypes'
+import { selectors } from '../selectors'
 
 const initialState: TodoListBusinessType[] = []
 
@@ -168,10 +169,12 @@ const todoListsSlice = createSlice({
       return initialState
     })
   },
+  selectors: selectors.todoListsSelectors,
 })
 
 export const todoListsReducer = todoListsSlice.reducer
 export const { changeTodoListFilter, changeTodoListEntityStatus } = todoListsSlice.actions
+export const todoListsSelectors = todoListsSlice.selectors
 
 // ------------------------ TYPES ------------------------------------
 type GetTodoListsPayload = TodoListType[]

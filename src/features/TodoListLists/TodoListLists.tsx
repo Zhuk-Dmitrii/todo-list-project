@@ -3,7 +3,11 @@ import { Box, Grid2, Paper } from '@mui/material'
 import { Navigate } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
-import { createTodoList, getTodoList } from '../../app/redux/slices/todoListsSlice'
+import {
+  createTodoList,
+  getTodoList,
+  todoListsSelectors,
+} from '../../app/redux/slices/todoListsSlice'
 import { TodoList } from './TodoList'
 import { InputForm } from '../../components/InputForm'
 import { PATHS } from '../../app/routers/path'
@@ -11,7 +15,7 @@ import { authSelectors } from '../../app/redux/slices/authSlice'
 
 export function TodoListLists() {
   const dispatch = useAppDispatch()
-  const todoLists = useAppSelector(state => state.todoLists)
+  const todoLists = useAppSelector(todoListsSelectors.todoLists)
   const isLoggedIn = useAppSelector(authSelectors.isLoggedIn)
 
   useEffect(() => {
