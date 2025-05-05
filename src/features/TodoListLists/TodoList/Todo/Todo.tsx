@@ -3,7 +3,7 @@ import { ListItem, Checkbox, IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 
 import { useAppDispatch } from '../../../../app/hooks/reduxHooks'
-import { deleteTask, updateTask } from '../../../../app/redux/slices/tasksSlice'
+import { deleteTask, updateTask } from '../../../../app/redux/thunks'
 import { EditableSpan } from '../../../../components/EditableSpan'
 import { TaskStatus, TaskType } from '../../../../api/typesAPI/todoListTypes'
 import { customCSS } from './TodoCSS'
