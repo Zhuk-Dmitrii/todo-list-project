@@ -1,4 +1,4 @@
-import { createTodoList } from '../app/redux/slices/todoListsSlice'
+import { createTodoList } from '../app/redux/thunks'
 import { tasksReducer } from '../app/redux/slices/tasksSlice'
 import { todoListsReducer } from '../app/redux/slices/todoListsSlice'
 import { TodoListBusinessType, TasksDataType } from '../app/types/businessTypes'
