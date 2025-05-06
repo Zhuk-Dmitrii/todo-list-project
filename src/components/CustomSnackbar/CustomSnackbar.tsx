@@ -1,12 +1,11 @@
 import { Alert, Snackbar, SnackbarCloseReason } from '@mui/material'
-import { useDispatch } from 'react-redux'
 
-import { useAppSelector } from '../../app/hooks/reduxHooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
 import { setAppError, appSelectors } from '../../app/redux/slices/appSlice'
 
 export function CustomSnackbar() {
   const error = useAppSelector(appSelectors.error)
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const handleClose = (_event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
     if (reason === 'clickaway') {
