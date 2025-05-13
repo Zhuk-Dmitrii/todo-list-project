@@ -11,6 +11,7 @@ type TInputForm = {
 }
 
 export const InputForm = React.memo(({ disabled = false, ...props }: TInputForm) => {
+  const { createItem, styleWrapper, size, sx } = props
   const [title, setTitle] = useState('')
   const [error, setError] = useState<string | null>(null)
 
@@ -34,23 +35,23 @@ export const InputForm = React.memo(({ disabled = false, ...props }: TInputForm)
         return
       }
 
-      props.createItem(title.trim())
+      createItem(title.trim())
       setTitle('')
     },
-    [title, props.createItem],
+    [createItem, title],
   )
 
   return (
     <Box
       component="form"
-      sx={{ display: 'flex', alignItems: 'center', width: '100%', ...props.styleWrapper }}
+      sx={{ display: 'flex', alignItems: 'center', width: '100%', ...styleWrapper }}
       onSubmit={handleSubmit}
     >
       <TextField
-        sx={props.sx}
+        sx={sx}
         label="title for todo list"
         variant="outlined"
-        size={props.size}
+        size={size}
         helperText={error}
         error={!!error}
         value={title}

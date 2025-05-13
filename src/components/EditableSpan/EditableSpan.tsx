@@ -13,23 +13,27 @@ type TEditableSpan = {
 }
 
 export const EditableSpan = React.memo(({ disabled = false, ...props }: TEditableSpan) => {
+  console.log('render editable span')
+
+  const { changeValue, title, sx } = props
   const [editMode, setEditMode] = useState<boolean>(false)
-  const [title, setTitle] = useState<string>('')
+  const [value, setValue] = useState<string>('')
 
   const activateEditMode = useCallback(() => {
     if (disabled) return
 
     setEditMode(true)
-    setTitle(props.title)
-  }, [props.title, disabled])
+    setValue(title)
+  }, [title, disabled])
 
   const disableEditMode = useCallback(() => {
     setEditMode(false)
-    props.changeValue(title)
-  }, [props.changeValue, title])
+
+    if (value !== title) changeValue(value)
+  }, [changeValue, value, title])
 
   const handleChangeInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.currentTarget.value)
+    setValue(event.currentTarget.value)
   }, [])
 
   return editMode ? (
@@ -37,17 +41,17 @@ export const EditableSpan = React.memo(({ disabled = false, ...props }: TEditabl
       variant="standard"
       onChange={handleChangeInput}
       onBlur={disableEditMode}
-      value={title}
-      sx={props.sx?.textField}
+      value={value}
+      sx={sx?.textField}
       autoFocus
     />
   ) : (
     <Typography
       component={'span'}
       onDoubleClick={activateEditMode}
-      sx={(props.sx?.typography, { opacity: disabled ? '0.5' : '1' })}
+      sx={(sx?.typography, { opacity: disabled ? '0.5' : '1' })}
     >
-      {props.title}
+      {title}
     </Typography>
   )
 })

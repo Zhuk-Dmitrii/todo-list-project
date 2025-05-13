@@ -1,3 +1,4 @@
+import React, { useCallback } from 'react'
 import { AppBar } from '@mui/material'
 import { Toolbar } from '@mui/material'
 import { Typography } from '@mui/material'
@@ -9,13 +10,13 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
 import { authSelectors } from '../../app/redux/slices/authSlice'
 import { logout } from '../../app/redux/thunks'
 
-export function Header() {
+export const Header = React.memo(() => {
   const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector(authSelectors.isLoggedIn)
 
-  function handleLogout() {
+  const handleLogout = useCallback(() => {
     dispatch(logout())
-  }
+  }, [dispatch])
 
   return (
     <AppBar position="relative">
@@ -34,4 +35,4 @@ export function Header() {
       </Toolbar>
     </AppBar>
   )
-}
+})
