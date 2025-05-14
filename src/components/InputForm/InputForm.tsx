@@ -10,57 +10,58 @@ type TInputForm = {
   disabled?: boolean
 }
 
-export const InputForm = React.memo(({ disabled = false, ...props }: TInputForm) => {
-  const { createItem, styleWrapper, size, sx } = props
-  const [title, setTitle] = useState('')
-  const [error, setError] = useState<string | null>(null)
+export const InputForm = React.memo(
+  ({ disabled = false, createItem, styleWrapper, size, sx }: TInputForm) => {
+    const [title, setTitle] = useState('')
+    const [error, setError] = useState<string | null>(null)
 
-  const handleChangeTitle = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      if (error !== null) setError(null)
+    const handleChangeTitle = useCallback(
+      (event: ChangeEvent<HTMLInputElement>) => {
+        if (error !== null) setError(null)
 
-      setTitle(event.target.value)
-    },
-    [error],
-  )
+        setTitle(event.target.value)
+      },
+      [error],
+    )
 
-  const handleSubmit = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault()
+    const handleSubmit = useCallback(
+      (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
 
-      if (title.trim() === '') {
-        setError('Title is required')
+        if (title.trim() === '') {
+          setError('Title is required')
+          setTitle('')
+
+          return
+        }
+
+        createItem(title.trim())
         setTitle('')
+      },
+      [createItem, title],
+    )
 
-        return
-      }
-
-      createItem(title.trim())
-      setTitle('')
-    },
-    [createItem, title],
-  )
-
-  return (
-    <Box
-      component="form"
-      sx={{ display: 'flex', alignItems: 'center', width: '100%', ...styleWrapper }}
-      onSubmit={handleSubmit}
-    >
-      <TextField
-        sx={sx}
-        label="title for todo list"
-        variant="outlined"
-        size={size}
-        helperText={error}
-        error={!!error}
-        value={title}
-        onChange={handleChangeTitle}
-        disabled={disabled}
-      />
-      <IconButton type="submit" color="primary" sx={{ ml: 1, mb: 'auto' }} disabled={disabled}>
-        <AddCircleOutline />
-      </IconButton>
-    </Box>
-  )
-})
+    return (
+      <Box
+        component="form"
+        sx={{ display: 'flex', alignItems: 'center', width: '100%', ...styleWrapper }}
+        onSubmit={handleSubmit}
+      >
+        <TextField
+          sx={sx}
+          label="title for todo list"
+          variant="outlined"
+          size={size}
+          helperText={error}
+          error={!!error}
+          value={title}
+          onChange={handleChangeTitle}
+          disabled={disabled}
+        />
+        <IconButton type="submit" color="primary" sx={{ ml: 1, mb: 'auto' }} disabled={disabled}>
+          <AddCircleOutline />
+        </IconButton>
+      </Box>
+    )
+  },
+)

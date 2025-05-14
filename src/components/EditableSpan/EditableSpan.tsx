@@ -12,46 +12,45 @@ type TEditableSpan = {
   disabled?: boolean
 }
 
-export const EditableSpan = React.memo(({ disabled = false, ...props }: TEditableSpan) => {
-  console.log('render editable span')
+export const EditableSpan = React.memo(
+  ({ disabled = false, changeValue, title, sx }: TEditableSpan) => {
+    const [editMode, setEditMode] = useState<boolean>(false)
+    const [value, setValue] = useState<string>('')
 
-  const { changeValue, title, sx } = props
-  const [editMode, setEditMode] = useState<boolean>(false)
-  const [value, setValue] = useState<string>('')
+    const activateEditMode = useCallback(() => {
+      if (disabled) return
 
-  const activateEditMode = useCallback(() => {
-    if (disabled) return
+      setEditMode(true)
+      setValue(title)
+    }, [title, disabled])
 
-    setEditMode(true)
-    setValue(title)
-  }, [title, disabled])
+    const disableEditMode = useCallback(() => {
+      setEditMode(false)
 
-  const disableEditMode = useCallback(() => {
-    setEditMode(false)
+      if (value !== title) changeValue(value)
+    }, [changeValue, value, title])
 
-    if (value !== title) changeValue(value)
-  }, [changeValue, value, title])
+    const handleChangeInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+      setValue(event.currentTarget.value)
+    }, [])
 
-  const handleChangeInput = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setValue(event.currentTarget.value)
-  }, [])
-
-  return editMode ? (
-    <TextField
-      variant="standard"
-      onChange={handleChangeInput}
-      onBlur={disableEditMode}
-      value={value}
-      sx={sx?.textField}
-      autoFocus
-    />
-  ) : (
-    <Typography
-      component={'span'}
-      onDoubleClick={activateEditMode}
-      sx={(sx?.typography, { opacity: disabled ? '0.5' : '1' })}
-    >
-      {title}
-    </Typography>
-  )
-})
+    return editMode ? (
+      <TextField
+        variant="standard"
+        onChange={handleChangeInput}
+        onBlur={disableEditMode}
+        value={value}
+        sx={sx?.textField}
+        autoFocus
+      />
+    ) : (
+      <Typography
+        component={'span'}
+        onDoubleClick={activateEditMode}
+        sx={(sx?.typography, { opacity: disabled ? '0.5' : '1' })}
+      >
+        {title}
+      </Typography>
+    )
+  },
+)
