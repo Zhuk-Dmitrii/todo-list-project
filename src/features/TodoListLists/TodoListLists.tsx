@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
 import { todoListsSelectors } from '../../app/redux/slices/todoListsSlice'
 import { createTodoList, getTodoList } from '../../app/redux/thunks'
 import { TodoList } from './TodoList'
-import { InputForm } from '../../components/InputForm'
+import { InputToAdd } from '../../components/InputToAdd'
 import { PATHS } from '../../app/routers/path'
 import { authSelectors } from '../../app/redux/slices/authSlice'
 
@@ -30,7 +30,7 @@ export function TodoListLists() {
     [dispatch],
   )
 
-  const styleInputForm = useMemo(
+  const styleInputToAdd = useMemo(
     () => ({
       styleWrapper: { justifyContent: 'center' },
       sx: { maxWidth: '400px', width: '100%' },
@@ -45,10 +45,10 @@ export function TodoListLists() {
   return (
     <>
       <Box>
-        <InputForm
+        <InputToAdd
           createItem={addTodoList}
-          styleWrapper={styleInputForm.styleWrapper}
-          sx={styleInputForm.sx}
+          styleWrapper={styleInputToAdd.styleWrapper}
+          sx={styleInputToAdd.sx}
           size="small"
         />
         <Grid2 container sx={{ mt: 6 }} spacing={4}>
