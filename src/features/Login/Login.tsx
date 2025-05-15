@@ -8,8 +8,6 @@ import { LoginDescription } from './LoginDescription'
 import { LoginForm } from './LoginForm'
 
 export function Login() {
-  console.log('render login')
-
   const isLoggedInStatus = useAppSelector(authSelectors.isLoggedIn)
 
   if (isLoggedInStatus) {
