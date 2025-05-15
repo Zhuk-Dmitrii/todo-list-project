@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { clearTodoListsAndTaskState } from '../common/actions'
-import { AppStatus, FilteredValues, TodoListBusinessType } from '../../types/businessTypes'
+import { AppStatus, FilteredValuesType, TodoListBusinessType } from '../../types/businessTypes'
 import { selectors } from '../selectors'
 import { getTodoList, createTodoList, deleteTodoList, changeTodoListTitle } from '../thunks'
 
@@ -30,7 +30,7 @@ const todoListsSlice = createSlice({
     builder.addCase(getTodoList.fulfilled, (_, action) => {
       return action.payload.map(tl => ({
         ...tl,
-        filter: FilteredValues.all,
+        filter: 'all',
         entityStatus: 'idle',
       }))
     })
@@ -38,7 +38,7 @@ const todoListsSlice = createSlice({
     builder.addCase(createTodoList.fulfilled, (state, action) => {
       const newTodoList: TodoListBusinessType = {
         ...action.payload.todoList,
-        filter: FilteredValues.all,
+        filter: 'all',
         entityStatus: 'idle',
       }
 
@@ -71,7 +71,7 @@ export const todoListsSelectors = todoListsSlice.selectors
 // ------------------------ TYPES ------------------------------------
 type ChangeTodoListFilterPayload = {
   id: string
-  filter: FilteredValues
+  filter: FilteredValuesType
 }
 
 type ChangeTodoListEntityStatusPayload = {

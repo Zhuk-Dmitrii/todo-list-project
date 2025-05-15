@@ -1,15 +1,11 @@
 import { TaskPriority, TaskStatus, TaskType, TodoListType } from '../../api/typesAPI/todoListTypes'
 
 // ------------------- CONSTANTS ------------------------------
-export enum FilteredValues {
-  all = 'all',
-  active = 'active',
-  completed = 'completed',
-}
+export type FilteredValuesType = 'all' | 'active' | 'completed'
 
 // ------------------- TODO LISTS TYPE ------------------------------
 export type TodoListBusinessType = TodoListType & {
-  filter: FilteredValues
+  filter: FilteredValuesType
   entityStatus: AppStatus
 }
 

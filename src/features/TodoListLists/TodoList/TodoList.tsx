@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks/reduxHooks'
 import { tasksSelectors } from '../../../app/redux/slices/tasksSlice'
 import { changeTodoListFilter } from '../../../app/redux/slices/todoListsSlice'
 import { createTask, changeTodoListTitle, deleteTodoList } from '../../../app/redux/thunks'
-import { FilteredValues, TodoListBusinessType } from '../../../app/types/businessTypes'
+import { FilteredValuesType, TodoListBusinessType } from '../../../app/types/businessTypes'
 import { TaskStatus } from '../../../api/typesAPI/todoListTypes'
 import { Todo } from './Todo'
 import { InputFormToAdd } from '../../../components/InputFormToAdd'
@@ -28,28 +28,10 @@ export const TodoList = React.memo(({ todoList }: TProps) => {
   // -------------------------------- Todo Lists -------------------------------
   const handleClickBtnFilter = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
-      const targetValue = event.currentTarget.value
+      const targetValue = event.currentTarget.value as FilteredValuesType
 
-      if (targetValue === FilteredValues.all) {
-        const action = changeTodoListFilter({ id: todoList.id, filter: FilteredValues.all })
-        dispatch(action)
-      }
-
-      if (targetValue === FilteredValues.active) {
-        const action = changeTodoListFilter({
-          id: todoList.id,
-          filter: FilteredValues.active,
-        })
-        dispatch(action)
-      }
-
-      if (targetValue === FilteredValues.completed) {
-        const action = changeTodoListFilter({
-          id: todoList.id,
-          filter: FilteredValues.completed,
-        })
-        dispatch(action)
-      }
+      const action = changeTodoListFilter({ id: todoList.id, filter: targetValue })
+      dispatch(action)
     },
     [todoList.id, dispatch],
   )
@@ -71,11 +53,11 @@ export const TodoList = React.memo(({ todoList }: TProps) => {
   const filteredTasks = useMemo(() => {
     let filterTasks = tasksForTodoList
 
-    if (todoList.filter == FilteredValues.active) {
+    if (todoList.filter === 'active') {
       filterTasks = tasksForTodoList.filter(task => task.status === TaskStatus.New)
     }
 
-    if (todoList.filter == FilteredValues.completed) {
+    if (todoList.filter === 'completed') {
       filterTasks = tasksForTodoList.filter(task => task.status === TaskStatus.Completed)
     }
 
@@ -123,24 +105,24 @@ export const TodoList = React.memo(({ todoList }: TProps) => {
       <Box sx={{ height: '30px', display: 'flex', gap: 1, mt: 'auto' }}>
         <Button
           onClick={handleClickBtnFilter}
-          value={FilteredValues.all}
-          variant={todoList.filter == FilteredValues.all ? 'contained' : 'outlined'}
+          value={'all'}
+          variant={todoList.filter === 'all' ? 'contained' : 'outlined'}
           color="primary"
           children={'All'}
           sx={{ height: '100%' }}
         />
         <Button
           onClick={handleClickBtnFilter}
-          value={FilteredValues.active}
-          variant={todoList.filter == FilteredValues.active ? 'contained' : 'outlined'}
+          value={'active'}
+          variant={todoList.filter === 'active' ? 'contained' : 'outlined'}
           color="secondary"
           children={'Active'}
           sx={{ height: '100%' }}
         />
         <Button
           onClick={handleClickBtnFilter}
-          value={FilteredValues.completed}
-          variant={todoList.filter == FilteredValues.completed ? 'contained' : 'outlined'}
+          value={'completed'}
+          variant={todoList.filter == 'completed' ? 'contained' : 'outlined'}
           color="success"
           children={'Completed'}
           sx={{ height: '100%' }}

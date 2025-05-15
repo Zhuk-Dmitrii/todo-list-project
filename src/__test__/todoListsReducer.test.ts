@@ -10,7 +10,7 @@ import {
   getTodoList,
 } from '../app/redux/thunks'
 import { TodoListType } from '../api/typesAPI/todoListTypes'
-import { TodoListBusinessType, FilteredValues } from '../app/types/businessTypes'
+import { TodoListBusinessType, FilteredValuesType } from '../app/types/businessTypes'
 
 // ----------------------- INITIAL DATA ---------------------------------
 let todoListId1: string
@@ -25,7 +25,7 @@ beforeEach(() => {
     {
       id: todoListId1,
       title: 'What to learn',
-      filter: FilteredValues.all,
+      filter: 'all',
       addedDate: '',
       order: 0,
       entityStatus: 'idle',
@@ -33,7 +33,7 @@ beforeEach(() => {
     {
       id: todoListId2,
       title: 'What to buy',
-      filter: FilteredValues.active,
+      filter: 'active',
       addedDate: '',
       order: 0,
       entityStatus: 'idle',
@@ -60,7 +60,7 @@ test('new todo list should be created', () => {
 
   expect(endStateTodoLists.length).toBe(3)
   expect(endStateTodoLists[0].title).toBe(newTodoList.title)
-  expect(endStateTodoLists[0].filter).toBe(FilteredValues.all)
+  expect(endStateTodoLists[0].filter).toBe('all')
 })
 
 // --------------------------------------------------------
@@ -75,13 +75,13 @@ test('todo list should be deleted', () => {
 
 // --------------------------------------------------------
 test('todo list filter should be changed', () => {
-  const newFilter: FilteredValues = FilteredValues.completed
+  const newFilter: FilteredValuesType = 'completed'
   const action = changeTodoListFilter({ id: todoListId2, filter: newFilter })
 
   const endStateTodoList: TodoListBusinessType[] = todoListsReducer(startStateTodoLists, action)
 
   expect(endStateTodoList[1].filter).toBe(newFilter)
-  expect(endStateTodoList[0].filter).toBe(FilteredValues.all)
+  expect(endStateTodoList[0].filter).toBe('all')
 })
 
 // --------------------------------------------------------
