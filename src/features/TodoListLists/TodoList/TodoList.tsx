@@ -17,13 +17,13 @@ type TProps = {
   todoList: TodoListBusinessType
 }
 
-export const TodoList = React.memo((props: TProps) => {
+export const TodoList = React.memo(({ todoList }: TProps) => {
   const tasksForTodoList = useAppSelector(state =>
-    tasksSelectors.tasksForTodoList(state, props.todoList.id),
+    tasksSelectors.tasksForTodoList(state, todoList.id),
   )
   const dispatch = useAppDispatch()
 
-  const isDisabled = props.todoList.entityStatus === 'loading'
+  const isDisabled = todoList.entityStatus === 'loading'
 
   // -------------------------------- Todo Lists -------------------------------
   const handleClickBtnFilter = useCallback(
@@ -31,13 +31,13 @@ export const TodoList = React.memo((props: TProps) => {
       const targetValue = event.currentTarget.value
 
       if (targetValue === FilteredValues.all) {
-        const action = changeTodoListFilter({ id: props.todoList.id, filter: FilteredValues.all })
+        const action = changeTodoListFilter({ id: todoList.id, filter: FilteredValues.all })
         dispatch(action)
       }
 
       if (targetValue === FilteredValues.active) {
         const action = changeTodoListFilter({
-          id: props.todoList.id,
+          id: todoList.id,
           filter: FilteredValues.active,
         })
         dispatch(action)
@@ -45,50 +45,50 @@ export const TodoList = React.memo((props: TProps) => {
 
       if (targetValue === FilteredValues.completed) {
         const action = changeTodoListFilter({
-          id: props.todoList.id,
+          id: todoList.id,
           filter: FilteredValues.completed,
         })
         dispatch(action)
       }
     },
-    [props.todoList.id, dispatch],
+    [todoList.id, dispatch],
   )
 
   const handleClickDeleteTodoList = useCallback(() => {
-    const thunk = deleteTodoList(props.todoList.id)
+    const thunk = deleteTodoList(todoList.id)
     dispatch(thunk)
-  }, [props.todoList.id, dispatch])
+  }, [todoList.id, dispatch])
 
   const handleChangeTodoListTitle = useCallback(
     (newTitle: string) => {
-      const thunk = changeTodoListTitle({ id: props.todoList.id, title: newTitle })
+      const thunk = changeTodoListTitle({ id: todoList.id, title: newTitle })
       dispatch(thunk)
     },
-    [props.todoList.id, dispatch],
+    [todoList.id, dispatch],
   )
 
   // -------------------------------- Tasks -------------------------------
   const filteredTasks = useMemo(() => {
     let filterTasks = tasksForTodoList
 
-    if (props.todoList.filter == FilteredValues.active) {
+    if (todoList.filter == FilteredValues.active) {
       filterTasks = tasksForTodoList.filter(task => task.status === TaskStatus.New)
     }
 
-    if (props.todoList.filter == FilteredValues.completed) {
+    if (todoList.filter == FilteredValues.completed) {
       filterTasks = tasksForTodoList.filter(task => task.status === TaskStatus.Completed)
     }
 
     return filterTasks
-  }, [props.todoList.filter, tasksForTodoList])
+  }, [todoList.filter, tasksForTodoList])
 
   const addTask = useCallback(
     (title: string) => {
-      const thunk = createTask({ todoListId: props.todoList.id, title })
+      const thunk = createTask({ todoListId: todoList.id, title })
 
       dispatch(thunk)
     },
-    [dispatch, props.todoList.id],
+    [dispatch, todoList.id],
   )
 
   return (
@@ -103,7 +103,7 @@ export const TodoList = React.memo((props: TProps) => {
       </IconButton>
       <Box sx={{ mb: 2, height: '28px', display: 'flex', justifyContent: 'center' }}>
         <EditableSpan
-          title={props.todoList.title}
+          title={todoList.title}
           changeValue={handleChangeTodoListTitle}
           sx={customCSS.editableSpan}
           disabled={isDisabled}
@@ -115,7 +115,7 @@ export const TodoList = React.memo((props: TProps) => {
       <Box sx={{ mt: 3 }}>
         <List sx={{ maxHeight: '120px', overflow: 'auto' }}>
           {filteredTasks.map(task => (
-            <Todo key={task.id} todoListId={props.todoList.id} task={task} />
+            <Todo key={task.id} todoListId={todoList.id} task={task} />
           ))}
         </List>
       </Box>
@@ -124,7 +124,7 @@ export const TodoList = React.memo((props: TProps) => {
         <Button
           onClick={handleClickBtnFilter}
           value={FilteredValues.all}
-          variant={props.todoList.filter == FilteredValues.all ? 'contained' : 'outlined'}
+          variant={todoList.filter == FilteredValues.all ? 'contained' : 'outlined'}
           color="primary"
           children={'All'}
           sx={{ height: '100%' }}
@@ -132,7 +132,7 @@ export const TodoList = React.memo((props: TProps) => {
         <Button
           onClick={handleClickBtnFilter}
           value={FilteredValues.active}
-          variant={props.todoList.filter == FilteredValues.active ? 'contained' : 'outlined'}
+          variant={todoList.filter == FilteredValues.active ? 'contained' : 'outlined'}
           color="secondary"
           children={'Active'}
           sx={{ height: '100%' }}
@@ -140,7 +140,7 @@ export const TodoList = React.memo((props: TProps) => {
         <Button
           onClick={handleClickBtnFilter}
           value={FilteredValues.completed}
-          variant={props.todoList.filter == FilteredValues.completed ? 'contained' : 'outlined'}
+          variant={todoList.filter == FilteredValues.completed ? 'contained' : 'outlined'}
           color="success"
           children={'Completed'}
           sx={{ height: '100%' }}
