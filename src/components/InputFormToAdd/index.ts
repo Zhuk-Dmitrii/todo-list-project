@@ -1,0 +1,1 @@
+export { InputFormToAdd } from './InputFormToAdd'

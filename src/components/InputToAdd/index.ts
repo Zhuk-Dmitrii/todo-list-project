@@ -1,1 +1,0 @@
-export { InputToAdd } from './InputToAdd'

@@ -9,7 +9,7 @@ import { createTask, changeTodoListTitle, deleteTodoList } from '../../../app/re
 import { FilteredValues, TodoListBusinessType } from '../../../app/types/businessTypes'
 import { TaskStatus } from '../../../api/typesAPI/todoListTypes'
 import { Todo } from './Todo'
-import { InputToAdd } from '../../../components/InputToAdd'
+import { InputFormToAdd } from '../../../components/InputFormToAdd'
 import { EditableSpan } from '../../../components/EditableSpan'
 import { customCSS } from './TodoListCSS'
 
@@ -120,7 +120,7 @@ export const TodoList = React.memo((props: TProps) => {
         />
       </Box>
 
-      <InputToAdd
+      <InputFormToAdd
         createItem={addTask}
         styleWrapper={styleInputToAdd.styleWrapper}
         sx={styleInputToAdd.sx}

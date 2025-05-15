@@ -10,7 +10,7 @@ type TInputForm = {
   disabled?: boolean
 }
 
-export const InputToAdd = React.memo(
+export const InputFormToAdd = React.memo(
   ({ disabled = false, createItem, styleWrapper, size, sx }: TInputForm) => {
     const [title, setTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
