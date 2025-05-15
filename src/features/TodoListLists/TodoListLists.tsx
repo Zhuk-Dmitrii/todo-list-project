@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect } from 'react'
 import { Box, Grid2, Paper } from '@mui/material'
 import { Navigate } from 'react-router-dom'
 
@@ -30,14 +30,6 @@ export function TodoListLists() {
     [dispatch],
   )
 
-  const styleInputFormToAdd = useMemo(
-    () => ({
-      styleWrapper: { justifyContent: 'center' },
-      sx: { maxWidth: '400px', width: '100%' },
-    }),
-    [],
-  )
-
   if (!isLoggedIn) {
     return <Navigate to={PATHS.LOGIN} />
   }
@@ -45,12 +37,7 @@ export function TodoListLists() {
   return (
     <>
       <Box>
-        <InputFormToAdd
-          createItem={addTodoList}
-          styleWrapper={styleInputFormToAdd.styleWrapper}
-          sx={styleInputFormToAdd.sx}
-          size="small"
-        />
+        <InputFormToAdd createItem={addTodoList} size="small" maxWidth="400px" />
         <Grid2 container sx={{ mt: 6 }} spacing={4}>
           {todoLists.map(todoList => (
             <Grid2 key={todoList.id} sx={{ maxWidth: '300px', width: '100%', minHeight: '320px' }}>

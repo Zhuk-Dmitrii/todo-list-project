@@ -4,14 +4,13 @@ import { AddCircleOutline } from '@mui/icons-material'
 
 type TInputForm = {
   createItem: (title: string) => void
-  styleWrapper?: object
-  sx?: object
   size?: 'medium' | 'small'
   disabled?: boolean
+  maxWidth?: string
 }
 
 export const InputFormToAdd = React.memo(
-  ({ disabled = false, createItem, styleWrapper, size, sx }: TInputForm) => {
+  ({ createItem, size, disabled = false, maxWidth = '100%' }: TInputForm) => {
     const [title, setTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 
@@ -44,11 +43,11 @@ export const InputFormToAdd = React.memo(
     return (
       <Box
         component="form"
-        sx={{ display: 'flex', alignItems: 'center', width: '100%', ...styleWrapper }}
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}
         onSubmit={handleSubmit}
       >
         <TextField
-          sx={sx}
+          sx={{ maxWidth, width: '100%' }}
           label="title for todo list"
           variant="outlined"
           size={size}

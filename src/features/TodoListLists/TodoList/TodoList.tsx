@@ -91,16 +91,6 @@ export const TodoList = React.memo((props: TProps) => {
     [dispatch, props.todoList.id],
   )
 
-  // -------------------------------- Custom Styles -------------------------------
-  const styleInputToAdd = useMemo(
-    () => ({
-      styleWrapper: { marginBottom: '24px' },
-      sx: { width: '100%' },
-    }),
-    [],
-  )
-
-  // ----------------------------------------------------------------------
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <IconButton
@@ -120,19 +110,16 @@ export const TodoList = React.memo((props: TProps) => {
         />
       </Box>
 
-      <InputFormToAdd
-        createItem={addTask}
-        styleWrapper={styleInputToAdd.styleWrapper}
-        sx={styleInputToAdd.sx}
-        size="small"
-        disabled={isDisabled}
-      />
+      <InputFormToAdd createItem={addTask} size="small" disabled={isDisabled} />
 
-      <List sx={{ maxHeight: '120px', overflow: 'auto' }}>
-        {filteredTasks.map(task => (
-          <Todo key={task.id} todoListId={props.todoList.id} task={task} />
-        ))}
-      </List>
+      <Box sx={{ mt: 3 }}>
+        <List sx={{ maxHeight: '120px', overflow: 'auto' }}>
+          {filteredTasks.map(task => (
+            <Todo key={task.id} todoListId={props.todoList.id} task={task} />
+          ))}
+        </List>
+      </Box>
+
       <Box sx={{ height: '30px', display: 'flex', gap: 1, mt: 'auto' }}>
         <Button
           onClick={handleClickBtnFilter}
