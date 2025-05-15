@@ -2,8 +2,6 @@ import React from 'react'
 import { Box, Link, Typography } from '@mui/material'
 
 export const LoginDescription = React.memo(() => {
-  console.log('render LoginDescription')
-
   const linkToRegistered = 'https://social-network.samuraijs.com/'
 
   return (
