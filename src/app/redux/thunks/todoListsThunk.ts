@@ -90,12 +90,14 @@ export const changeTodoListTitle = createAsyncThunk<
   { dispatch: AppDispatch; rejectValue: string | string[] }
 >('todoLists/changeTodoListTitle', async ({ id, title }, { dispatch, rejectWithValue }) => {
   dispatch(setAppStatus('loading'))
+  dispatch(changeTodoListEntityStatus({ id, status: 'loading' }))
 
   try {
     const res = await todoListsAPI.updateTodoList(id, title)
 
     if (res.data.resultCode === 0) {
       dispatch(setAppStatus('succeeded'))
+      dispatch(changeTodoListEntityStatus({ id, status: 'succeeded' }))
 
       return { id, title }
     } else {

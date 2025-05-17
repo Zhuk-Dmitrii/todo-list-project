@@ -10,8 +10,12 @@ export type TodoListBusinessType = TodoListType & {
 }
 
 // ------------------- TASKS TYPE ------------------------------
+export type TaskBusinessType = TaskType & {
+  entityStatus: AppStatus
+}
+
 export type TasksDataType = {
-  [id: string]: TaskType[]
+  [id: string]: TaskBusinessType[]
 }
 
 export type UpdateBusinessTaskModelType = {
