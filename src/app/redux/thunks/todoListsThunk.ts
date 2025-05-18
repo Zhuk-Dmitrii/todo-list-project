@@ -73,12 +73,14 @@ export const deleteTodoList = createAsyncThunk<
       return { id }
     } else {
       handleServerErrorApp(res.data, dispatch)
+      dispatch(changeTodoListEntityStatus({ id, status: 'failed' }))
 
       return rejectWithValue(res.data.messages)
     }
   } catch (err) {
     const error = err as AxiosError
     handleNetworkErrorApp(error.message, dispatch)
+    dispatch(changeTodoListEntityStatus({ id, status: 'failed' }))
 
     return rejectWithValue(error.message)
   }
@@ -102,12 +104,14 @@ export const changeTodoListTitle = createAsyncThunk<
       return { id, title }
     } else {
       handleServerErrorApp(res.data, dispatch)
+      dispatch(changeTodoListEntityStatus({ id, status: 'failed' }))
 
       return rejectWithValue(res.data.messages)
     }
   } catch (err) {
     const error = err as AxiosError
     handleNetworkErrorApp(error.message, dispatch)
+    dispatch(changeTodoListEntityStatus({ id, status: 'failed' }))
 
     return rejectWithValue(error.message)
   }
