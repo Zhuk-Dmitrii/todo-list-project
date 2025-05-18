@@ -72,7 +72,7 @@ export const TodoList = React.memo(({ todoList }: TProps) => {
       >
         <Clear />
       </IconButton>
-      <Box sx={{ mb: 2, height: '28px', display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
         <EditableSpan
           title={todoList.title}
           changeValue={handleChangeTodoListTitle}
@@ -83,8 +83,8 @@ export const TodoList = React.memo(({ todoList }: TProps) => {
 
       <InputFormToAdd createItem={addTask} size="small" disabled={todoListIsDisabled} />
 
-      <Box sx={{ mt: 3 }}>
-        <List sx={{ maxHeight: '120px', overflow: 'auto' }}>
+      <Box sx={{ mt: 3, mb: 2, overflow: 'auto' }}>
+        <List>
           {filteredTasks.map(task => (
             <Todo
               key={task.id}

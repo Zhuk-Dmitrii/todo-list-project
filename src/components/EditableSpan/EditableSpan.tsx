@@ -42,6 +42,7 @@ export const EditableSpan = React.memo(
         value={value}
         sx={sx?.textField}
         autoFocus
+        multiline
       />
     ) : (
       <Typography
