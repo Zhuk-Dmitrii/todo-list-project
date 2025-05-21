@@ -21,6 +21,7 @@ export const TodoList = React.memo(({ todoList }: TProps) => {
   const tasksForTodoList = useAppSelector(state =>
     tasksSelectors.tasksForTodoList(state, todoList.id),
   )
+
   const dispatch = useAppDispatch()
 
   const todoListIsDisabled = todoList.entityStatus === 'loading'
@@ -78,6 +79,7 @@ export const TodoList = React.memo(({ todoList }: TProps) => {
           changeValue={handleChangeTodoListTitle}
           sx={customCSS.editableSpan}
           disabled={todoListIsDisabled}
+          status={todoList.entityStatus}
         />
       </Box>
 
