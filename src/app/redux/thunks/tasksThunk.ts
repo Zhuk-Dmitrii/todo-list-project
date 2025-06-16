@@ -46,7 +46,6 @@ export const deleteTask = createAsyncThunk<
   } catch (err) {
     const error = err as AxiosError
     handleNetworkErrorApp(error.message, dispatch)
-    dispatch(changeTaskEntityStatus({ todoListId, taskId, status: 'failed' }))
 
     return rejectWithValue(error.message)
   }
@@ -120,14 +119,12 @@ export const updateTask = createAsyncThunk<
         return { todoListId, taskId, model: businessModel }
       } else {
         handleServerErrorApp(res.data, dispatch)
-        dispatch(changeTaskEntityStatus({ todoListId, taskId, status: 'failed' }))
 
         return rejectWithValue(res.data.messages)
       }
     } catch (err) {
       const error = err as AxiosError
       handleNetworkErrorApp(error.message, dispatch)
-      dispatch(changeTaskEntityStatus({ todoListId, taskId, status: 'failed' }))
 
       return rejectWithValue(error.message)
     }
