@@ -40,10 +40,7 @@ export function TodoListLists() {
         <InputFormToAdd createItem={addTodoList} size="small" maxWidth="400px" />
         <Grid2 container sx={{ mt: 6 }} spacing={4}>
           {todoLists.map(todoList => (
-            <Grid2
-              key={todoList.id}
-              sx={{ maxWidth: '300px', width: '100%', minHeight: '320px', maxHeight: '500px' }}
-            >
+            <Grid2 key={todoList.id} sx={{ maxWidth: '300px', width: '100%', minHeight: '320px' }}>
               <Paper elevation={4} sx={{ p: 1, height: '100%' }}>
                 <TodoList todoList={todoList} />
               </Paper>

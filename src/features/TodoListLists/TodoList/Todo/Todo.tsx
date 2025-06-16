@@ -55,7 +55,7 @@ export const Todo = React.memo(({ todoListId, task, disabled = false }: TProps) 
   )
 
   return (
-    <ListItem sx={{ p: 0, mt: 1, opacity: task.status === TaskStatus.Completed ? 0.5 : 1 }}>
+    <ListItem sx={{ p: 0, opacity: task.status === TaskStatus.Completed ? 0.5 : 1 }}>
       <Checkbox
         onChange={handleChangeCheckbox}
         checked={task.status === TaskStatus.Completed}

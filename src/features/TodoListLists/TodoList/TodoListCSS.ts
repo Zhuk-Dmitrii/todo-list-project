@@ -4,6 +4,9 @@ export const customCSS = {
       '&.MuiTextField-root': {
         width: '100%',
       },
+      '& .MuiInput-root': {
+        height: '28px',
+      },
       '& .MuiInput-root::before': {
         bottom: '-5px',
       },
