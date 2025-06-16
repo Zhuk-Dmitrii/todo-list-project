@@ -23,7 +23,7 @@ export const TodoList = React.memo(({ todoList }: TProps) => {
   )
   const dispatch = useAppDispatch()
 
-  const todoListIsDisabled = todoList.entityStatus === 'loading'
+  const isDisabled = todoList.entityStatus === 'loading'
 
   // -------------------------------- Todo Lists -------------------------------
 
@@ -68,7 +68,7 @@ export const TodoList = React.memo(({ todoList }: TProps) => {
         onClick={handleClickDeleteTodoList}
         size="small"
         sx={{ display: 'flex', ml: 'auto' }}
-        disabled={todoListIsDisabled}
+        disabled={isDisabled}
       >
         <Clear />
       </IconButton>
@@ -77,30 +77,21 @@ export const TodoList = React.memo(({ todoList }: TProps) => {
           title={todoList.title}
           changeValue={handleChangeTodoListTitle}
           sx={customCSS.editableSpan}
-          disabled={todoListIsDisabled}
+          disabled={isDisabled}
         />
       </Box>
 
-      <InputFormToAdd createItem={addTask} size="small" disabled={todoListIsDisabled} />
+      <InputFormToAdd createItem={addTask} size="small" disabled={isDisabled} />
 
       <Box sx={{ mt: 3 }}>
         <List sx={{ maxHeight: '120px', overflow: 'auto' }}>
           {filteredTasks.map(task => (
-            <Todo
-              key={task.id}
-              todoListId={todoList.id}
-              task={task}
-              disabled={todoListIsDisabled}
-            />
+            <Todo key={task.id} todoListId={todoList.id} task={task} />
           ))}
         </List>
       </Box>
 
-      <BtnFilterGroup
-        todoListId={todoList.id}
-        todoListFilter={todoList.filter}
-        disabled={todoListIsDisabled}
-      />
+      <BtnFilterGroup todoListId={todoList.id} todoListFilter={todoList.filter} />
     </Box>
   )
 })

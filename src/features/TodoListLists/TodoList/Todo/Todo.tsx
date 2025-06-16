@@ -5,20 +5,16 @@ import { Delete } from '@mui/icons-material'
 import { useAppDispatch } from '../../../../app/hooks/reduxHooks'
 import { deleteTask, updateTask } from '../../../../app/redux/thunks'
 import { EditableSpan } from '../../../../components/EditableSpan'
-import { TaskStatus } from '../../../../api/typesAPI/todoListTypes'
-import { TaskBusinessType } from '../../../../app/types/businessTypes'
+import { TaskStatus, TaskType } from '../../../../api/typesAPI/todoListTypes'
 import { customCSS } from './TodoCSS'
 
 type TProps = {
   todoListId: string
-  task: TaskBusinessType
-  disabled?: boolean
+  task: TaskType
 }
 
-export const Todo = React.memo(({ todoListId, task, disabled = false }: TProps) => {
+export const Todo = React.memo(({ todoListId, task }: TProps) => {
   const dispatch = useAppDispatch()
-
-  const taskIsDisabled = task.entityStatus === 'loading'
 
   const handleDeleteTask = useCallback(() => {
     const action = deleteTask({ taskId: task.id, todoListId: todoListId })
@@ -62,20 +58,13 @@ export const Todo = React.memo(({ todoListId, task, disabled = false }: TProps) 
         size="small"
         color="success"
         sx={{ mr: 1 }}
-        disabled={disabled || taskIsDisabled}
       />
       <EditableSpan
         changeValue={handleChangeTaskTitle}
         title={task.title}
         sx={customCSS.editableSpan}
-        disabled={disabled || taskIsDisabled}
       />
-      <IconButton
-        onClick={handleDeleteTask}
-        sx={{ ml: 'auto' }}
-        size="small"
-        disabled={disabled || taskIsDisabled}
-      >
+      <IconButton onClick={handleDeleteTask} sx={{ ml: 'auto' }} size="small">
         <Delete />
       </IconButton>
     </ListItem>

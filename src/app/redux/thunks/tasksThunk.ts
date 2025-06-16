@@ -7,7 +7,6 @@ import { AppDispatch, RootState } from '../../types/storeTypes'
 import { setAppStatus } from '../slices/appSlice'
 import { todoListsAPI } from '../../../api/todoList-api'
 import { handleNetworkErrorApp, handleServerErrorApp } from '../../../utils/error-utils'
-import { changeTaskEntityStatus } from '../slices/tasksSlice'
 
 export const getTasks = createAsyncThunk<
   SetTasksPayload,
@@ -34,13 +33,11 @@ export const deleteTask = createAsyncThunk<
   { dispatch: AppDispatch; rejectValue: string }
 >('tasks/deleteTask', async ({ taskId, todoListId }, { dispatch, rejectWithValue }) => {
   dispatch(setAppStatus('loading'))
-  dispatch(changeTaskEntityStatus({ todoListId, taskId, status: 'loading' }))
 
   try {
     await todoListsAPI.deleteTodoListTask(todoListId, taskId)
 
     dispatch(setAppStatus('succeeded'))
-    dispatch(changeTaskEntityStatus({ todoListId, taskId, status: 'succeeded' }))
 
     return { todoListId, taskId }
   } catch (err) {
@@ -88,7 +85,6 @@ export const updateTask = createAsyncThunk<
   'tasks/updateTask',
   async ({ todoListId, taskId, businessModel }, { getState, dispatch, rejectWithValue }) => {
     dispatch(setAppStatus('loading'))
-    dispatch(changeTaskEntityStatus({ todoListId, taskId, status: 'loading' }))
 
     const state = getState()
     const task = state.tasks[todoListId].find(task => task.id === taskId)
@@ -114,7 +110,6 @@ export const updateTask = createAsyncThunk<
 
       if (res.data.resultCode === 0) {
         dispatch(setAppStatus('succeeded'))
-        dispatch(changeTaskEntityStatus({ todoListId, taskId, status: 'succeeded' }))
 
         return { todoListId, taskId, model: businessModel }
       } else {
