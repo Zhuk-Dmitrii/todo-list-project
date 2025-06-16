@@ -69,7 +69,6 @@ export const Todo = React.memo(({ todoListId, task, disabled = false }: TProps) 
         title={task.title}
         sx={customCSS.editableSpan}
         disabled={disabled || taskIsDisabled}
-        status={task.entityStatus}
       />
       <IconButton
         onClick={handleDeleteTask}
